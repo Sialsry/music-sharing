@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const {user} = require('./user');
 
 exports.sequelize = new Sequelize(
   process.env.DATABASE_NAME, // 사용할 데이터 베이스 이름

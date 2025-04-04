@@ -25,7 +25,7 @@ router.get("/login", (req,res) => {
 })
 router.get('/logout', (req,res)=> {
     res.clearCookie("login_access_token");
-    res.redirect('/')
+    res.redirect('/');
 })
 
 router.get('/kakao/callback', async (req,res)=> {
