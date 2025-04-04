@@ -28,8 +28,24 @@
 }
 .login {
     background-color: beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
 }
+a .kakao-img {
+    width: 150px;
+    height: 150px;
+}
+.login-form, .logout-form{
+    position: absolute;
+}
+
 .chart{
     background-color: blueviolet;
+}
+.login img {
+    margin-right:  20px;
 }
 
