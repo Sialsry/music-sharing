@@ -1,18 +1,31 @@
 {
   "name": "musicproject",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "- 프로젝트 기간: 2025-04-02 ~ 2025-04-16 (2주)\r - 팀원: 구다경, 이상암, 김민교\r - 프로젝트 주제: 실시간 음악 플레이리스트 공유 및 스트리밍 사이트",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sangam0919/music-sharing.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sangam0919/music-sharing/issues"
+  },
+  "homepage": "https://github.com/sangam0919/music-sharing#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mysql2": "^3.14.0",
-    "sequelize": "^6.37.7",
-    "socket.io": "^4.8.1"
+    "sequelize": "^6.37.7"
   }
 }
