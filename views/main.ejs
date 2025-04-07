@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠이김</title>
+    <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+    <%- include("common/header") %>
+   <div class="content-form">
+
+       <div class="Streaming">
+           
+    </div>
+    <div class="music">
+        
+    </div>
+    <div class="right-form">
+
+        <div class="login">
+            <% if(!user){ %>
+            <div class="login-form">
+                <h2>카카오톡 로그인</h2>
+                <a href="/login">
+                    <img src="/public/images/kakaologin.png" class="kakao-img" alt="">
+                </a>
+            </div>
+            <% }else{ %>
+            <div class="logout-form">
+                <h2>카카오톡 로그아웃</h2>
+                <a href="/logout">
+                    <img src="/public/images/kakaologout.png" class="kakao-img" alt="">
+                </a>
+            </div>
+            <% } %>
+        </div>
+        <div class="chart">
+            
+        </div>
+    </div>
+</div>
+</body>
+</html>
