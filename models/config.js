@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const {user} = require('./user');
+const User= require('./user');
 
-exports.sequelize = new Sequelize(
+const sequelize = new Sequelize(
   process.env.DATABASE_NAME, // 사용할 데이터 베이스 이름
   process.env.DATABASE_USER, // 사용할 계정(유저) 이름
   process.env.DATABASE_PASSWORD, // 사용할 계정의 비밀번호 
@@ -11,4 +11,12 @@ exports.sequelize = new Sequelize(
     port : process.env.DATABASE_PORT
   }
 );
+const user = User.init(sequelize)
 
+sequelize.sync({force : false}).then(()=>console.log("테이블 생성"))
+
+const db = {
+  User : user,
+  sequelize
+}
+module.exports = db

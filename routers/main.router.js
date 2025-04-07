@@ -1,13 +1,17 @@
 const router = require('express').Router();
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const {userController} = require('../controllers')
 
-const loginCheck = (req,res,next) => {
+const loginCheck = async (req,res,next) => {
     try {
         const {login_access_token} = req.cookies
         if(login_access_token){
             const userData = jwt.verify(login_access_token, process.env.JWT_SECRET_KEY)
-            req.user= userData;
+            console.log(userData)
+            if(userData){
+                req.user = userData;
+            }
         }
         next();
     } catch (error) {
@@ -17,6 +21,7 @@ const loginCheck = (req,res,next) => {
 
 router.get('/',loginCheck,(req,res)=> {
     const {user} = req
+    console.log(user)
     res.render('main',{user});
 })
 router.get("/login", (req,res) => {
@@ -66,8 +71,9 @@ router.get('/kakao/callback', async (req,res)=> {
     // jwt
     const {id, properties} = userData;
 
+    userController.signup(id,properties.nickname,properties.profile_image)
 
-    const token = jwt.sign({ id, properties }, process.env.JWT_SECRET_KEY, { expiresIn : "1h"} );
+    const token = jwt.sign({id,properties}, process.env.JWT_SECRET_KEY, { expiresIn : "1h"} );
 
     res.cookie("login_access_token", token, {httpOnly : true, maxAge : 60 * 60 * 60 * 1000});
     // client_id

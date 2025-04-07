@@ -5,13 +5,13 @@ class User extends Model {
         return super.init({
             uid : {
                 type : DataTypes.STRING(100),
-                primaryKey : true
+                primaryKey : true,
             },
             nickName : {
                 type : DataTypes.STRING(200),
                 allowNull : false
             },
-            image_path : {
+            userimage : {
               type : DataTypes.STRING(200),
               allowNull : false 
             }
