@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const { detailRouter, mainRouter, liveRouter, mypageRouter, searchViewRouter } = require('./routers');
+const { detailRouter, mainRouter, liveRouter, mypageRouter, searchViewRouter , loginCheck} = require('./routers');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -10,8 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
 app.use('/public', express.static(path.join(__dirname, 'public'))); 
 app.use(cookieParser());
-
-
+app.use(loginCheck);
 
 
 app.use('/detail', detailRouter);

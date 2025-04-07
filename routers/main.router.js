@@ -3,25 +3,10 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const {userController} = require('../controllers')
 
-const loginCheck = async (req,res,next) => {
-    try {
-        const {login_access_token} = req.cookies
-        if(login_access_token){
-            const userData = jwt.verify(login_access_token, process.env.JWT_SECRET_KEY)
-            console.log(userData)
-            if(userData){
-                req.user = userData;
-            }
-        }
-        next();
-    } catch (error) {
-        next();
-    }
-}
 
-router.get('/',loginCheck,(req,res)=> {
+
+router.get('/',(req,res)=> {
     const {user} = req
-    console.log(user)
     res.render('main',{user});
 })
 router.get("/login", (req,res) => {
