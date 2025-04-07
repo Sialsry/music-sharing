@@ -14,7 +14,13 @@
            
     </div>
     <div class="music">
-        
+        <% for(let i =0; i < musicList.length; i ++){ %>
+            <div class="music-form">
+                <div><%= musicList[i].id %></div>
+                <div><%= musicList[i].songName %></div>
+                <div><%= musicList[i].artist %></div>
+            </div>
+        <% } %>
     </div>
     <div class="right-form">
 

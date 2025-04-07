@@ -1,28 +1,14 @@
 const router = require('express').Router();
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const {userController} = require('../controllers')
+const {userController,musicController} = require('../controllers')
 
-const loginCheck = async (req,res,next) => {
-    try {
-        const {login_access_token} = req.cookies
-        if(login_access_token){
-            const userData = jwt.verify(login_access_token, process.env.JWT_SECRET_KEY)
-            console.log(userData)
-            if(userData){
-                req.user = userData;
-            }
-        }
-        next();
-    } catch (error) {
-        next();
-    }
-}
 
-router.get('/',loginCheck,(req,res)=> {
+
+router.get('/',async (req,res)=> {
     const {user} = req
-    console.log(user)
-    res.render('main',{user});
+    const {musicList} = await musicController.musicSelectAll()
+    res.render('main',{user,musicList});
 })
 router.get("/login", (req,res) => {
     const kakaoAuth = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URL}`
@@ -67,7 +53,6 @@ router.get('/kakao/callback', async (req,res)=> {
         }   
     })
     // 4000589952 고유 식별자
-    console.log(userData);
     // jwt
     const {id, properties} = userData;
 
