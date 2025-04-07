@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+            background: linear-gradient(90deg, #4e54c8, #8f94fb);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .logo img {
+            height: 40px;
+            vertical-align: middle;
+        }
+        .search-bar {
+            flex: 1;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            font-size: 1rem;
+            margin-left: 5vw;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .nav-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .nav-buttons a:hover {
+            background: white;
+            color: #4e54c8;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="/">
+                <img src="../../public/images/logo_seaweed.png" alt="Logo"> 구이김&뮤직스
+            </a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for songs, artists, albums...">
+        </div>
+        <div class="nav-buttons">
+            <a href="/mypage">My Page</a>
+            <a href="/live">Live Streaming</a>
+        </div>
+    </header>
+</body>
+</html>
