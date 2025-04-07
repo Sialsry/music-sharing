@@ -54,5 +54,11 @@ a .kakao-img {
     display: flex;
     flex-direction: column;
     float: left;
+    margin-right: 10px;
+}
+.music-form img {
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
 }
 

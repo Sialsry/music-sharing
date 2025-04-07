@@ -16,9 +16,10 @@
     <div class="music">
         <% for(let i =0; i < musicList.length; i ++){ %>
             <div class="music-form">
-                <div><%= musicList[i].id %></div>
-                <div><%= musicList[i].songName %></div>
-                <div><%= musicList[i].artist %></div>
+                <div><img src="/public/images/musicimage/<%= musicList[i].songImg %>" alt=""></div>
+                <div>제목 : <%= musicList[i].songName %></div>
+                <div>가수 : <%= musicList[i].artist %></div>
+                <audio src="/public/music/<%= musicList[i].musicResource %>"></audio>
             </div>
         <% } %>
     </div>
