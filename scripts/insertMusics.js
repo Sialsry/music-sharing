@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { Music, sequelize } = require('../models/config');  // config.js 기준
 
-const musicDir = path.join(__dirname, '../public/music');  // 프로젝트 기준 경로
+const musicDir = path.join(__dirname, '../public/musics');  // 프로젝트 기준 경로
 
 (async () => {
   try {
