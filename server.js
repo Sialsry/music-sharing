@@ -19,7 +19,7 @@ app.use('/detail', detailRouter);
 app.use('/', mainRouter);
 app.use('/live', liveRouter);
 app.use('/mypage', mypageRouter);
-app.use('/searchView', searchViewRouter);
+app.use('/search', searchViewRouter);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Server is running...http://localhost:3000');
