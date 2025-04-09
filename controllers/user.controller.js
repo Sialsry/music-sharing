@@ -7,7 +7,6 @@ const userController = {
            if(duplicationUser){
             return {state : 400, message : "중복 회원가입"}
            }else{
-
                await User.create({uid,nickname,profileImg})
                return {state : 200, message : "회원가입 성공"}
             }
