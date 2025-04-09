@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const { detailRouter, mainRouter, liveRouter, mypageRouter, searchViewRouter , loginCheck} = require('./routers');
+const { detailRouter, mainRouter, liveRouter, mypageRouter, searchViewRouter ,musicRouter, loginCheck} = require('./routers');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -13,8 +13,9 @@ app.use(cookieParser());
 app.use(loginCheck);
 
 
-app.use('/detail', detailRouter);
 app.use('/', mainRouter);
+app.use('/detail', detailRouter);
+app.use('/music', musicRouter);
 app.use('/live', liveRouter);
 app.use('/mypage', mypageRouter);
 app.use('/searchView', searchViewRouter);

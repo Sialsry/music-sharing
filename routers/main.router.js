@@ -61,21 +61,5 @@ router.get('/kakao/callback', async (req,res)=> {
     res.redirect('/');
 })
 
-// 음악 하나 조회하는 API
-router.get('/music/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { musicFind } = await musicController.musicSelectOne(id);
-
-        if (musicFind) {
-            res.json(musicFind); // 🎯 JSON으로 응답
-        } else {
-            res.status(404).json({ message: '음악을 찾을 수 없습니다.' });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: '서버 오류' });
-    }
-});
 
 module.exports = router

@@ -1,3 +1,4 @@
+
 // 숨겨진 오디오 태그
 const audio = document.getElementById('audio');
 
@@ -80,8 +81,8 @@ musicForms.forEach(form => {
         console.log('클릭한 음악 id:', id);
 
         try {
-            const response = await fetch(`/music/${id}`);
-            const music = await response.json();
+            const response = await axios.get(`/music/${id}`);
+            const music = response.data;
 
             console.log('서버가 준 음악:', music);
             updateMusic(music);
@@ -93,16 +94,9 @@ musicForms.forEach(form => {
 
 // ❤️ 좋아요 버튼 클릭
 likeButton.onclick = async () => {
-    if (!currentMusicId) {
-        alert('음악을 먼저 선택해 주세요!');
-        return;
-    }
-
     try {
-        const response = await fetch(`/music/${currentMusicId}/like`, {
-            method: 'POST',
-        });
-        const result = await response.json();
+        const response = await axios.post(`/music/${currentMusicId}/like`);
+        const result = response.data;
 
         if (result.state === 200) {
             alert('좋아요 완료!');
