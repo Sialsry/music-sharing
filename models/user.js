@@ -13,7 +13,7 @@ class User extends Model {
                 unique: true
             },
             profileImg: {
-                type: DataTypes.STRING(100),
+                type: DataTypes.STRING,
                 allowNull: true
             }
         }, {
