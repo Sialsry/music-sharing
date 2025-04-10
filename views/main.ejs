@@ -14,11 +14,15 @@
            
     </div>
     <div class="music">
+      <div class="music-move">
+        <div>추천곡</div>
+        <a href="/detail">전체곡 보기</a>
+      </div>
         <% for(let i =0; i < musicList.length; i ++){ %>
-            <div class="music-form">
-                <div><%= musicList[i].id %></div>
-                <div><%= musicList[i].songName %></div>
-                <div><%= musicList[i].artist %></div>
+            <div class="music-form" data-id="<%= musicList[i].id %>">
+                <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="x">
+                <div>가수 : <%= musicList[i].songName %></div>
+                <div>제목 : <%= musicList[i].artist %></div>
             </div>
         <% } %>
     </div>
@@ -41,10 +45,44 @@
             </div>
             <% } %>
         </div>
-        <div class="chart">
-            
+        <div id="mini-chart">
+          <h3>인기차트 🔥</h3>
+          <div class="mini-chart-item">1. 이무진 - 에피소드</div>
+          <div class="mini-chart-item">2. Charlie Puth - Dangerously</div>
+          <div class="mini-chart-item">3. Maroon 5 - Memories</div>
         </div>
     </div>
+    
+    <!-- 숨긴 오디오 -->
+<audio id="audio" src="" style="display: none;"></audio>
+
+<!-- 커스텀 플레이어 -->
+<div id="custom-player">
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title">노래 제목</div>
+      <div id="player-artist">가수 이름</div>
+    </div>
+    <div class="player-times">
+      <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+    </div>
+  </div>
+
+  <div class="player-center">
+    <button id="play-pause-btn">▶️</button>
+    <input type="range" id="seek-bar" value="0" min="0" max="100">
+    <div class="player-menu">
+      <button id="menu-button">⋮</button> <!-- 점 세개 버튼 추가 -->
+    </div>
+  </div>
+    <div class="player-like">
+      <button id="like-button">🤍</button>
+    </div>
+</div>
+
+ 
 </div>
 </body>
+<script src="/public/JS/main.js"></script>
 </html>

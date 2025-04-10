@@ -3,13 +3,17 @@ const { Model, DataTypes} = require('sequelize')
 class Music extends Model {
     static init(sequelize) {
         return super.init({
-            musicid: {
+            id: {
                 type: DataTypes.INTEGER,
-                autoIncrement : true,
-                primaryKey: true
+                primaryKey: true,
+                autoIncrement: true
             },
             songName: {
                 type: DataTypes.STRING(100),
+                allowNull: false
+            },
+            artist: {
+                type: DataTypes.STRING(50),
                 allowNull: false
             },
             songImg: {
@@ -18,28 +22,24 @@ class Music extends Model {
             },
             musicResource: {
                 type: DataTypes.STRING(200),
-                allowNull: false
-            },
-            artist: {
-                type: DataTypes.STRING(50),
-                allowNull: false
+                allowNull: true
             }
         }, {
             sequelize,
-            timestamps: false,
-            underscored: false,
+            timestamps: true,
             modelName: 'Music',
             tableName: 'musics',
-            paranoid: false,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci'
-        });
+        })
     }
 
     static associate(models) {
-        models.Music.hasMany(models.Like, { foreignKey: 'music_id', sourceKey: 'musicid' });
-        models.Music.hasMany(models.Playlist, { foreignKey: 'music_id', sourceKey: 'musicid' });
+        models.Music.hasMany(models.Like, { foreignKey: 'music_id', sourceKey: 'id', onDelete: 'CASCADE' })
+        models.Music.hasMany(models.Playlist, { foreignKey: 'music_id', sourceKey: 'id', onDelete: 'CASCADE' })
     }
 }
+
+
 
 module.exports = Music;

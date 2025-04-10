@@ -3,21 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지</title>
+    <title>구이김&뮤직스 - My Page</title>
+    <link rel="stylesheet" href="../public/css/myPage.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-  <h1><%= user.nickName %>님의 플레이리스트</h1>
-  <ul>
-      <% playlists.forEach(function(playlist) { %>
-          <li>
-            <button id="hostBtn" onclick="location.href='/live?playlistName=<%= encodeURIComponent(playlist.playlistName) %>'">
-              🎵 <%= playlist.playlistName %> (<%= (playlist.Musics && playlist.Musics.length) ? playlist.Musics.length : 0 %> 곡)
+    <%- include('./common/header') %>
+    <main>
+        <section class="profile-section">
+            <img src="../public/images/logo_seaweed.png" alt="Profile Picture" class="profile-image">
+            <div class="profile-info">
+                <h1>김민교</h1>
+                <p>Premium Member since 2023</p>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Playlists</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">478</div>
+                        <div class="stat-label">Liked Songs</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">285</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1vw; margin-left: auto;">
+                <a href="#" class="edit-profile">내 정보 수정</a>
+                <a class="createPlaylistBtn edit-profile">새 플레이리스트 생성</a>
+            </div>
+        </section>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="playlists">My Playlists</div>
+            <div class="tab" data-tab="liked">Liked Songs</div>
+            <div class="tab" data-tab="history">History</div>
+            <div class="tab" data-tab="friends">Friends</div>
+        </div>
+
+
+
+
+        <div class="tab-content active" id="playlists">
+            <div class="playlist-grid">
+                <% for(let i = 0; i < playlistAndSongs.length; i++) { %>
+                    <div class="playlist-card" data-playlist-id="<%= playlistAndSongs[i].name %>">
+                        <img src="../public/images/logo_seaweed.png">
+                        <div class="playlist-info">
+                            <h3><%= playlistAndSongs[i].name %></h3>
+                            <p>Created: July 15, 2023</p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <!-- 플레이리스트 팝업 -->
+    <div class="popup-overlay" id="playlist-popup-overlay">
+        <div class="playlist-popup">
+            <div class="popup-header">
+                <img src="../public/images/logo_seaweed.png" alt="Playlist Cover" class="popup-cover" id="popup-cover">
+                <div class="popup-header-info">
+                    <div>
+                        <h2 class="playlist-title" id="popup-title">플레이리스트 제목</h2>
+                        <p class="playlist-meta" id="popup-meta">생성일: 2023년 7월 15일 • 15곡 • 59분</p>
+                        <div class="playlist-creator">
+                            <img src="../public/images/logo_seaweed.png" alt="Creator" class="creator-avatar">
+                            <span id="popup-creator">김민교</span>
+                        </div>
+                    </div>
+                    <div class="playlist-action-buttons">
+                        <button class="playlist-action add-songs-btn" id="add-songs-toggle">
+                            <span>+</span> 곡 추가하기
+                        </button>
+                        <button class="playlist-action start-streaming-btn">
+                            <span>●</span> 라이브 스트리밍 시작
+                        </button>
+                    </div>
+                </div>
+                <button class="close-popup" id="close-popup">✕</button>
+            </div>
+            <div class="popup-body">
+                <div class="add-song-form" id="add-song-form">
+                    <h3 class="form-title">새 노래 추가하기</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button class="form-button cancel-btn" id="cancel-add">취소</button>
+                        <button class="form-button add-btn" id="confirm-add">검색</button>
+                    </div>
+                </div>
+                <ul class="playlist-songs" id="playlist-songs">
+                    <li class="song-item">
+                        <div class="song-info">
+                            <div class="song-title"></div>
+                            <div class="song-artist"></div>
+                        </div>
+                        <div class="song-actions">
+                            <button class="song-action-btn" title="좋아요">♡</button>
+                            <button class="song-action-btn" title="더 보기">⋯</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 새 플레이리스트 생성 팝업 -->
+<div class="create-playlist-overlay" id="create-playlist-overlay">
+    <div class="create-playlist-popup">
+        <div class="create-playlist-header">
+            <h2 class="create-playlist-title">새 플레이리스트 생성</h2>
+            <div class="create-playlist-form">
+                <input type="text" id="new-playlist-name" class="create-playlist-input" placeholder="플레이리스트 이름을 입력하세요">
+            </div>
+            <button class="close-create-popup" id="close-create-popup">✕</button>
+        </div>
+        <div class="create-playlist-body">
+            <div class="songs-section">
+                <div class="add-song-form" id="add-song-to-new-form">
+                    <h3 class="form-title">새 노래 추가하기</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <form action="/mypage/search" method="get" class="search-bar" id="search-bar">
+                                <input type="text" id="new-song-title" placeholder="제목 혹은 아티스트 이름으로 검색">
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button class="form-button cancel-btn" id="cancel-add-to-new">취소</button>
+                        <button class="form-button add-btn" id="confirm-add-to-new">검색</button>
+                    </div>
+                </div>
+                <ul class="playlist-songs" id="create-playlist-songs">
+                    <!-- 곡 목록은 JavaScript로 동적 생성 -->
+                    <div class="empty-songs-message">아직 추가된 곡이 없습니다. 곡을 추가해주세요.</div>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="create-playlist-actions">
+            <button class="add-song-to-new-btn" id="add-song-to-new-toggle">
+                + 곡 추가하기
             </button>
-          </li>
-      <% }) %>
-  </ul>
+            <button class="create-playlist-btn" id="create-playlist-btn" disabled>
+                플레이리스트 생성
+            </button>
+        </div>
+    </div>
+</div>
+    <footer>
+        <div class="footer-content">
+            <div>© 2025 구이김&뮤직스. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="/about">회사 소개</a>
+                <a href="/terms">이용약관</a>
+                <a href="/privacy">개인정보처리방침</a>
+                <a href="/contact">고객지원</a>
+            </div>
+        </div>
+    </footer>
+
 </body>
-  <script>
-   
-  </script>
+<script src="../public/js/myPage.js"></script>
+
 </html>

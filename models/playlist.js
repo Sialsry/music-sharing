@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes} = require('sequelize')
 
 class Playlist extends Model {
     static init(sequelize) {
@@ -33,10 +34,10 @@ class Playlist extends Model {
             ]
         });
     }
-
+    
     static associate(models) {
         models.Playlist.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'uid' });
-        models.Playlist.belongsTo(models.Music, { foreignKey: 'music_id', targetKey: 'musicid' });
+        models.Playlist.belongsTo(models.Music, { foreignKey: 'music_id', targetKey: 'id' });
     }
 }
 

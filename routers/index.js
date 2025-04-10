@@ -1,13 +1,19 @@
-const searchViewRouter = require('./searchView.router');
+const detailRouter = require('./detail.router');
+const mainRouter = require('./main.router');
 const liveRouter = require('./live.router');
 const mypageRouter = require('./mypage.router');
+const searchViewRouter = require('./searchView.router');
+const musicRouter = require('./music.router')
 const loginCheck =require('./middleware')
-const mainRouter = require('./main.router');
 
 
-module.exports = {searchViewRouter,
-                 liveRouter,
-                mypageRouter,
-                mainRouter,
-                loginCheck,
-            };
+
+
+
+module.exports = { detailRouter, 
+                   mainRouter, 
+                   liveRouter, 
+                   mypageRouter, 
+                   searchViewRouter,
+                   musicRouter,
+                   loginCheck };

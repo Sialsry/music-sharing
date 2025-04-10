@@ -20,7 +20,7 @@ class Live extends Model {
     }
 
     static associate(models) {
-        models.Live.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'uid' });
+        models.Live.belongsTo(models.User, { foreignKey: 'user_id', targetKey: 'uid',onDelete: 'CASCADE'});
     }
 }
 

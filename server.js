@@ -5,7 +5,7 @@ const socketIo = require('socket.io');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
-const { searchViewRouter, mainRouter , liveRouter, mypageRouter ,loginCheck } = require('./routers/index');
+const { detailRouter, mainRouter, liveRouter, mypageRouter, searchViewRouter ,musicRouter, loginCheck} = require('./routers');
 const Playlist  = require('./models/config'); 
 const cookieParser = require('cookie-parser');
 
@@ -14,15 +14,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); 
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use("/music", express.static(path.join(__dirname, "public/musics")));
 app.use(cookieParser());
 app.use(loginCheck);
 
-app.use('/search', searchViewRouter);
-app.use('/live', liveRouter);
+
 app.use('/', mainRouter);
-app.use('/mypage',mypageRouter);
+app.use('/detail', detailRouter);
+app.use('/music', musicRouter);
+app.use('/live', liveRouter);
+app.use('/mypage', mypageRouter);
+app.use('/search', searchViewRouter);
 
 const videosDir = path.join(__dirname, "public/videos");
 if (!fs.existsSync(videosDir)) {
@@ -166,3 +171,7 @@ socket.on("videoChunk", (chunk) => {
     });
 });
 
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('unhandledRejection:', reason);
+});
