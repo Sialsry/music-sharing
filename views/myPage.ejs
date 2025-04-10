@@ -43,9 +43,6 @@
             <div class="tab" data-tab="friends">Friends</div>
         </div>
 
-
-
-
         <div class="tab-content active" id="playlists">
             <div class="playlist-grid">
                 <% for(let i = 0; i < playlistAndSongs.length; i++) { %>
@@ -76,11 +73,17 @@
                         </div>
                     </div>
                     <div class="playlist-action-buttons">
+                        <button class="playlist-action play-btn" id="play_playlist_btn">
+                            <span>▶</span> 재생
+                        </button>
                         <button class="playlist-action add-songs-btn" id="add-songs-toggle">
-                            <span>+</span> 곡 추가하기
+                            <span>+</span> 곡 추가
                         </button>
                         <button class="playlist-action start-streaming-btn">
-                            <span>●</span> 라이브 스트리밍 시작
+                            <span>●</span> 스트리밍 시작
+                        </button>
+                        <button class="playlist-action delete-playlist-btn" id="delete_playlist_btn">
+                            <span>🗑️</span> 플레이리스트 삭제
                         </button>
                     </div>
                 </div>
@@ -91,25 +94,17 @@
                     <h3 class="form-title">새 노래 추가하기</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
+                            <form action="/mypage/search" method="get" class="search-bar" id="search-bar2">
+                                <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
+                            </form>
+                            <!-- <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색"> -->
                         </div>
                     </div>
-                    
-                    <div class="form-buttons">
-                        <button class="form-button cancel-btn" id="cancel-add">취소</button>
-                        <button class="form-button add-btn" id="confirm-add">검색</button>
-                    </div>
+                  
                 </div>
                 <ul class="playlist-songs" id="playlist-songs">
                     <li class="song-item">
-                        <div class="song-info">
-                            <div class="song-title"></div>
-                            <div class="song-artist"></div>
-                        </div>
-                        <div class="song-actions">
-                            <button class="song-action-btn" title="좋아요">♡</button>
-                            <button class="song-action-btn" title="더 보기">⋯</button>
-                        </div>
+                        
                     </li>
                 </ul>
             </div>
@@ -138,21 +133,15 @@
                         </div>
                     </div>
                     
-                    <div class="form-buttons">
-                        <button class="form-button cancel-btn" id="cancel-add-to-new">취소</button>
-                        <button class="form-button add-btn" id="confirm-add-to-new">검색</button>
-                    </div>
                 </div>
                 <ul class="playlist-songs" id="create-playlist-songs">
-                    <!-- 곡 목록은 JavaScript로 동적 생성 -->
                     <div class="empty-songs-message">아직 추가된 곡이 없습니다. 곡을 추가해주세요.</div>
-                    
                 </ul>
             </div>
         </div>
         <div class="create-playlist-actions">
             <button class="add-song-to-new-btn" id="add-song-to-new-toggle">
-                + 곡 추가하기
+                + 곡 추가
             </button>
             <button class="create-playlist-btn" id="create-playlist-btn" disabled>
                 플레이리스트 생성
@@ -171,8 +160,6 @@
             </div>
         </div>
     </footer>
-
 </body>
 <script src="../public/js/myPage.js"></script>
-
 </html>

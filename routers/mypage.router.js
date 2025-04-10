@@ -24,6 +24,12 @@ router.get('/', async (req, res) => {
     res.render('myPage', { playlistAndSongs })
 });
 
+router.get('/live', async (req, res) => {
+    const playlistName = req.query.playlistName
+    res.render('liveStreaming', { playlistName })
+})
+
+
 
 
 router.get('/getPlaylistByName', async (req, res) => {
@@ -53,5 +59,20 @@ router.post('/createPlaylist', async (req, res) => {
         res.status(500).send('Error creating playlist');
     }
 })
+
+router.post('/deletePlaylist', async (req, res) => {
+    const { playlistId } = req.body;
+    try {
+        await playlistController.deletePlaylist(playlistId);
+        res.status(200).send('Playlist deleted successfully');
+    } catch (error) {
+        console.error('Error deleting playlist:', error);
+        res.status(500).send('Error deleting playlist');
+    }
+})
+
+
+
+
 
 module.exports = router;

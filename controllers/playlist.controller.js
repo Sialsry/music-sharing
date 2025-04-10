@@ -62,27 +62,19 @@ const playlistController = {
     async deletePlaylist(playlistId) {
         try {
             const result = await Playlist.destroy({
-                where: { id: playlistId }
-            });
-            return result;
-        } catch (error) {
+                where: { playlistName: playlistId }
+            })
+            if (result === 0) {
+                throw new Error('Playlist not found');
+            }
+            console.log('Playlist deleted:', result);
+        }
+        catch (error) {
             console.error('Error deleting playlist:', error);
             throw error;
         }
-    },
-
-    async updatePlaylist(playlistId, newPlaylistName) {
-        try {
-            const result = await Playlist.update(
-                { playlistName: newPlaylistName },
-                { where: { id: playlistId } }
-            );
-            return result;
-        } catch (error) {
-            console.error('Error updating playlist:', error);
-            throw error;
-        }
     }
+   
 }
 
 
