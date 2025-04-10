@@ -18,6 +18,19 @@ const playlistController = {
         }
     },
 
+    async getPlaylistByName(playlistName) {
+        try {
+            const playlist = await Playlist.findAll({
+                where: { playlistName },
+                include: [{ model: Music, attributes: ['id', 'songName', 'artist'] }]
+            });
+            return playlist;
+        } catch (error) {
+            console.error('Error fetching playlist:', error);
+            throw error;
+        }
+    },
+
     async getAllPlaylists(user_id) {
         try {
             const playlists = await Playlist.findAll({
@@ -67,19 +80,6 @@ const playlistController = {
             return result;
         } catch (error) {
             console.error('Error updating playlist:', error);
-            throw error;
-        }
-    },
-
-    async getPlaylistById(playlistId) {
-        try {
-            const playlist = await Playlist.findOne({
-                where: { id: playlistId },
-                include: [{ model: Music, attributes: ['music_id', 'songName', 'artist'] }]
-            });
-            return playlist;
-        } catch (error) {
-            console.error('Error fetching playlist:', error);
             throw error;
         }
     }

@@ -522,12 +522,14 @@ footer {
         }
 
         .song-item {
-            display: grid;
-            grid-template-columns: 40px 1fr auto auto;
-            align-items: center;
+            display: flex;
+            /* grid-template-columns: 40px 1fr auto auto; */
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
             transition: background-color 0.3s;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
         }
 
         .song-item:hover {
@@ -541,6 +543,7 @@ footer {
 
         .song-info {
             margin-left: 15px;
+            display: flex;
         }
 
         .song-title {
@@ -551,6 +554,7 @@ footer {
         .song-artist {
             font-size: 0.9rem;
             color: #666;
+            margin-left: 1vw;
         }
 
         .song-duration {
