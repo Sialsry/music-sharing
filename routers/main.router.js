@@ -50,7 +50,6 @@ router.get('/kakao/callback', async (req,res)=> {
         }   
     })
     // 4000589952 고유 식별자
-
     const {id, properties} = userData;
 
     userController.signup(id,properties.nickname,properties.profile_image)

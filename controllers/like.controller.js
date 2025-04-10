@@ -19,7 +19,7 @@ const likeController = {
       try {
         await Like.findAll({where:{music_id}})
       } catch (error) {
-        return console.error(error)        
+        return console.error(error)   
       }
     }
 }
