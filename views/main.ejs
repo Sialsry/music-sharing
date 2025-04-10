@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠이김</title>
+    <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+    <%- include("common/header") %>
+   <div class="content-form">
+
+       <div class="Streaming">
+           
+    </div>
+    <div class="music">
+        <% for(let i =0; i < musicList.length; i ++){ %>
+            <div class="music-form" data-id="<%= musicList[i].id %>">
+                <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="x">
+                <div>가수 : <%= musicList[i].songName %></div>
+                <div>제목 : <%= musicList[i].artist %></div>
+            </div>
+        <% } %>
+    </div>
+    <div class="right-form">
+
+        <div class="login">
+            <% if(!user){ %>
+            <div class="login-form">
+                <h2>카카오톡 로그인</h2>
+                <a href="/login">
+                    <img src="/public/images/kakaologin.png" class="kakao-img" alt="">
+                </a>
+            </div>
+            <% }else{ %>
+            <div class="logout-form">
+                <h2>카카오톡 로그아웃</h2>
+                <a href="/logout">
+                    <img src="/public/images/kakaologout.png" class="kakao-img" alt="">
+                </a>
+            </div>
+            <% } %>
+        </div>
+        <div class="chart">
+
+        </div>
+    </div>
+    
+    <!-- 숨긴 오디오 -->
+<audio id="audio" src="" style="display: none;"></audio>
+
+<!-- 커스텀 플레이어 -->
+<div id="custom-player">
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title">노래 제목</div>
+      <div id="player-artist">가수 이름</div>
+    </div>
+    <div class="player-times">
+      <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+    </div>
+  </div>
+
+  <div class="player-center">
+    <button id="play-pause-btn">▶️</button>
+    <input type="range" id="seek-bar" value="0" min="0" max="100">
+    <div class="player-menu">
+      <button id="menu-button">⋮</button> <!-- 점 세개 버튼 추가 -->
+    </div>
+  </div>
+    <div class="player-like">
+      <button id="like-button">❤️</button>
+    </div>
+</div>
+
+ 
+</div>
+</body>
+<script src="/public/JS/main.js"></script>
+</html>
