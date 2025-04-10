@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const User = require('./user')
-const Comment = require('./comment')
 const Like = require('./like')
 const Live = require('./live')
 const Music = require('./music')
@@ -18,7 +17,6 @@ const sequelize = new Sequelize(
 );
 
 const users = User.init(sequelize);
-const comments = Comment.init(sequelize);
 const likes = Like.init(sequelize);
 const lives = Live.init(sequelize);
 const musics = Music.init(sequelize);
@@ -26,7 +24,6 @@ const playlists = Playlist.init(sequelize);
 
 const db = {
   User: users,
-  Comment: comments,
   Like: likes,
   Live: lives,
   Music: musics,
@@ -35,7 +32,6 @@ const db = {
 }
 
 users.associate(db);
-comments.associate(db);
 likes.associate(db);
 lives.associate(db);
 musics.associate(db);
@@ -47,3 +43,4 @@ sequelize.sync({force : false}).then(()=>{
 
 module.exports = db;
 
+  

@@ -322,7 +322,7 @@ a {
 
 .user-list {
     padding: 15px;
-    height: 348px;
+    height: 25vh;
     overflow-y: auto;
 }
 

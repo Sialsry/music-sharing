@@ -3,10 +3,6 @@ const { Model, DataTypes} = require('sequelize')
 class Live extends Model {
     static init(sequelize) {
         return super.init({
-            uid: {
-                type: DataTypes.STRING(100),
-                allowNull: false
-            },
             live_url: {
                 type: DataTypes.STRING(150),
                 allowNull: false
