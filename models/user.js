@@ -30,7 +30,6 @@ class User extends Model {
             models.User.hasMany(models.Playlist, {foreignKey: "user_id", sourceKey : "uid"});
             models.User.hasMany(models.Like, {foreignKey: "user_id", sourceKey : "uid"});
             models.User.hasMany(models.Live, {foreignKey: "user_id", sourceKey : "uid"});
-            models.User.hasMany(models.Comment, {foreignKey: "user_id", sourceKey : "uid"});
         }
 }
 

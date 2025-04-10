@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+</head>
+<body>
+  <h1><%= user.nickName %>님의 플레이리스트</h1>
+  <ul>
+      <% playlists.forEach(function(playlist) { %>
+          <li>
+            <button id="hostBtn" onclick="location.href='/live?playlistName=<%= encodeURIComponent(playlist.playlistName) %>'">
+              🎵 <%= playlist.playlistName %> (<%= (playlist.Musics && playlist.Musics.length) ? playlist.Musics.length : 0 %> 곡)
+            </button>
+          </li>
+      <% }) %>
+  </ul>
+</body>
+  <script>
+   
+  </script>
+</html>

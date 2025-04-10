@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getPlaylistMusic }  = require('../controllers/live.controller');
+const { getPlaylistMusic , updateLiveStatus}  = require('../controllers/live.controller');
 
 router.get('/', (req, res) => {
     const { playlistName } = req.query;
@@ -13,5 +13,8 @@ router.get('/viewers', (req,res) => {
   res.render('viewers')
 })
   router.get('/api/musiclist/:playlistName', getPlaylistMusic);
+
+  router.post("/update", updateLiveStatus);
+
   
 module.exports = router;

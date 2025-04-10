@@ -9,7 +9,7 @@ class Live extends Model {
             }
         }, {
             sequelize,
-            timestamps: false,
+            timestamps: true,
             underscored: false,
             modelName: 'Live',
             tableName: 'lives',
