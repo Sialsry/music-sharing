@@ -82,10 +82,18 @@ musicForms.forEach(form => {
 
         try {
             const response = await axios.get(`/music/${id}`);
-            const music = response.data;
+            const { music, liked } = response.data;
 
             console.log('서버가 준 음악:', music);
             updateMusic(music);
+
+            if (liked) {
+                likeButton.classList.add('liked');
+                likeButton.innerText = '❤️'; // 좋아요 눌렀으면 꽉 찬 하트
+              } else {
+                likeButton.classList.remove('liked');
+                likeButton.innerText = '🤍'; // 좋아요 안 눌렀으면 빈 하트
+              }              
         } catch (error) {
             console.error('음악 가져오기 실패:', error);
         }
@@ -95,15 +103,20 @@ musicForms.forEach(form => {
 // ❤️ 좋아요 버튼 클릭
 likeButton.onclick = async () => {
     try {
-        const response = await axios.post(`/music/${currentMusicId}/like`);
-        const result = response.data;
-
-        if (result.state === 200) {
-            alert('좋아요 완료!');
-        } else {
-            alert('이미 좋아요를 눌렀습니다.');
+      const response = await axios.post(`/music/${currentMusicId}/like`);
+      const result = response.data;
+  
+      if (result.state === 200) {
+        if (result.message === "좋아요 완료") {
+          likeButton.innerText = '❤️'; // 좋아요 눌렀으면 꽉찬 하트
+        } else if (result.message === "좋아요 삭제") {
+          likeButton.innerText = '🤍'; // 좋아요 취소했으면 빈 하트
         }
+      } else {
+        alert('좋아요 처리 실패');
+      }
     } catch (error) {
-        console.error('좋아요 실패:', error);
+      console.error('좋아요 실패:', error);
     }
-};
+  };
+  

@@ -1,6 +1,11 @@
 const router = require('express').Router();
-module.exports = router;
+const  PostController  = require('../controllers/post.controller');
 
-router.get('/어쩌구', (req, res) => { 
-    res.render('저쩌구');
+router.get('/', async (req, res) => {
+    const searchQuery = req.query.index || '';
+    const results = await PostController.selectAll(searchQuery); 
+    console.log("검색 결과:", results); // ✅ 이거 추가
+    res.render('searchResult', { results }); 
 });
+
+module.exports = router;

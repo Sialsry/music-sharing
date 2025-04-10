@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search Result</title>
+  <link rel="stylesheet" href="../public//css/search.css" />
+</head>
+<body>
+  <%- include('common/header') %>
+  <div id="search_form">
+    <% if (results.length > 0) { %>
+      <div class="search-header">
+        <div class="header-img">앨범</div>
+        <div class="header-title">노래 제목</div>
+        <div class="header-artist">아티스트</div>
+      </div>
+      <% results.forEach(music => { %>
+        <div class="music-item">
+          <div class="music-img">
+            <img src="/public/images/<%= music.songImg %>" alt="Album Cover" />
+          </div>
+          <div class="music-info">
+            <a href="#"><%= music.songName %></a>
+          </div>
+          <div class="music-artist">
+            <%= music.artist %>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p style="text-align: center; padding: 20px;">검색 결과가 없습니다.</p>
+    <% } %>
+  </div>
+</body>
+<script>
+</script>
+</html>

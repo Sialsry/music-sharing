@@ -19,7 +19,15 @@ const likeController = {
       try {
         await Like.findAll({where:{music_id}})
       } catch (error) {
-        return console.error(error)        
+        return console.error(error)   
+      }
+    },
+    async likeUserMusic(music_id,user_id){
+      try {
+        const likeCheckMusic = await Like.findAll({where:{music_id,user_id}})
+        return {state:201, message: "좋아요 조회완료",likeCheckMusic}
+      } catch (error) {
+        return console.error(error)
       }
     }
 }
