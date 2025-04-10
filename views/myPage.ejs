@@ -32,7 +32,7 @@
             </div>
             <div style="display: flex; flex-direction: column; gap: 1vw; margin-left: auto;">
                 <a href="#" class="edit-profile">내 정보 수정</a>
-                <a href="#" class="edit-profile">새 플레이리스트 생성</a>
+                <a class="createPlaylistBtn edit-profile">새 플레이리스트 생성</a>
             </div>
         </section>
 
@@ -48,11 +48,11 @@
 
         <div class="tab-content active" id="playlists">
             <div class="playlist-grid">
-                <% for(let i = 0; i < uniquePlaylistNames.length; i++) { %>
-                    <div class="playlist-card" data-playlist-id="<%= uniquePlaylistNames[i] %>">
+                <% for(let i = 0; i < playlistAndSongs.length; i++) { %>
+                    <div class="playlist-card" data-playlist-id="<%= playlistAndSongs[i].name %>">
                         <img src="../public/images/logo_seaweed.png">
                         <div class="playlist-info">
-                            <h3><%= uniquePlaylistNames[i] %></h3>
+                            <h3><%= playlistAndSongs[i].name %></h3>
                             <p>Created: July 15, 2023</p>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                     <h3 class="form-title">새 노래 추가하기</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="text" id="new-song-title" placeholder="제목 혹은 아티스트 이름으로 검색">
+                            <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
                         </div>
                     </div>
                     
@@ -101,7 +101,16 @@
                     </div>
                 </div>
                 <ul class="playlist-songs" id="playlist-songs">
-                    노래가 여기에 표시됩니다.
+                    <li class="song-item">
+                        <div class="song-info">
+                            <div class="song-title"></div>
+                            <div class="song-artist"></div>
+                        </div>
+                        <div class="song-actions">
+                            <button class="song-action-btn" title="좋아요">♡</button>
+                            <button class="song-action-btn" title="더 보기">⋯</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -123,7 +132,7 @@
                     <h3 class="form-title">새 노래 추가하기</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <form action="/mypage/search" method="get" class="search-bar">
+                            <form action="/mypage/search" method="get" class="search-bar" id="search-bar">
                                 <input type="text" id="new-song-title" placeholder="제목 혹은 아티스트 이름으로 검색">
                             </form>
                         </div>

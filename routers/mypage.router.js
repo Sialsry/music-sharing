@@ -21,10 +21,19 @@ router.get('/', async (req, res) => {
             songs: songsByPlaylist.shift()
         };
     });
-    console.log("playlistAndSongs:", playlistAndSongs[0].songs);
-
-    res.render('myPage', { uniquePlaylistNames, songsByPlaylist });
+    res.render('myPage', { playlistAndSongs })
 });
+
+
+
+router.get('/getPlaylistByName', async (req, res) => {
+    const playlistName = req.query.index || '';
+    const playlist = await playlistController.getPlaylistByName(playlistName);
+    res.send({ playlist });
+})
+
+
+
 
 router.get('/search', async (req, res) => { 
     const searchQuery = req.query.index || '';
