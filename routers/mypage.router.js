@@ -3,6 +3,7 @@ const PostController = require('../controllers/post.controller');
 const playlistController = require('../controllers/playlist.controller');
 
 router.get('/', async (req, res) => {
+    const {user} = req
     const user_id = '123'
     const playlistsData = await playlistController.getAllPlaylists(user_id);
     // console.log("playlistsData:", playlistsData);
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
             songs: songsByPlaylist.shift()
         };
     });
-    res.render('myPage', { playlistAndSongs })
+    res.render('myPage', { playlistAndSongs ,user })
 });
 
 
@@ -55,3 +56,7 @@ router.post('/createPlaylist', async (req, res) => {
 })
 
 module.exports = router;
+
+router.get('/', (req, res) => { 
+    res.render('myPage');
+});
