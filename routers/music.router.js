@@ -6,6 +6,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { id: musicId } = req.params;
         const { musicFind } = await musicController.musicSelectOne(musicId);
+        const { musicList } = await musicController.musicSelectAll();
 
         if (musicFind) {
             let liked = null;
@@ -18,7 +19,8 @@ router.get('/:id', async (req, res) => {
             
             res.json({
                 music: musicFind,
-                liked // 좋아요 여부 true/false로 보냄
+                liked, // 좋아요 여부 true/false로 보냄
+                musicList
             });
         } else {
             res.status(404).json({ message: '음악을 찾을 수 없습니다.' });

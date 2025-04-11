@@ -7,11 +7,6 @@
   <script src="/socket.io/socket.io.js"></script>
   <link rel="stylesheet" href="/public/css/live.css">
   <style>
-    video::-webkit-media-controls-play-button,
-    video::-webkit-media-controls-pause-button {
-      display: none;
-    }
-
     .featured-video {
       position: relative;
       width: 100%;
@@ -34,7 +29,10 @@
         <div class="featured-stream">
           <div class="featured-stream-content">
             <div class="featured-video">
-              <video id="main-stream" autoplay muted playsinline></video>
+              <video id="main-stream" autoplay playsinline></video>
+              <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 8px;">
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+              </div>
             </div>
             <div class="stream-info">
               <span class="live-indicator">LIVE</span>
@@ -73,45 +71,102 @@
       </div>
     </div>
   </footer>
-
   <script>
     const videoElement = document.getElementById('main-stream');
     const socket = io();
-
-    // 🧑 역할 지정 및 방 입장
-    socket.emit("join", "viewer");
-
-    // 🎥 영상 수신 처리
+  
+    // 오디오 관련 설정
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let gainNode;
+    let audioSource;
+  
+    // MediaSource 초기화
     const mediaSource = new MediaSource();
     videoElement.src = URL.createObjectURL(mediaSource);
-
+  
     let sourceBuffer;
-    mediaSource.addEventListener("sourceopen", () => {
-      sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp9"');
-
-      socket.on("videoChunk", (chunk) => {
-        console.log("🎥 영상 도착함!", chunk);
-        if (sourceBuffer.updating || !chunk) return;
-
-        try {
-          const typedArray = new Uint8Array(chunk);
-          sourceBuffer.appendBuffer(typedArray);
-        } catch (err) {
-          console.error("영상 추가 실패:", err);
-        }
-      });
-
-      // 녹화 종료 시 알림
-      socket.on("endRecording", () => {
-        console.log("🎬 방송이 종료되었습니다.");
-      });
+    let chunkQueue = [];
+  
+    mediaSource.addEventListener('sourceopen', () => {
+      if (MediaSource.isTypeSupported('video/webm; codecs="vp9,opus"')) {
+        sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp9,opus"');
+  
+        sourceBuffer.addEventListener('updateend', () => {
+          if (chunkQueue.length > 0 && !sourceBuffer.updating) {
+            const nextChunk = chunkQueue.shift();
+            try {
+              sourceBuffer.appendBuffer(nextChunk);
+            } catch (e) {
+              console.error('appendBuffer 에러 (큐에서):', e);
+            }
+          }
+        });
+  
+        socket.on('videoChunk', (chunk) => {
+          const reader = new FileReader();
+          reader.onload = function () {
+            const buffer = new Uint8Array(this.result);
+            if (sourceBuffer.updating || chunkQueue.length > 0) {
+              chunkQueue.push(buffer);
+            } else {
+              try {
+                sourceBuffer.appendBuffer(buffer);
+              } catch (e) {
+                console.error('appendBuffer 에러:', e);
+                chunkQueue.push(buffer); // 실패 시 큐에 다시 저장
+              }
+            }
+          };
+          if (chunk instanceof Blob) {
+            reader.readAsArrayBuffer(chunk);
+          } else {
+            reader.readAsArrayBuffer(new Blob([chunk]));
+          }
+        });
+  
+        // 영상 재생 시 오디오 설정
+        videoElement.addEventListener('play', () => {
+          if (!gainNode) {
+            const stream = videoElement.captureStream();
+            const audioTracks = stream.getAudioTracks();
+            if (audioTracks.length > 0) {
+              const audioStream = new MediaStream([audioTracks[0]]);
+              audioSource = audioContext.createMediaStreamSource(audioStream);
+              gainNode = audioContext.createGain();
+              audioSource.connect(gainNode).connect(audioContext.destination);
+            }
+          }
+        });
+  
+        // 볼륨 슬라이더
+        const volumeSlider = document.getElementById('volumeSlider');
+        volumeSlider.addEventListener('input', () => {
+          if (gainNode) {
+            gainNode.gain.value = parseFloat(volumeSlider.value);
+          }
+        });
+  
+        socket.on('endRecording', () => {
+          console.log('🎬 방송이 종료되었습니다.');
+          if (mediaSource.readyState === 'open') {
+            try {
+              mediaSource.endOfStream();
+            } catch (e) {
+              console.warn('endOfStream 실패:', e);
+            }
+          }
+        });
+  
+      } else {
+        console.error('지원되지 않는 미디어 형식입니다.');
+      }
     });
-
-    // 💬 채팅 기능
+  
+    // 채팅 기능
     const chatInput = document.querySelector('.chat-input input');
     const chatButton = document.querySelector('.chat-input button');
     const chatBox = document.getElementById('chat-box');
-
+  
     function sendMessage() {
       const message = chatInput.value.trim();
       if (message !== '') {
@@ -119,12 +174,12 @@
         chatInput.value = '';
       }
     }
-
+  
     chatButton.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', e => {
+    chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
-
+  
     socket.on('receiveMessage', (message) => {
       const messageElement = document.createElement('div');
       messageElement.className = 'chat-message';
@@ -135,14 +190,14 @@
       chatBox.appendChild(messageElement);
       chatBox.scrollTop = chatBox.scrollHeight;
     });
-
-    // 👥 접속자 목록 표시
+  
+    // 접속자 목록
     socket.on('updateUserList', (userList) => {
       const userListDiv = document.querySelector('.user-list');
       userListDiv.innerHTML = '';
-      userList.forEach(user => {
+      userList.forEach((user) => {
         const userItem = document.createElement('div');
-        userItem.textContent = `👤접속.`;
+        userItem.textContent = `👤 접속`;
         userItem.className = 'user-item';
         userListDiv.appendChild(userItem);
       });

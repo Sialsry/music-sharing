@@ -130,7 +130,7 @@ a .kakao-img {
 /* 🎵 음악 카드 (music-form) */
 .music-form {
   width: 220px;
-  height: 240px;
+  height: 235px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #ffffff;
@@ -155,12 +155,17 @@ a .kakao-img {
   border-radius: 8px;
 }
 
+/* music-form 내부 텍스트 줄바꿈 방지 + 말줄임표 처리 */
 .music-form div {
   width: 100%;
   text-align: center;
   font-size: 14px;
   margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 한 줄로 유지 */
 }
+
 
 /* 🎛️ 커스텀 오디오 플레이어 전체 */
 #custom-player {
@@ -187,6 +192,8 @@ a .kakao-img {
   align-items: center;
   gap: 10px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* 한 줄로 유지 */
 }
 
 .player-left img {
@@ -217,20 +224,19 @@ a .kakao-img {
 .player-center {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 5px;
   margin-right: 220px;
 }
 
-#play-pause-btn {
-  font-size: 30px;
+.player-center button {
   background: none;
   border: none;
   color: white;
+  font-size: 24px;
   cursor: pointer;
-  transition: transform 0.2s;
 }
 
-#play-pause-btn:hover {
+.player-center button:hover {
   transform: scale(1.2);
 }
 

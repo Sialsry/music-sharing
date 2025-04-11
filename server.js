@@ -10,6 +10,8 @@ const Playlist  = require('./models/config');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 app.use(express.json());
@@ -34,7 +36,7 @@ if (!fs.existsSync(videosDir)) {
 
 // 서버 열기
 const server = app.listen(3000, () => {
-    console.log('server on~');
+    console.log('http://localhost:3000 서버가 열렸습니다.');
 });
 
 // socket.io 연결
@@ -89,17 +91,17 @@ io.on('connection', (socket) => {
       socket.role = role;
     
       // JWT에서 가져온 uid
-      const uid = socket.user?.id; 
-      if (!uid) {
-        console.log("❌ 유저 정보가 없음");
-        return;
-      }
+      // const uid = socket.user?.id; 
+      // if (!uid) {
+      //   console.log("❌ 유저 정보가 없음");
+      //   return;
+      // }
       if (role === "viewer") {
         socket.join("viewers");
         console.log(`시청자 접속 : views`);
       } else if (role === "host") {
         socket.join("hosts");
-        console.log(`호스트 접속 (uid: ${uid})`);
+        console.log(`호스트 접속 (uid:난데요`);
         const videoFileName = `recorded_video_${Date.now()}.webm`;
         socket.videoFileName = videoFileName;
         socket.videoPath = path.join(videosDir, videoFileName);
@@ -169,9 +171,6 @@ socket.on("videoChunk", (chunk) => {
     });
 });
 
-process.on('uncaughtException', (err) => {
-  console.error('uncaughtException:', err);
-});
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('unhandledRejection:', reason);
