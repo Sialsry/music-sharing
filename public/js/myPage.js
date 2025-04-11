@@ -66,16 +66,16 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
                     } else {
                         return; // 삭제 취소
                     }
-                    await axios.post('/mypage/deleteSongFromPlaylist', { playlistName, music_id })
-                    .then(response => {
-                        console.log('곡 삭제 성공:', response.data);
-                        openPlaylistPopup(document.querySelector('.playlist-popup'));
-                    })
-                    .catch(error => {
-                        console.error('곡 삭제 실패:', error);
-                        // alert('곡 삭제 중 오류가 발생했습니다.');
-                    });
                 }
+                await axios.post('/mypage/deleteSongFromPlaylist', { playlistName, music_id })
+                .then(response => {
+                    console.log('곡 삭제 성공:', response.data);
+                    openPlaylistPopup(document.querySelector('.playlist-popup'));
+                })
+                .catch(error => {
+                    console.error('곡 삭제 실패:', error);
+                    // alert('곡 삭제 중 오류가 발생했습니다.');
+                });
             }
         });
     });
