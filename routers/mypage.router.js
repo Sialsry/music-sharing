@@ -71,7 +71,30 @@ router.post('/deletePlaylist', async (req, res) => {
     }
 })
 
+router.post('/addSongToPlaylist', async (req, res) => {
+    const { playlistName, music_id, user_id } = req.body;
+    console.log("playlistName:", playlistName);
+    console.log("music_id:", music_id);
+    console.log("user_id:", user_id);
+    try {
+        await playlistController.createPlaylist(playlistName, music_id, user_id);
+        res.status(200).send('Song added to playlist successfully');
+    } catch (error) {
+        console.error('Error adding song to playlist:', error);
+        res.status(500).send('Error adding song to playlist');
+    }
+})
 
+router.post('/deleteSongFromPlaylist', async (req, res) => {
+    const { playlistName, music_id } = req.body;
+    try {
+        await playlistController.deleteSongFromPlaylist(playlistName, music_id);
+        res.status(200).send('Song deleted from playlist successfully');
+    } catch (error) {
+        console.error('Error deleting song from playlist:', error);
+        res.status(500).send('Error deleting song from playlist');
+    }
+})
 
 
 
