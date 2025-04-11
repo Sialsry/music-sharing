@@ -5,6 +5,7 @@ const loginCheck = require('./middleware')
 
 router.get('/', loginCheck, async (req, res) => {
     const { user } = req;
+    console.log(user.id, 'adslkfjasd;lkj')
     const playlistsData = await playlistController.getAllPlaylists(user.id);
     // console.log("playlistsData:", playlistsData);
     const playlistNames = playlistsData.map((playlist) => playlist.playlistName);
@@ -43,8 +44,10 @@ router.get('/search', async (req, res) => {
     res.send({ results }); 
 });
 
-router.post('/createPlaylist', async (req, res) => {
-    const { playlistName, tempNewSongs, user_id } = req.body;
+router.post('/createPlaylist', loginCheck, async (req, res) => {
+    const { playlistName, tempNewSongs } = req.body;
+    console.log(req.user);
+    const user_id = req.user.id
     try {
         for (let i = 0; i < tempNewSongs.length; i++) {
             await playlistController.createPlaylist(playlistName, tempNewSongs[i].music_id, user_id); // Create a playlist for each song
@@ -67,8 +70,9 @@ router.post('/deletePlaylist', async (req, res) => {
     }
 })
 
-router.post('/addSongToPlaylist', async (req, res) => {
-    const { playlistName, music_id, user_id } = req.body;
+router.post('/addSongToPlaylist', loginCheck, async (req, res) => {
+    const { playlistName, music_id } = req.body;
+    const user_id = req.user.id
     console.log("playlistName:", playlistName);
     console.log("music_id:", music_id);
     console.log("user_id:", user_id);

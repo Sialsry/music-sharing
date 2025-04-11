@@ -254,10 +254,10 @@ document.getElementById('create-playlist-btn').addEventListener('click', async f
     if (!playlistName) {showErrorAlert('플레이리스트 이름을 입력해주세요.');return;}
     if (tempNewSongs.length === 0) {showErrorAlert('플레이리스트에는 최소 한 개의 곡이 필요합니다.');return;}
     
+    // user_id는 로그인한 유저의 쿠키에서 가져옴
     await axios.post('/mypage/createPlaylist', {
         playlistName,
-        tempNewSongs,
-        user_id: '123' // 사용자 ID는 실제로는 세션이나 JWT에서 가져와야 함
+        tempNewSongs
     })
     .then(response => {
         console.log('플레이리스트 생성 성공:', response.data);
@@ -427,8 +427,7 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
                     addButton.onclick = async () => {
                         await axios.post('/mypage/addSongToPlaylist', {
                             playlistName: document.querySelector('.start-streaming-btn').getAttribute('data-playlist-id'),
-                            music_id: music.id,
-                            user_id: '123' // 사용자 ID는 실제로는 세션이나 JWT에서 가져와야 함
+                            music_id: music.id
                         })
                         .then(response => {
                             console.log('곡 추가 성공:', response.data);

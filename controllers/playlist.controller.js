@@ -31,10 +31,10 @@ const playlistController = {
         }
     },
 
-    async getAllPlaylists(user_id) {
+    async getAllPlaylists(_user_id) {
         try {
             const playlists = await Playlist.findAll({
-                where: { user_id },
+                where: { user_id: _user_id },
                 include: [{ model: Music, attributes: ['id', 'songName', 'artist'] }]
             });
             const playlistData = playlists.map(playlist => {
