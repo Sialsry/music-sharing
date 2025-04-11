@@ -36,7 +36,7 @@ if (!fs.existsSync(videosDir)) {
 
 // 서버 열기
 const server = app.listen(3000, () => {
-    console.log('server on~');
+    console.log('http://localhost:3000 서버가 열렸습니다.');
 });
 
 // socket.io 연결

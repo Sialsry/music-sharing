@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const PostController = require('../controllers/post.controller');
 const playlistController = require('../controllers/playlist.controller');
+const loginCheck = require('./middleware')
 
-router.get('/', async (req, res) => {
-    const {user} = req
-    const user_id = '123'
-    const playlistsData = await playlistController.getAllPlaylists(user_id);
+router.get('/', loginCheck, async (req, res) => {
+    const { user } = req;
+    const playlistsData = await playlistController.getAllPlaylists(user.id);
     // console.log("playlistsData:", playlistsData);
     const playlistNames = playlistsData.map((playlist) => playlist.playlistName);
     const uniquePlaylistNames = [...new Set(playlistNames)];
@@ -25,22 +25,17 @@ router.get('/', async (req, res) => {
     res.render('myPage', { playlistAndSongs, user })
 });
 
+
 router.get('/live', async (req, res) => {
     const playlistName = req.query.playlistName
     res.render('liveStreaming', { playlistName })
 })
-
-
-
 
 router.get('/getPlaylistByName', async (req, res) => {
     const playlistName = req.query.index || '';
     const playlist = await playlistController.getPlaylistByName(playlistName);
     res.send({ playlist });
 })
-
-
-
 
 router.get('/search', async (req, res) => { 
     const searchQuery = req.query.index || '';

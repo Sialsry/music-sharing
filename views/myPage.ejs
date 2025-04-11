@@ -11,13 +11,13 @@
     <%- include('./common/header') %>
     <main>
         <section class="profile-section">
-            <img src="../public/images/logo_seaweed.png" alt="Profile Picture" class="profile-image">
+            <img src="<%= user.properties.profile_image %>" alt="Profile Picture" class="profile-image">
             <div class="profile-info">
-                <h1>김민교</h1>
+                <h1><%= user.properties.nickname %></h1>
                 <p>Premium Member since 2023</p>
                 <div class="profile-stats">
                     <div class="stat">
-                        <div class="stat-value">24</div>
+                        <div class="stat-value"><%= playlistAndSongs.length %></div>
                         <div class="stat-label">Playlists</div>
                     </div>
                     <div class="stat">
