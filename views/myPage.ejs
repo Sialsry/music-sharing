@@ -61,6 +61,7 @@
     <!-- 플레이리스트 팝업 -->
     <div class="popup-overlay" id="playlist-popup-overlay">
         <div class="playlist-popup">
+
             <div class="popup-header">
                 <img src="../public/images/logo_seaweed.png" alt="Playlist Cover" class="popup-cover" id="popup-cover">
                 <div class="popup-header-info">
@@ -89,6 +90,7 @@
                 </div>
                 <button class="close-popup" id="close-popup">✕</button>
             </div>
+
             <div class="popup-body">
                 <div class="add-song-form" id="add-song-form">
                     <h3 class="form-title">새 노래 추가하기</h3>
@@ -97,15 +99,11 @@
                             <form action="/mypage/search" method="get" class="search-bar" id="search-bar2">
                                 <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
                             </form>
-                            <!-- <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색"> -->
                         </div>
                     </div>
-                  
                 </div>
                 <ul class="playlist-songs" id="playlist-songs">
-                    <li class="song-item">
-                        
-                    </li>
+                    <!-- <li class="song-item"></li> -->
                 </ul>
             </div>
         </div>
@@ -114,6 +112,7 @@
     <!-- 새 플레이리스트 생성 팝업 -->
 <div class="create-playlist-overlay" id="create-playlist-overlay">
     <div class="create-playlist-popup">
+
         <div class="create-playlist-header">
             <h2 class="create-playlist-title">새 플레이리스트 생성</h2>
             <div class="create-playlist-form">
@@ -121,6 +120,7 @@
             </div>
             <button class="close-create-popup" id="close-create-popup">✕</button>
         </div>
+
         <div class="create-playlist-body">
             <div class="songs-section">
                 <div class="add-song-form" id="add-song-to-new-form">
@@ -132,13 +132,13 @@
                             </form>
                         </div>
                     </div>
-                    
                 </div>
                 <ul class="playlist-songs" id="create-playlist-songs">
                     <div class="empty-songs-message">아직 추가된 곡이 없습니다. 곡을 추가해주세요.</div>
                 </ul>
             </div>
         </div>
+        
         <div class="create-playlist-actions">
             <button class="add-song-to-new-btn" id="add-song-to-new-toggle">
                 + 곡 추가

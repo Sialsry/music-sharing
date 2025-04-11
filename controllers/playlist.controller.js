@@ -73,9 +73,25 @@ const playlistController = {
             console.error('Error deleting playlist:', error);
             throw error;
         }
+    },
+
+    async deleteSongFromPlaylist(playlistName, music_id) {
+        try {
+            const result = await Playlist.destroy({
+                where: { playlistName, music_id }
+            })
+            if (result === 0) {
+                throw new Error('Song not found in playlist');
+            }
+            console.log('Song deleted from playlist:', result);
+        } catch (error) {
+            console.error('Error deleting song from playlist:', error);
+            throw error;
+        }
     }
-   
 }
+
+
 
 
 module.exports = playlistController;
