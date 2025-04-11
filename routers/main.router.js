@@ -8,7 +8,16 @@ const {userController,musicController} = require('../controllers')
 router.get('/',async (req,res)=> {
     const {user} = req
     const {musicList} = await musicController.musicSelectAll()
-    res.render('main',{user,musicList});
+    const chatList = await musicController.getPopularMusics()
+    const plainChatList = chatList.map(music => music.toJSON());
+    
+    const arr = []
+    for (let i = 0; i < 12; i++) {
+        const music = Math.floor(Math.random() * musicList.length)
+        arr.push(musicList[music]);
+        musicList.splice(music, 1)
+    }
+    res.render('main',{user,musicList : arr,plainChatList});
 })
 // 로그인
 router.get("/login", (req,res) => {
