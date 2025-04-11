@@ -49,31 +49,33 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
             const playlistName = document.querySelector('.playlist-popup').getAttribute('data-playlist-id');
             const confirmDelete = confirm('정말로 이 곡을 삭제하시겠습니까?');
             // 플레이리스트에 곡이 하나만 남은 경우 플레이리스트 자체가 삭제됨을 알림
-            if (playlistAndSongs.length === 1) {
-                const confirmDeletePlaylist = confirm('남은 한 곡을 삭제할 경우 플레이리스트가 제거됩니다. 진행하시겠습니까?');
-                if (confirmDeletePlaylist) {
-                    await axios.post('/mypage/deletePlaylist', { playlistId: playlistName })
-                    .then(response => {
-                        console.log('플레이리스트 삭제 성공:', response.data);
-                        location.reload(); // 페이지 새로고침
-                    })
-                    .catch(error => {
-                        console.error('플레이리스트 삭제 실패:', error);
-                        alert('플레이리스트 삭제 중 오류가 발생했습니다.');
-                    });
-                }
-            }
             
             if (confirmDelete) {
-                await axios.post('/mypage/deleteSongFromPlaylist', { playlistName, music_id })
-                .then(response => {
-                    console.log('곡 삭제 성공:', response.data);
-                    openPlaylistPopup(document.querySelector('.playlist-popup'));
-                })
-                .catch(error => {
-                    console.error('곡 삭제 실패:', error);
-                    // alert('곡 삭제 중 오류가 발생했습니다.');
-                });
+                if (playlistAndSongs.length === 1) {
+                    const deleteLastSong = confirm('남은 한 곡을 삭제할 경우 플레이리스트가 제거됩니다. 진행하시겠습니까?');
+                    if (deleteLastSong) {
+                        await axios.post('/mypage/deletePlaylist', { playlistId: playlistName })
+                        .then(response => {
+                            console.log('플레이리스트 삭제 성공:', response.data);
+                            location.reload(); // 페이지 새로고침
+                        })
+                        .catch(error => {
+                            console.error('플레이리스트 삭제 실패:', error);
+                            alert('플레이리스트 삭제 중 오류가 발생했습니다.');
+                        });
+                    } else {
+                        return; // 삭제 취소
+                    }
+                    await axios.post('/mypage/deleteSongFromPlaylist', { playlistName, music_id })
+                    .then(response => {
+                        console.log('곡 삭제 성공:', response.data);
+                        openPlaylistPopup(document.querySelector('.playlist-popup'));
+                    })
+                    .catch(error => {
+                        console.error('곡 삭제 실패:', error);
+                        // alert('곡 삭제 중 오류가 발생했습니다.');
+                    });
+                }
             }
         });
     });

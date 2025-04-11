@@ -28,7 +28,7 @@ class Playlist extends Model {
             indexes: [
                 { 
                     unique: true,
-                    fields: ['playlistName', 'music_id']
+                    fields: ['playlistName', 'music_id', 'user_id']
                 }
             ]
         });
