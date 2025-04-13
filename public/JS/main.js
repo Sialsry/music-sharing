@@ -39,7 +39,7 @@ function updateMusic(music) {
 }
 
 // 🎵 음악 카드 클릭
-musicForms.forEach((form, index) => {
+musicForms.forEach((form) => {
     form.onclick = async (e) => {
         const id = e.currentTarget.dataset.id;
         console.log('클릭한 음악 id:', id);
@@ -51,9 +51,12 @@ musicForms.forEach((form, index) => {
             updateMusic(music);
             musicList = serverMusicList;
             currentMusicId = id;
-            currentMusicIndex = index;
 
-            history = []; // 클릭할 때 새로 시작
+            // 🎯 musicList 안에서 클릭한 음악 id를 찾아서 정확한 인덱스 저장
+            const foundIndex = musicList.findIndex(item => item.id === music.id);
+            currentMusicIndex = foundIndex;
+
+            history = [];
             history.push(currentMusicIndex);
             currentHistoryIndex = 0;
 
@@ -69,7 +72,7 @@ musicForms.forEach((form, index) => {
 });
 
 // 🎵 미니차트 아이템 클릭
-chartItems.forEach((item, index) => {
+chartItems.forEach((item) => {
     item.onclick = async (e) => {
         const id = e.currentTarget.dataset.id;
         console.log('미니차트에서 클릭한 음악 id:', id);
@@ -81,7 +84,10 @@ chartItems.forEach((item, index) => {
             updateMusic(music);
             musicList = serverMusicList;
             currentMusicId = id;
-            currentMusicIndex = index;
+
+            // 🎯 musicList 안에서 클릭한 음악 id를 찾아서 정확한 인덱스 저장
+            const foundIndex = musicList.findIndex(item => item.id === music.id);
+            currentMusicIndex = foundIndex;
 
             history = [];
             history.push(currentMusicIndex);
@@ -154,30 +160,64 @@ nextButton.onclick = () => {
 };
 
 // 🎵 이전곡 버튼 클릭
-prevButton.onclick = () => {
+prevButton.onclick = async () => {
     if (currentHistoryIndex > 0) {
         currentHistoryIndex -= 1;
         const prevIndex = history[currentHistoryIndex];
         const prevMusic = musicList[prevIndex];
         updateMusic(prevMusic);
+
+        try {
+            // 🎯 이전곡 좋아요 상태 다시 요청
+            const response = await axios.get(`/music/${prevMusic.id}/likecheck`);
+            const { liked } = response.data;
+
+            currentMusicId = prevMusic.id; // 현재 재생곡 id 업데이트
+            if (liked) {
+                likeButton.innerText = '❤️';
+            } else {
+                likeButton.innerText = '🤍';
+            }
+        } catch (error) {
+            console.error('이전 곡 좋아요 상태 조회 실패:', error);
+        }
+
     } else {
         console.log('처음 곡입니다. 더 이상 이전 곡이 없습니다.');
     }
 };
 
-// 🎵 랜덤 다음곡 함수
-function playRandomNext() {
-    if (!musicList.length) return;
 
+// 🎵 랜덤 다음곡 함수
+async function playRandomNext() {
+    
+    
     let nextIndex;
     do {
         nextIndex = Math.floor(Math.random() * musicList.length);
     } while (history.length && nextIndex === history[currentHistoryIndex]);
-
+    
     const nextMusic = musicList[nextIndex];
     updateMusic(nextMusic);
-
-    history = history.slice(0, currentHistoryIndex + 1); // 새로운 곡이면 이후 히스토리 삭제
+    
+    history = history.slice(0, currentHistoryIndex + 1);
     history.push(nextIndex);
     currentHistoryIndex = history.length - 1;
+    
+    try {
+        // 🎯 좋아요 상태 다시 요청
+        const response = await axios.get(`/music/${nextMusic.id}/likecheck`);
+        const { liked } = response.data;
+
+        
+        // 🎯 좋아요 상태를 화면에 반영
+        currentMusicId = nextMusic.id; // 현재 재생곡 id 업데이트
+        if (liked) {
+            likeButton.innerText = '❤️';
+        } else {
+            likeButton.innerText = '🤍';
+        }
+    } catch (error) {
+        console.error('다음 곡 좋아요 상태 조회 실패:', error);
+    }
 }
