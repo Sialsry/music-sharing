@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {musicController,likeController} = require('../controllers');
+const {musicController,likeController,playlistController} = require('../controllers');
 
 // 음악 하나 조회하는 API
 router.get('/:id', async (req, res) => {
@@ -63,6 +63,16 @@ router.get('/:id/likecheck', async (req, res) => {
     res.status(500).json({ message: '좋아요 조회 실패' });
   }
 });
+router.get('/playlist/list', async (req,res)=> {
+    const {user} = req
+    try {
+        const result = await playlistController.getAllPlaylists(user.id)
+        console.log(result);
+        return res.json(result)
+    } catch (error) {
+        
+    }
+})
 
 
 module.exports=router
