@@ -49,4 +49,28 @@ const getPlaylistMusic = async (req, res) => {
   }
 };
 
-module.exports = {getUserPlaylist, getPlaylistMusic};
+updateLiveStatus = async (req, res) => {
+  const { islive, playlistName } = req.body;
+
+  console.log("요청된 islive:", islive);
+  console.log("요청된 playlistName:", playlistName);
+
+  // playlistName이 없으면 에러 반환
+  if (!playlistName) {
+    return res.status(400).json({ success: false, message: "playlistName이 필요합니다." });
+  }
+
+  try {
+    // playlistName이 같은 모든 playlist의 isLive를 변경
+    await db.Playlist.update(
+      { isLive: islive },
+      { where: { playlistName } }
+    );
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("라이브 상태 업데이트 실패:", error);
+    res.status(500).json({ success: false });
+  }
+};
+module.exports = {getUserPlaylist, getPlaylistMusic, updateLiveStatus};

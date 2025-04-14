@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/detail.css">
+    <title>구이김&뮤직스 전체곡</title>
+</head>
+<body>
+    <%- include("common/header") %>
+    <div class="btns">
+        <button>▶ 듣기</button>
+        <button>+ 담기</button>
+    </div>
+    <div class="music-header">
+        <input type="checkbox">
+        <span>NO</span>
+        <span>곡 정보</span>
+    </div>
+      
+    <div class="all-music-container">
+        <% musicList.forEach((music, index) => { %>
+            <div class="music-item">
+              <input type="checkbox">
+            <div class="music-rank"><%= index + 1 %></div>
+            <img src="/public/images/musicimages/<%= music.songImg %>" alt="앨범 커버" class="music-cover">
+            <div class="music-info">
+              <div class="music-artist"><%= music.artist %></div>
+              <div class="music-title"><%= music.songName %></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      <!-- 숨긴 오디오 -->
+<audio id="audio" src="" style="display: none;"></audio>
+
+<!-- 커스텀 플레이어 -->
+<div id="custom-player">
+  <!-- 왼쪽: 앨범 커버 + 노래 정보 -->
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title"></div>
+      <div id="player-artist"></div>
+    </div>
+  </div>
+
+  <!-- 중앙: 재생버튼 + 진행바 + 현재시간/총시간 -->
+  <div class="player-center">
+    <div class="player-buttons">
+      <button id="prev-btn">⏮️</button>
+      <button id="play-pause-btn">▶️</button>
+      <button id="next-btn">⏭️</button>
+    </div>
+    <div class="player-bar">
+      <input type="range" id="seek-bar" value="0" min="0" max="100">
+      <div class="time-info">
+        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오른쪽: 좋아요 버튼 + 볼륨 + 메뉴 버튼 -->
+    <div class="player-right">
+        <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
+        <button id="like-button">🤍</button>
+        <button id="menu-button">⋮</button>
+    </div>
+
+      
+</body>
+</html>

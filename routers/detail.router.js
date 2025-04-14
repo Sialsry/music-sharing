@@ -1,6 +1,11 @@
 const router = require('express').Router();
-module.exports = router;
+const {musicController} =require('../controllers');
 
-router.get('/어쩌구', (req, res) => { 
-    res.render('저쩌구');
+
+router.get('/', async (req, res) => {
+    const {user} = req
+    const {musicList} = await musicController.musicSelectAll()
+    console.log(user);
+    res.render('listDetail',{user,musicList});
 });
+module.exports = router;

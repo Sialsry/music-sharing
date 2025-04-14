@@ -44,6 +44,7 @@
             </div>
             <div class="stream-info">
               <span class="live-indicator">LIVE</span>
+              <div id="stream-nick">호스트 :</div>
               <h2 class="stream-title" id="stream-title">곡 제목 로딩 중...</h2>
               <p class="stream-artist" id="stream-artist">아티스트 정보</p>
               <button id="startRecording">녹화 시작</button>
@@ -100,12 +101,15 @@
     const videoElement = document.getElementById('main-stream');
     const titleElement = document.getElementById('stream-title');
     const artistElement = document.getElementById('stream-artist');
+    const hostniclElement = document.getElementById('stream-nick');
     const startRecordingBtn = document.getElementById('startRecording');
     const stopRecordingBtn = document.getElementById('stopRecording');
     const volumeSlider = document.querySelector('.volume-slider');
     const hostCanvas = document.getElementById("hostCanvas");
     const hostCtx = hostCanvas.getContext("2d");
-    
+    const urlParams = new URLSearchParams(window.location.search);
+    const playlistName = urlParams.get('playlistName');
+    const musicId = urlParams.get('musicId');
     ////////////////////////////////
     let mediaRecorder;
     let recordedChunks = [];  
@@ -130,9 +134,7 @@
       }
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const playlistName = urlParams.get('playlistName');
-      const musicId = urlParams.get('musicId');
+     
       if (!playlistName) {
         alert("Missing playlistName in URL");
         return;
@@ -163,7 +165,6 @@
           userImage.src = `/public/images/${music.songImg}`; 
           titleElement.textContent = music.songName || '제목 없음';
           artistElement.textContent = `아티스트: ${music.artist || '알 수 없음'}`;
-
           videoElement.play().catch(error => {
             console.warn("자동 재생 실패: 사용자 액션이 필요할 수 있음.", error);
           });
@@ -192,7 +193,7 @@
     const bubble = chatBubbles[i];
 
     bubble.y -= bubble.dy;        
-    bubble.alpha -= 0.003;         
+    bubble.alpha -= 0.001;         
 
     if (bubble.alpha <= 0) {
       chatBubbles.splice(i, 1);   
@@ -200,8 +201,8 @@
     }
 
     hostCtx.globalAlpha = bubble.alpha;
-    hostCtx.fillStyle = "#000"; // 완전한 검정
-    hostCtx.font = "8px Arial";
+    hostCtx.fillStyle = "#FFF"; // 완전한 검정
+    hostCtx.font = "8px";
     hostCtx.fillText(bubble.text, bubble.x, bubble.y);
     hostCtx.globalAlpha = 1.0;
     }
@@ -210,9 +211,14 @@
       }
 
       /////////////////////////////////////////////////////////////////////// 개발중 start , stop  라이브 
-      startRecordingBtn.addEventListener("click", () => {
-        startRecordingBtn.style.display = "none";
-        stopRecordingBtn.style.display = "inline";
+   startRecordingBtn.addEventListener("click", () => {
+        axios.post('/live/update', {
+        islive: true,
+        playlistName 
+      }).then(() => {
+        startRecordingBtn.style.display = 'none';
+        stopRecordingBtn.style.display = 'inline-block';
+      });
         recordedChunks = [];
 
       initializeRole("host");
@@ -228,7 +234,7 @@
       alert('성공')
 
       mediaRecorder = new MediaRecorder(combinedStream, {
-        mimeType: "video/webm; codecs=vp9",
+        mimeType: "video/webm; codecs=vp9,opus",
       });
 
       mediaRecorder.ondataavailable = async (event) => {
@@ -247,11 +253,21 @@
 
     stopRecordingBtn.addEventListener("click", () => {
       socket.emit("endRecording");
+      
+          axios.post('/live/update', {
+        islive: false,
+        playlistName
+      }).then(() => {
+        console.log('라이브 상태 false로 업데이트됨');
+      }).catch((err) => {
+        console.error('라이브 상태 업데이트 실패:', err);
+      });
+      
       startRecordingBtn.style.display = "inline";
       stopRecordingBtn.style.display = "none";
       mediaRecorder.stop();
         alert('중지')
-    });
+    });   
 
 
     /////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {musicController,likeController} = require('../controllers');
+const {musicController,likeController,playlistController} = require('../controllers');
 
 // 음악 하나 조회하는 API
 router.get('/:id', async (req, res) => {
@@ -41,6 +41,36 @@ router.post('/:id/like', async (req,res)=> {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: '좋아요 처리 실패' });
+    }
+})
+
+router.get('/:id/likecheck', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const  { id :uid}  = req.user || {}; // 로그인된 사용자 정보
+    if (!uid) {
+      return res.json({ liked: false }); // 비로그인일 경우 무조건 좋아요 false
+    }
+
+    const { likeCheckMusic } = await likeController.likeUserMusic(id, uid);
+
+    // 🎯 좋아요 기록이 하나라도 있으면 true
+    const liked = likeCheckMusic && likeCheckMusic.length > 0;
+    
+    res.json({ liked });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: '좋아요 조회 실패' });
+  }
+});
+router.get('/playlist/list', async (req,res)=> {
+    const {user} = req
+    try {
+        const result = await playlistController.getAllPlaylists(user.id)
+        console.log(result);
+        return res.json(result)
+    } catch (error) {
+        
     }
 })
 
