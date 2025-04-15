@@ -14,6 +14,7 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
     let playlistAndSongs = await axios.get(`/mypage/getPlaylistByName?index=${playlistName}`)
     playlistAndSongs = playlistAndSongs.data.playlist;
     // console.log(playlistAndSongs, 'playlistAndSongssssssssssssssss');
+
     for(let i = 0; i < playlistAndSongs.length; i++) {
             const playlistCreatedDate = playlistAndSongs[0].createdAt.split('T')[0].replace(/-/g, '.')
             document.getElementById('popup-title').textContent = playlistAndSongs[i].playlistName;
@@ -214,8 +215,6 @@ audio.ontimeupdate = () => {
     current_time.innerText = formatTime(audio.currentTime);
     duration.innerText = formatTime(audio.duration);
 };
-
-
 
 // 플레이리스트 삭제
 document.querySelectorAll('.delete-playlist-btn').forEach(button => {
@@ -592,9 +591,10 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
 });
 
 
+
 // ---------------------------------------------------------프로필 수정 관련 기능    
-    
-    
+
+  
 // 프로필 수정 팝업 열기
 document.querySelector('.edit-profile').addEventListener('click', function(e) {
     e.preventDefault();
