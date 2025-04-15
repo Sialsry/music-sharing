@@ -22,8 +22,8 @@
         <% for(let i =0; i < musicList.length; i++){ %>
             <div class="music-form" data-id="<%= musicList[i].id %>">
                 <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="">
-                <div>가수 : <%= musicList[i].songName %></div>
-                <div>제목 : <%= musicList[i].artist %></div>
+                <div>가수 : <%= musicList[i].artist %></div>
+                <div>제목 : <%= musicList[i].songName %></div>
             </div>
         <% } %>
     </div>
