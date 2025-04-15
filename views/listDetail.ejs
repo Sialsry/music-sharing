@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/detail.css">
+    <link rel="stylesheet" href="/public/css/playbar.css">
     <title>구이김&뮤직스 전체곡</title>
 </head>
 <body>
     <%- include("common/header") %>
     <div class="btns">
-        <button>▶ 듣기</button>
-        <button>+ 담기</button>
+        <button id="add-to-playlist-btn">+ 담기</button>
     </div>
     <div class="music-header">
         <input type="checkbox">
@@ -21,17 +21,17 @@
     <div class="all-music-container">
         <% musicList.forEach((music, index) => { %>
             <div class="music-item">
-              <input type="checkbox">
+              <input type="checkbox"class="music-checkbox" data-music-id="<%= music.id %>">
             <div class="music-rank"><%= index + 1 %></div>
             <img src="/public/images/musicimages/<%= music.songImg %>" alt="앨범 커버" class="music-cover">
-            <div class="music-info">
+            <div class="music-info" data-id="<%= music.id %>" >
               <div class="music-artist"><%= music.artist %></div>
               <div class="music-title"><%= music.songName %></div>
             </div>
           </div>
         <% }); %>
       </div>
-      <!-- 숨긴 오디오 -->
+<!-- 숨긴 오디오 -->
 <audio id="audio" src="" style="display: none;"></audio>
 
 <!-- 커스텀 플레이어 -->
@@ -61,12 +61,30 @@
   </div>
 
   <!-- 오른쪽: 좋아요 버튼 + 볼륨 + 메뉴 버튼 -->
-    <div class="player-right">
-        <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
-        <button id="like-button">🤍</button>
-        <button id="menu-button">⋮</button>
+  <div class="player-right">
+    <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
+    <button id="like-button">🤍</button>
+    <button id="plus-button">+</button>
+  </div>
+</div>
+<!-- 모달창 기본 구조 추가 -->
+<div id="playlist-modal">
+  <div id="modal-content">
+    
+  </div>
+</div>
+<!-- 새 재생목록 추가 모달 (숨김 기본) -->
+<div id="new-playlist-modal" class="playlist-modal" style="display: none;">
+  <div id="new-playlist-content" class="playlist-modal-content">
+    <h2>새 재생목록 만들기</h2>
+    <input type="text" id="new-playlist-name" placeholder="재생목록 이름 입력" class="playlist-input" />
+    <div class="modal-buttons">
+      <button id="create-playlist-btn" class="confirm-button">만들기</button>
+      <button id="cancel-create-btn" class="cancel-button">취소</button>
     </div>
+  </div>
+</div>
 
-      
 </body>
+<script src="/public/JS/detail.js"></script>
 </html>

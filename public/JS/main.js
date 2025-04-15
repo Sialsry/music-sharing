@@ -57,6 +57,7 @@ musicForms.forEach((form) => {
 
         try {
             const response = await axios.get(`/music/${id}`);
+            console.log(response.data);
             const { music, liked, musicList: serverMusicList } = response.data;
 
             updateMusic(music);
