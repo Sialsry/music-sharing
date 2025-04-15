@@ -17,8 +17,9 @@ router.get('/',async (req,res)=> {
         arr.push(musicList[music]);
         musicList.splice(music, 1)
     }
-    res.render('main',{user,musicList : arr,plainChatList});
+    res.render('main',{ user, musicList: arr, plainChatList });
 })
+
 // 로그인
 router.get("/login", (req,res) => {
     const kakaoAuth = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URL}`
@@ -61,12 +62,27 @@ router.get('/kakao/callback', async (req,res)=> {
     // 4000589952 고유 식별자
     const {id, properties} = userData;
 
-    userController.signup(id,properties.nickname,properties.profile_image)
+    const userdata = await userController.userInfo(id)
+    // console.log(userdata.data.dataValues, 'userdataaaaaaaaaaaaaaaaa')
+    if(userdata.state === 200) {
+        // 이미 가입된 유저
+        const token  = { 
+                    id : userdata.data.dataValues.uid,
+                    properties : { 
+                        nickname : userdata.data.dataValues.nickname,
+                        profile_image : userdata.data.dataValues.profileImg
+                    } }
 
-    const token = jwt.sign({id,properties}, process.env.JWT_SECRET_KEY, { expiresIn : "1h"} );
-
-    res.cookie("login_access_token", token, {httpOnly : true, maxAge : 60 * 60 * 60 * 1000});
-    res.redirect('/');
+        const jwtToken = jwt.sign(token, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+        res.cookie("login_access_token", jwtToken, {httpOnly : true, maxAge : 60 * 60 * 60 * 1000});
+        res.redirect('/');
+    } else {
+        userController.signup(id,properties.nickname,properties.profile_image)
+    
+        const token = jwt.sign({id,properties}, process.env.JWT_SECRET_KEY, { expiresIn : "1h"} );
+        res.cookie("login_access_token", token, {httpOnly : true, maxAge : 60 * 60 * 60 * 1000});
+        res.redirect('/');
+    }
 })
 
 

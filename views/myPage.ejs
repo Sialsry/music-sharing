@@ -21,13 +21,13 @@
                         <div class="stat-label">Playlists</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">478</div>
+                        <div class="stat-value"><%= count %></div>
                         <div class="stat-label">Liked Songs</div>
                     </div>
-                    <div class="stat">
+                    <!-- <div class="stat">
                         <div class="stat-value">285</div>
                         <div class="stat-label">Following</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 1vw; margin-left: auto;">
@@ -38,9 +38,6 @@
 
         <div class="tabs">
             <div class="tab active" data-tab="playlists">My Playlists</div>
-            <div class="tab" data-tab="liked">Liked Songs</div>
-            <div class="tab" data-tab="history">History</div>
-            <div class="tab" data-tab="friends">Friends</div>
         </div>
 
         <div class="tab-content active" id="playlists">
@@ -50,7 +47,6 @@
                         <img src="../public/images/logo_seaweed.png">
                         <div class="playlist-info">
                             <h3><%= playlistAndSongs[i].name %></h3>
-                            <p>Created: July 15, 2023</p>
                         </div>
                     </div>
                 <% } %>
@@ -69,8 +65,8 @@
                         <h2 class="playlist-title" id="popup-title">플레이리스트 제목</h2>
                         <p class="playlist-meta" id="popup-meta">생성일: 2023년 7월 15일 • 15곡 • 59분</p>
                         <div class="playlist-creator">
-                            <img src="../public/images/logo_seaweed.png" alt="Creator" class="creator-avatar">
-                            <span id="popup-creator">김민교</span>
+                            <img src="<%= user.properties.profile_image %>" alt="Creator" class="creator-avatar">
+                            <span id="popup-creator"><%= user.properties.nickname %></span>
                         </div>
                     </div>
                     <div class="playlist-action-buttons">
@@ -148,6 +144,71 @@
         </div>
     </div>
 </div>
+
+<!-- 내 정보 수정 팝업 -->
+<div class="edit-profile-overlay" id="edit-profile-overlay">
+    <div class="edit-profile-popup">
+        <div class="edit-profile-header">
+            <h2 class="edit-profile-title">내 정보 수정</h2>
+            <button class="close-edit-popup" id="close-edit-popup">✕</button>
+        </div>
+        <div class="edit-profile-body">
+            <form id="editProf">
+                <div class="form-group">
+                    <label for="new-nickname">닉네임 수정</label>
+                    <input type="text" name="new_nickname" class="edit-profile-input" value="<%= user.properties.nickname %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-profile-image">프로필 이미지 변경</label>
+                    <input type="file" id="profile" name="new_profile_image" class="edit-profile-input" style="display: none;">
+                    <div class="image-preview" id="image-preview">
+                        <label for="profile">
+                            <img src="<%= user.properties.profile_image %>" alt="Profile Image Preview" id="preview_image" style="width: 100px; height: 100px; border-radius: 50%; cursor: pointer;">
+                        </label>
+                    </div>
+                </div>
+                <div class="edit-profile-actions">
+                    <button class="update-profile-btn" id="update-profile-btn">
+                        적용
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 숨긴 오디오 ------------------------------------------------>
+<audio id="audio" src="" style="display: none;"></audio>
+
+
+
+
+<div id="custom-player">
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title"></div>
+      <div id="player-artist"></div>
+    </div>
+    <div class="player-times">
+      <span id="current_time"></span> / <span id="duration"></span>
+    </div>
+  </div>
+
+  <div class="player-center">
+    <button id="prev_btn">⏮️</button>
+    <button id="play_pause_btn">▶️</button>
+    <button id="next_btn">⏭️</button>
+    <input type="range" id="seek_bar" value="0" min="0" max="100">
+  </div>
+
+  <div class="player-like">
+    <button id="like-button">🤍</button>
+  </div>
+</div>
+
+
+
     <footer>
         <div class="footer-content">
             <div>© 2025 구이김&뮤직스. All rights reserved.</div>

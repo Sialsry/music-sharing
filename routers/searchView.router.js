@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const  PostController  = require('../controllers/post.controller');
+const 
 
 router.get('/', async (req, res) => {
     const searchQuery = req.query.index || '';
