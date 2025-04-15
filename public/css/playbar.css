@@ -16,7 +16,7 @@
   }
   
   .player-left {
-    flex: 0 0 300px;
+    flex: 0 0 350px;
     display: flex;
     align-items: center;
     gap: 10px;
