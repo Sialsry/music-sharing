@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>구이김&뮤직스</title>
     <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/playbar.css">
 </head>
 <body>
     <%- include("common/header") %>
@@ -21,8 +22,8 @@
         <% for(let i =0; i < musicList.length; i++){ %>
             <div class="music-form" data-id="<%= musicList[i].id %>">
                 <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="">
-                <div>가수 : <%= musicList[i].songName %></div>
-                <div>제목 : <%= musicList[i].artist %></div>
+                <div>가수 : <%= musicList[i].artist %></div>
+                <div>제목 : <%= musicList[i].songName %></div>
             </div>
         <% } %>
     </div>
