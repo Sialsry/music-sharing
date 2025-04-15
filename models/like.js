@@ -1,12 +1,8 @@
-const { DataTypes, Model } = require('sequelize');
+const { Model, DataTypes} = require('sequelize')
 
 class Like extends Model {
     static init(sequelize) {
         return super.init({
-            uid: {
-                type: DataTypes.STRING(100),
-                allowNull: false
-            },
             music_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false

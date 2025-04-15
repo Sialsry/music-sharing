@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { Model, DataTypes} = require('sequelize')
 
 class User extends Model {
     static init(sequelize) {
@@ -13,7 +13,7 @@ class User extends Model {
                 unique: true
             },
             profileImg: {
-                type: DataTypes.STRING(100),
+                type: DataTypes.STRING,
                 allowNull: true
             }
         }, {
@@ -29,7 +29,6 @@ class User extends Model {
     static associate(models) {
         models.User.hasMany(models.Like, { foreignKey: 'user_id', sourceKey: 'uid', onDelete: 'CASCADE' })
         models.User.hasMany(models.Playlist, { foreignKey: 'user_id', sourceKey: 'uid', onDelete: 'CASCADE' })
-        models.User.hasMany(models.Comment, { foreignKey: 'user_id', sourceKey: 'uid', onDelete: 'CASCADE' })
         models.User.hasMany(models.Live, { foreignKey: 'user_id', sourceKey: 'uid', onDelete: 'CASCADE' })
     }
 }

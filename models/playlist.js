@@ -1,4 +1,4 @@
-const { Model, DataTypes} = require('sequelize')
+const { Model, DataTypes } = require('sequelize');
 
 class Playlist extends Model {
     static init(sequelize) {
@@ -9,7 +9,12 @@ class Playlist extends Model {
             },
             music_id: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: false,
+            },
+            isLive: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+                defaultValue: false,
             }
         }, {
             sequelize,
@@ -23,7 +28,7 @@ class Playlist extends Model {
             indexes: [
                 { 
                     unique: true,
-                    fields: ['playlistName', 'music_id']
+                    fields: ['playlistName', 'music_id', 'user_id']
                 }
             ]
         });

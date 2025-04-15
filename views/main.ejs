@@ -3,492 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>구이김&뮤직스 - Home</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f7;
-            color: #333;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 20px;
-            background: linear-gradient(90deg, #4e54c8, #8f94fb);
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .logo img {
-            height: 40px;
-            vertical-align: middle;
-        }
-        .search-bar {
-            flex: 1;
-            margin: 0 20px;
-            display: flex;
-            align-items: center;
-        }
-        .search-bar input {
-            width: 80%;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 20px;
-            outline: none;
-            font-size: 1rem;
-            margin-left: 5vw;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        .nav-buttons a {
-            text-decoration: none;
-            color: white;
-            padding: 8px 15px;
-            border: 1px solid white;
-            border-radius: 20px;
-            transition: background 0.3s, color 0.3s;
-        }
-        .nav-buttons a:hover {
-            background: white;
-            color: #4e54c8;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Main Page Styling */
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .hero-section {
-            margin-bottom: 40px;
-            position: relative;
-            height: 350px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.7);
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 50px;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            max-width: 600px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(90deg, #4e54c8, #8f94fb);
-            color: white;
-            border-radius: 30px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #333;
-            border-left: 5px solid #4e54c8;
-            padding-left: 15px;
-        }
-
-        .music-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .music-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .music-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .music-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .music-info {
-            padding: 15px;
-        }
-
-        .music-info h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.1rem;
-        }
-
-        .music-info p {
-            margin: 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .play-button {
-            position: absolute;
-            right: 15px;
-            bottom: 15px;
-            width: 40px;
-            height: 40px;
-            background-color: #4e54c8;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        .music-card:hover .play-button {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .now-playing-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: linear-gradient(90deg, #4e54c8, #8f94fb);
-            color: white;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            z-index: 100;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .now-playing-left {
-            display: flex;
-            align-items: center;
-            width: 30%;
-        }
-
-        .now-playing-left img {
-            width: 50px;
-            height: 50px;
-            border-radius: 4px;
-            margin-right: 15px;
-        }
-
-        .song-info h4, .song-info p {
-            margin: 0;
-        }
-
-        .song-info p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .now-playing-center {
-            flex: 1;
-            text-align: center;
-        }
-
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .player-controls button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .player-controls .play-pause {
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            color: #4e54c8;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            margin-top: 10px;
-            position: relative;
-        }
-
-        .progress {
-            height: 100%;
-            background-color: white;
-            border-radius: 2px;
-            width: 30%;
-        }
-
-        .now-playing-right {
-            display: flex;
-            justify-content: flex-end;
-            width: 30%;
-            gap: 15px;
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .volume-bar {
-            width: 80px;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .volume-level {
-            height: 100%;
-            background-color: white;
-            border-radius: 2px;
-            width: 60%;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            .hero-content p {
-                font-size: 1rem;
-            }
-            .music-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            .now-playing-bar {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-            }
-            .now-playing-left, .now-playing-center, .now-playing-right {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-        }
-    </style>
+    <title>쿠이김</title>
+    <link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
-    <%- include('./common/header') %>
-    <main>
-        <section class="hero-section">
-            <img class="hero-image" src="../public/images/logo_seaweed.png" alt="Featured Artist">
-            <div class="hero-content">
-                <h1>Discover New Music</h1>
-                <p>Listen to the latest releases from your favorite artists and discover new ones every day.</p>
-                <a href="#" class="cta-button">Start Listening</a>
-            </div>
-        </section>
+    <%- include("common/header") %>
+   <div class="content-form">
 
-        <section>
-            <h2 class="section-title">Popular Albums</h2>
-            <div class="music-grid">
-                <div class="music-card" onclick="playMusic('Album 1')">
-                    <img src="../public/images/logo_seaweed.png" alt="Album 1">
-                    <div class="music-info">
-                        <h3>Night Vibes</h3>
-                        <p>Synth Wave</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('Album 2')">
-                    <img src="../public/images/logo_seaweed.png" alt="Album 2">
-                    <div class="music-info">
-                        <h3>Purple Clouds</h3>
-                        <p>Dream Pop</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('Album 3')">
-                    <img src="../public/images/logo_seaweed.png" alt="Album 3">
-                    <div class="music-info">
-                        <h3>Lunar Echoes</h3>
-                        <p>Ambient</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('Album 4')">
-                    <img src="../public/images/logo_seaweed.png" alt="Album 4">
-                    <div class="music-info">
-                        <h3>Urban Motion</h3>
-                        <p>Hip Hop/R&B</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('Album 5')">
-                    <img src="../public/images/logo_seaweed.png" alt="Album 5">
-                    <div class="music-info">
-                        <h3>Electric Dreams</h3>
-                        <p>Electronic</p>
-                    </div>
-                </div>
+       <div class="Streaming">
+           
+    </div>
+    <div class="music">
+      <div class="music-move">
+        <div>추천곡</div>
+        <a href="/detail">전체곡 보기</a>
+      </div>
+        <% for(let i =0; i < musicList.length; i++){ %>
+            <div class="music-form" data-id="<%= musicList[i].id %>">
+                <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="">
+                <div>가수 : <%= musicList[i].songName %></div>
+                <div>제목 : <%= musicList[i].artist %></div>
             </div>
-        </section>
+        <% } %>
+    </div>
+    <div class="right-form">
 
-        <section>
-            <h2 class="section-title">New Releases</h2>
-            <div class="music-grid">
-                <div class="music-card" onclick="playMusic('New Release 1')">
-                    <img src="../public/images/logo_seaweed.png" alt="New Release 1">
-                    <div class="music-info">
-                        <h3>Summer Breeze</h3>
-                        <p>Indie Pop</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('New Release 2')">
-                    <img src="../public/images/logo_seaweed.png" alt="New Release 2">
-                    <div class="music-info">
-                        <h3>Midnight Tales</h3>
-                        <p>Alternative Rock</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('New Release 3')">
-                    <img src="../public/images/logo_seaweed.png" alt="New Release 3">
-                    <div class="music-info">
-                        <h3>Ocean Waves</h3>
-                        <p>Lofi Beats</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('New Release 4')">
-                    <img src="../public/images/logo_seaweed.png" alt="New Release 4">
-                    <div class="music-info">
-                        <h3>Neon City</h3>
-                        <p>Electronic</p>
-                    </div>
-                </div>
-                <div class="music-card" onclick="playMusic('New Release 5')">
-                    <img src="../public/images/logo_seaweed.png" alt="New Release 5">
-                    <div class="music-info">
-                        <h3>Serene</h3>
-                        <p>Classical</p>
-                    </div>
-                </div>
+        <div class="login">
+            <% if(!user){ %>
+            <div class="login-form">
+                <h2>카카오톡 로그인</h2>
+                <a href="/login">
+                    <img src="/public/images/kakaologin.png" class="kakao-img" alt="">
+                </a>
             </div>
-        </section>
-    </main>
-
-    <div class="now-playing-bar">
-        <div class="now-playing-left">
-            <img src="../public/images/logo_seaweed.png" alt="Now Playing">
-            <div class="song-info">
-                <h4>Currently Playing</h4>
-                <p>Artist - Album</p>
+            <% }else{ %>
+            <div class="logout-form">
+                <h2>카카오톡 로그아웃</h2>
+                <a href="/logout">
+                    <img src="/public/images/kakaologout.png" class="kakao-img" alt="">
+                </a>
             </div>
+            <% } %>
         </div>
-        <div class="now-playing-center">
-            <div class="player-controls">
-                <button>⏮</button>
-                <button class="play-pause">▶</button>
-                <button>⏭</button>
-            </div>
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-        </div>
-        <div class="now-playing-right">
-            <div class="volume-control">
-                <span>🔊</span>
-                <div class="volume-bar">
-                    <div class="volume-level"></div>
-                </div>
-            </div>
+        <div id="mini-chart">
+          <h3>인기차트 🔥</h3>
+          <% for(let i =0; i < plainChatList.length; i++){ %>
+          <div class="mini-chart-item" data-id="<%= plainChatList[i].id %>" >
+            <%= i+1 %>. <%= plainChatList[i].artist %> - <%= plainChatList[i].songName %>
+          </div>
+            <% } %>
+
         </div>
     </div>
+    
+    <!-- 숨긴 오디오 -->
+<audio id="audio" src="" style="display: none;"></audio>
 
-    <script>
-        // Play music function
-        function playMusic(albumName) {
-            document.querySelector('.song-info h4').textContent = albumName;
-            document.querySelector('.song-info p').textContent = 'Now Playing';
-            alert(`Now playing: ${albumName}`);
-        }
+<!-- 커스텀 플레이어 -->
+<div id="custom-player">
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title"></div>
+      <div id="player-artist"></div>
+    </div>
+    <div class="player-times">
+      <span id="current-time"></span> / <span id="duration"></span>
+    </div>
+  </div>
 
-        // Play/Pause button toggle
-        const playPauseButton = document.querySelector('.play-pause');
-        playPauseButton.addEventListener('click', function() {
-            if(this.textContent === '▶') {
-                this.textContent = '⏸';
-            } else {
-                this.textContent = '▶';
-            }
-        });
+  <div class="player-center">
+    <!-- 🎵 이전곡 버튼 추가 -->
+    <button id="prev-btn">⏮️</button>
 
-        // Progress bar update simulation
-        let progressValue = 0;
-        const progress = document.querySelector('.progress');
-        
-        function updateProgress() {
-            progressValue = (progressValue + 0.1) % 100;
-            progress.style.width = progressValue + '%';
-            setTimeout(updateProgress, 100);
-        }
-        
-        updateProgress();
-    </script>
+    <!-- ▶️ 재생/일시정지 버튼 -->
+    <button id="play-pause-btn">▶️</button>
+
+    <!-- 🎵 다음곡 버튼 추가 -->
+    <button id="next-btn">⏭️</button>
+
+    <input type="range" id="seek-bar" value="0" min="0" max="100">
+
+    <div class="player-menu">
+      <button id="menu-button">⋮</button> <!-- 점 세개 메뉴 버튼 -->
+    </div>
+  </div>
+
+  <div class="player-like">
+    <button id="like-button">🤍</button>
+  </div>
+</div>
+
 </body>
+<script src="/public/JS/main.js"></script>
 </html>

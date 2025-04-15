@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Streaming</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -33,7 +34,7 @@
             align-items: center;
         }
         .search-bar input {
-            width: 80%;
+            width: 1100px;
             padding: 8px 12px;
             border: none;
             border-radius: 20px;
@@ -44,6 +45,7 @@
         .nav-buttons {
             display: flex;
             gap: 15px;
+            align-items: center;
         }
         .nav-buttons a {
             text-decoration: none;
@@ -62,13 +64,17 @@
             text-decoration: none;
             color: inherit;
         }
+        .nav-buttons img {
+            width: 40px;
+            height: 40px;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">
             <a href="/">
-                <img src="../../public/images/logo_seaweed.png" alt="Logo"> 구이김&뮤직스
+                <img src="/public/images/logo_seaweed.png" alt=""> 구이김&뮤직스
             </a>
         </div>
         <div class="search-bar">
@@ -78,8 +84,11 @@
         </div>
 
         <div class="nav-buttons">
-            <a href="/mypage">My Page</a>
-            <a href="/live">Live Streaming</a>
+            <% if(user){ %>
+                <img src="<%= user.properties.profile_image %>" alt="">
+                <%- `${user.properties.nickname}님 환영합니다` %>
+                <a href="/mypage">My Page</a>
+                <% } %>
         </div>
     </header>
 </body>
