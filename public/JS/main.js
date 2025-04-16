@@ -27,7 +27,7 @@ function formatTime(seconds) {
 function updateMusic(music) {
     document.getElementById('player-title').innerText = music.songName;
     document.getElementById('player-artist').innerText = music.artist;
-    document.getElementById('player-img').src = `/public/images/musicimages/${music.songImg}`;
+    document.getElementById('player-img').src = `/public/images/musicimages${music.songImg}`;
     audio.src = `/public/musics/${music.musicResource}`;
     audio.play();
 
