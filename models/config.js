@@ -37,7 +37,7 @@ lives.associate(db);
 musics.associate(db);
 playlists.associate(db); 
 
-sequelize.sync({ force: false }).then(()=>{
+sequelize.sync({ force: true }).then(()=>{
   console.log("시퀄라이즈 온~")
 }).catch(console.log)
 
