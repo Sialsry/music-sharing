@@ -34,21 +34,15 @@ if (!fs.existsSync(videosDir)) {
   fs.mkdirSync(videosDir, { recursive: true });
 }
 
-// 서버 열기
 const server = app.listen(3000, () => {
     console.log('http://localhost:3000 서버가 열렸습니다.');
 });
 
-// socket.io 연결
 const io = socketIo(server);
 
-// 현재 재생 중인 곡 정보를 저장하는 변수
 let currentSongInfo = null;
-// 호스트의 스트림 상태를 저장하는 변수
 let isHostStreaming = false;
-// 호스트의 스트림 청크를 저장하는 배열
 let streamChunks = [];
-// 최대 저장할 청크 수
 const MAX_CHUNKS = 10;
 
 const onlineUsers = new Set();
@@ -71,16 +65,13 @@ io.use((socket, next) => {
   next();
 });
 
-// 전역 메모리로 broadcasters 객체 선언 
 const broadcasters = {};
 app.locals.broadcasters = broadcasters;
 
-// socket.io 이벤트 설정
 io.on('connection', (socket) => {
 
   let nickName = socket.user?.properties?.nickname;
   if (!nickName) {
-    // 로그인하지 않은 유저는 랜덤 닉네임 부여
     nickName = 'Guest_' + Math.floor(Math.random() * 10000);
   }
 
@@ -88,10 +79,8 @@ io.on('connection', (socket) => {
   onlineUsers.add(nickName);
   console.log(`🟢 ${nickName}님이 접속하셨습니다.`);
 
-  // ✅ 접속자 목록 업데이트
   io.emit('updateUserList', Array.from(onlineUsers));
 
-    // 영상 청크 수신 처리
     socket.on("videoChunk", (chunk) => {
       console.log("청크 수신 크기:", chunk.byteLength);
       if (!socket.writeStream) {
@@ -130,23 +119,19 @@ io.on('connection', (socket) => {
               console.error("❌ live 테이블 저장 실패:", err);
             }
       
-            // ✅ 저장 완료 후, 사용자에게 비디오 저장 완료 알림
             socket.emit("videoSaved", { fileName: socket.videoFileName });
       
-            // ✅ 모든 사용자에게 방송 종료 알림
             io.emit("broadcastEnded", {
               message: `${socket.nickname || '호스트'}님의 방송이 종료되었습니다.`,
               nickname: socket.nickname || '호스트'
             });
       
-            // 기존 종료 이벤트도 유지
             io.emit("endRecording");
           });
         }
       });
       
 
-  // 채팅 메시지 처리
   socket.on("sendMessage", (message) => {
     try {
       console.log("받은 메시지:", message);
@@ -156,7 +141,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // ✅ 연결 종료
   socket.on("disconnect", () => {
     if (socket.nickname) {
       onlineUsers.delete(socket.nickname);
