@@ -24,10 +24,6 @@
                         <div class="stat-value"><%= count %></div>
                         <div class="stat-label">Liked Songs</div>
                     </div>
-                    <!-- <div class="stat">
-                        <div class="stat-value">285</div>
-                        <div class="stat-label">Following</div>
-                    </div> -->
                 </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 1vw; margin-left: auto;">
@@ -39,19 +35,22 @@
         <div class="tabs">
             <div class="tab active" data-tab="playlists">My Playlists</div>
         </div>
+        <!-- <div class="playlist-grid-wrapper"> -->
 
-        <div class="tab-content active" id="playlists">
-            <div class="playlist-grid">
-                <% for(let i = 0; i < playlistAndSongs.length; i++) { %>
-                    <div class="playlist-card" data-playlist-id="<%= playlistAndSongs[i].name %>">
-                        <img src="../public/images/logo_seaweed.png">
-                        <div class="playlist-info">
-                            <h3><%= playlistAndSongs[i].name %></h3>
+            <div class="tab-content active" id="playlists">
+                
+                <div class="playlist-grid">
+                    <% for(let i = 0; i < playlistAndSongs.length; i++) { %>
+                        <div class="playlist-card" data-playlist-id="<%= playlistAndSongs[i].name %>">
+                            <img src="../public/images/logo_seaweed.png">
+                            <div class="playlist-info">
+                                <h3><%= playlistAndSongs[i].name %></h3>
+                            </div>
                         </div>
-                    </div>
-                <% } %>
+                    <% } %>
+                </div>
             </div>
-        </div>
+        <!-- </div> -->
     </main>
 
     <!-- 플레이리스트 팝업 -->
@@ -97,6 +96,7 @@
                             </form>
                         </div>
                     </div>
+                    <div id="form_content"></div>
                 </div>
                 <ul class="playlist-songs" id="playlist-songs">
                 </ul>
@@ -127,6 +127,7 @@
                             </form>
                         </div>
                     </div>
+                    <div id="form_content_new"></div>
                 </div>
                 <ul class="playlist-songs" id="create-playlist-songs">
                     <div class="empty-songs-message">아직 추가된 곡이 없습니다. 곡을 추가해주세요.</div>
@@ -213,10 +214,10 @@
         <div class="footer-content">
             <div>© 2025 구이김&뮤직스. All rights reserved.</div>
             <div class="footer-links">
-                <a href="/about">회사 소개</a>
-                <a href="/terms">이용약관</a>
-                <a href="/privacy">개인정보처리방침</a>
-                <a href="/contact">고객지원</a>
+                <a >회사 소개</a>
+                <a >이용약관</a>
+                <a >개인정보처리방침</a>
+                <a >고객지원</a>
             </div>
         </div>
     </footer>

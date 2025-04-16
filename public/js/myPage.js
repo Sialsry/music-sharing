@@ -24,8 +24,10 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
             songsContainer.innerHTML = '';
             playlistAndSongs.forEach(song => {
                 const songElement = document.createElement('li');
-                songElement.className = 'search-song-item';
+                songElement.className = 'song-item search-song-item';
                 songElement.innerHTML = `
+                <div class="song-info" data-music-id="${song.Music.id}">
+                </div>
                 <img class='search-song-img' src="/public/images/musicimages/${song.Music.songImg}" alt="${song.Music.songName}">
                 <div class="search-song-name">${song.Music.songName}</div>
                 <div class="search-song-artist">${song.Music.artist}</div>
@@ -76,22 +78,6 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
             }
         });
     });
-
-    // 플레이리스트 음악 재생 버튼 클릭 이벤트
-    // document.querySelectorAll('.song-info').forEach(songInfo => {
-    //     songInfo.addEventListener('click', async function() {
-    //         const musicId = songInfo.getAttribute('data-music-id');
-    //         const response = await axios.get(`/music/${musicId}`);
-    //         const { music, liked, musicList: serverMusicList } = response.data;
-    //         // console.log(response.data, 'response.data');
-    //         updateMusic(music);
-    //         audio.addEventListener('ended', function() {
-    //             document.getElementById('custom-player').style.visibility = 'hidden';
-    //             audio.currentTime = 0; // 음악이 끝나면 처음으로 돌아감
-    //             audio.pause();
-    //         })
-    //     });
-    // });
 
     // 플레이리스트 전체음악 재생 버튼 클릭 이벤트
     document.querySelector('#play_playlist_btn').addEventListener('click', async function () {
@@ -233,6 +219,12 @@ document.getElementById('add-songs-toggle').addEventListener('click', function()
     const form = document.getElementById('add-song-form');
     form.classList.toggle('active');
     this.textContent = form.classList.contains('active') ? '- 취소' : '+ 곡 추가';
+    if (form.classList.contains('active')) {
+        document.getElementById('form_content').innerHTML = ''; // 기존 결과 초기화
+        document.getElementById('new-song-title2').value = ''; // 검색창 초기화
+    } else {
+        document.getElementById('form_content').innerHTML = ''; // 기존 결과 초기화
+    }
 });
 
 // 라이브 스트리밍 시작 버튼 이벤트
@@ -266,6 +258,7 @@ function openCreatePlaylistPopup() {
     document.getElementById('new-playlist-name').value = '';
     document.getElementById('create-playlist-songs').innerHTML = '';
     document.getElementById('create-playlist-btn').disabled = true;
+
     updateEmptySongsMessage();
     
     tempNewSongs = [];
@@ -287,8 +280,16 @@ let tempNewSongs = [];
 document.getElementById('add-song-to-new-toggle').addEventListener('click', function() {
     const form = document.getElementById('add-song-to-new-form');
     form.classList.toggle('active');
-    this.textContent = form.classList.contains('active') ? '- 취소하기' : '+ 곡 추가';
+    this.textContent = form.classList.contains('active') ? '- 취소' : '+ 곡 추가';
+    if (form.classList.contains('active')) {
+        document.getElementById('create-playlist-songs').innerHTML = ''; // 기존 결과 초기화
+        document.getElementById('new-song-title').value = ''; // 검색창 초기화
+    } else {
+        document.getElementById('create-playlist-songs').innerHTML = ''; // 기존 결과 초기화
+        renderNewPlaylistSongs(); // 곡 목록 다시 렌더링
+    }
 });
+
 
 function updateEmptySongsMessage() { // 비어있는 곡 메시지 업데이트
     const songsContainer = document.getElementById('create-playlist-songs');
@@ -513,7 +514,7 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
         .then(response => {
             const results = response.data.results;
             const songsContainer = document.getElementById("playlist-songs");
-            const searchContainer = document.getElementById("add-song-form");
+            const searchContainer = document.getElementById("form_content");
             console.log(results, 'results');
             if (results.length > 0) { 
                 results.forEach(music => { 
@@ -631,4 +632,25 @@ document.getElementById('edit-profile-overlay').addEventListener('click', functi
         closeEditProfilePopup();
     }
 });
+
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     const grid = document.querySelector('.playlist-grid');
+//     const cards = document.querySelectorAll('.playlist-card');
+//     const observerOptions = {
+//       root: grid,
+//       threshold: 0.5  // 카드의 50% 이상이 보이면 "in view"로 간주
+//     };
+//     const observer = new IntersectionObserver((entries) => {
+//       entries.forEach(entry => {
+//         // 보이는 카드는 불투명, 아니면 투명하게 처리
+//         entry.target.style.opacity = entry.isIntersecting ? '1' : '0';
+//       });
+//     }, observerOptions);
+  
+//     cards.forEach(card => observer.observe(card));
+//   });
+  
+
 
