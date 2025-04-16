@@ -27,6 +27,7 @@ router.get('/', loginCheck, async (req, res) => {
             songs: songsByPlaylist.shift()
         };
     });
+    // console.log(playlistAndSongs[0].songs[0].songImg, 'playlistAndSongs입니다.')
     res.render('myPage', { playlistAndSongs, user, count })
 });
 

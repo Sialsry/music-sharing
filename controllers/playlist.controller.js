@@ -38,7 +38,7 @@ const playlistController = {
         try {
             const playlists = await Playlist.findAll({
                 where: { user_id: _user_id },
-                include: [{ model: Music, attributes: ['id', 'songName', 'artist'] }]
+                include: [{ model: Music, attributes: ['id', 'songName', 'artist', 'songImg'] }]
             });
             const playlistData = playlists.map(playlist => {
                 return {
@@ -50,7 +50,8 @@ const playlistController = {
                     Music: {
                         id: playlist.Music.id,
                         songName: playlist.Music.songName,
-                        artist: playlist.Music.artist
+                        artist: playlist.Music.artist,
+                        songImg: playlist.Music.songImg
                     }
                 };
             });
