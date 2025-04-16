@@ -1141,64 +1141,6 @@ footer {
 
 
   /* ----------------------------------- 곡 추가시 검색결과 스타일 */
-    /* .search-results {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        max-height: 300px;
-        overflow-y: auto;
-        display: none; 
-    }
-
-    .search-song-item {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        border-bottom: 1px solid #eee;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        justify-content: space-between;
-    }
-
-    .search-song-item:hover {
-        background-color: #f5f5f7;
-    }
-
-    .search-song-img {
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-    }
-
-    .search-song-item .song-info {
-        flex: 1;
-    }
-    .search-song-name {
-        font-weight: bold;
-        margin-bottom: 3px;
-    }
-
-    .search-song-artist {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    .search-song-add-btn {
-        background-color: #4e54c8;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    } */
-
 /* 검색 결과 리스트 아이템 스타일 */
 .search-song-item {
     display: flex;
@@ -1275,3 +1217,28 @@ footer {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
+
+/* 
+  .song-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  } */
+
+
+  #new-song-title2, #new-song-title {
+      width: 650px;
+      font-weight: 600;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #333;
+      margin-left: 0px;
+    }
+    
+    #new-song-title {
+        width: 550px;
+    }
