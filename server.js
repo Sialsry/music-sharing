@@ -112,31 +112,40 @@ io.on('connection', (socket) => {
       }
     });
   
-    // 녹화 종료 시 처리
     socket.on("endRecording", async () => {
-      if (socket.writeStream) {
-        socket.writeStream.end(async () => {
-          console.log(`🎥 비디오 저장 완료: ${socket.videoPath}`);
-  
-          const relativeUrl = `/public/videos/${socket.videoFileName}`;
-  
-          try {
-            await Live.create({
-              live_url: relativeUrl,
-              user_id: socket.user.id,
-              createdAt: new Date(),
-              updatedAt: new Date()
+        if (socket.writeStream) {
+          socket.writeStream.end(async () => {
+            console.log(`🎥 비디오 저장 완료: ${socket.videoPath}`);
+      
+            const relativeUrl = `/public/videos/${socket.videoFileName}`;
+      
+            try {
+              await Live.create({
+                live_url: relativeUrl,
+                user_id: socket.user.id,
+                createdAt: new Date(),
+                updatedAt: new Date()
+              });
+              console.log("📦 live 테이블에 녹화정보 저장 완료!");
+            } catch (err) {
+              console.error("❌ live 테이블 저장 실패:", err);
+            }
+      
+            // ✅ 저장 완료 후, 사용자에게 비디오 저장 완료 알림
+            socket.emit("videoSaved", { fileName: socket.videoFileName });
+      
+            // ✅ 모든 사용자에게 방송 종료 알림
+            io.emit("broadcastEnded", {
+              message: `${socket.nickname || '호스트'}님의 방송이 종료되었습니다.`,
+              nickname: socket.nickname || '호스트'
             });
-            console.log("📦 live 테이블에 녹화정보 저장 완료!");
-          } catch (err) {
-            console.error("❌ live 테이블 저장 실패:", err);
-          }
-  
-          socket.emit("videoSaved", { fileName: socket.videoFileName });
-          io.emit("endRecording");
-        });
-      }
-    });
+      
+            // 기존 종료 이벤트도 유지
+            io.emit("endRecording");
+          });
+        }
+      });
+      
 
   // 채팅 메시지 처리
   socket.on("sendMessage", (message) => {

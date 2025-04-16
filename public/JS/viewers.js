@@ -63,6 +63,19 @@ socket.on('broadcaster_closed', (broadcastId) => {
   }
 });
 
+socket.on("broadcastEnded", ({ message }) => {
+  showSuccessAlert('방송이 종료되었습니다.')
+
+  if (peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+  remoteVideo.srcObject = null;
+
+  window.location.href = "/";
+});
+
+
 window.onunload = window.onbeforeunload = () => {
   socket.close();
 };
@@ -121,3 +134,23 @@ userItem.className = 'user-item';
 userListDiv.appendChild(userItem);
 });
 });
+
+  // 성공 알림 표시
+  function showSuccessAlert(message) {
+    const alertElement = document.createElement('div');
+    alertElement.className = 'error-alert';
+    alertElement.style.backgroundColor = '#4CAF50';
+    alertElement.textContent = message;
+    document.body.appendChild(alertElement);
+    
+    setTimeout(() => {
+        alertElement.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        alertElement.classList.remove('show');
+        setTimeout(() => {
+            alertElement.remove();
+        }, 300);
+    }, 3000);
+    }

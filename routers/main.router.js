@@ -7,7 +7,7 @@ const {userController,musicController, liveController} = require('../controllers
 router.get('/',async (req,res)=> {
     const broadcasters = req.app.locals.broadcasters || {};
     const liveIds = Object.keys(broadcasters); 
-
+        
     const {user} = req
     console.log("메인페이지 유저:", user); 
     const {musicList} = await musicController.musicSelectAll()
