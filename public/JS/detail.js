@@ -314,7 +314,7 @@ plusBtn.onclick = async () => {
 // 🎯 새 플레이 리스트 만들기 버튼 (현재 음악을 바로 담기)
 createPlaylistBtn.onclick = async () => {
     const playlistName = document.getElementById('new-playlist-name').value.trim();
-    const regex = /^[a-zA-Z0-9\s]+$/;
+    const regex = /^[a-zA-Z0-9\s가-힣ㄱ-ㅎㅏ-ㅣ]+$/;
     if(!regex.test(playlistName)) return showErrorAlert('특수문자를 제외해주세요.')
     document.getElementById('new-playlist-name').value = ""
     if (!playlistName) {

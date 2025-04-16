@@ -322,7 +322,7 @@ createPlaylistBtn.onclick = async () => {
     document.getElementById('new-playlist-name').value = ""
     if (playlistName) {
         try {
-            const regex = /^[a-zA-Z0-9\s]+$/;
+            const regex = /^[a-zA-Z0-9\s가-힣ㄱ-ㅎㅏ-ㅣ]+$/;
             if(!regex.test(playlistName)) return showErrorAlert('특수문자를 제외해주세요.')
             await axios.post('/mypage/createPlaylist', {
                 playlistName: playlistName,
