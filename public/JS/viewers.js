@@ -64,15 +64,18 @@ socket.on('broadcaster_closed', (broadcastId) => {
 });
 
 socket.on("broadcastEnded", ({ message }) => {
-  showSuccessAlert('방송이 종료되었습니다.')
+  showSuccessAlert('방송이 종료되었습니다.(5초 뒤에 메인으로 돌아갑니다.')
 
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-  remoteVideo.srcObject = null;
+  setTimeout(() => {
+    if (peerConnection) {
+      peerConnection.close();
+      peerConnection = null;
+    }
 
-  window.location.href = "/";
+    remoteVideo.srcObject = null;
+
+    window.location.href = "/";
+  }, 5000); 
 });
 
 

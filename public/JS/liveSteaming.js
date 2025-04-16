@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const playNext = () => {
       if (currentIndex >= musicdata.length) {
         console.log("모든 트랙 재생 완료");
+        showSuccessAlert('모든 트랙 재생 완료')
         return;
       }
       
@@ -106,8 +107,6 @@ function drawHostCanvas() {
   requestAnimationFrame(drawHostCanvas);
 }
 
-/////////////////////////////////////////////////////////////////////// 개발중 start , stop  라이브 
-// 버튼 이벤트 설정
 startRecordingBtn.addEventListener("click", () => {
   axios.post('/live/update', {
     islive: true,
@@ -133,7 +132,6 @@ stopRecordingBtn.addEventListener("click", () => {
   startRecordingBtn.style.display = "inline";
   stopRecordingBtn.style.display = "none";
 
-  // f5 beforeunload 란 사용자가 웹페이지 떠나기전에 처리
 window.addEventListener('beforeunload', () => {
   axios.post('/live/update', {
     islive: false,
@@ -141,10 +139,8 @@ window.addEventListener('beforeunload', () => {
   });
 });
 
-
-  mediaRecorder.stop(); // 청크 수집 종료
-  socket.emit("endRecording"); // 서버에 저장하라고 알림
-
+  mediaRecorder.stop(); 
+  socket.emit("endRecording"); 
 
 
   showSuccessAlert("녹화가 중지되었습니다");
@@ -154,7 +150,6 @@ const playNextSong = () => {
   audio.play();
 };
 
-/////////////////////////////////////////////////////////////
 
 playButton.addEventListener('click', () => {
   if (isPlaying) {
@@ -179,7 +174,7 @@ const chatBox = document.getElementById('chat-box');
 function sendMessage(data) {
   const message = chatInput.value.trim();
   if (message !== '') {
-    socket.emit('sendMessage', { nickname: user.nickname, message }); // '나'는 고정된 사용자명
+    socket.emit('sendMessage', { nickname: user.nickname, message }); 
     chatInput.value = '';
   }
 }
@@ -193,9 +188,9 @@ socket.on('receiveMessage', function (data) {
   const { nickname, message } = data;
   const x = Math.floor(Math.random() * (hostCanvas.width - 100)) + 50;
   const y = hostCanvas.height - 30;
-  const dy = 0.5;   // 천천히 위로 이동
-  const alpha = 1;  // 완전 불투명하게 시작
-  // 말풍선 배열에 저장
+  const dy = 0.5;   
+  const alpha = 1;  
+
   chatBubbles.push({
     text: message,
     x: x,
@@ -205,8 +200,6 @@ socket.on('receiveMessage', function (data) {
     timestamp: Date.now()
   });
 
-
-  // 오래된 메시지는 제거 (최대 5개 유지)
   if (chatBubbles.length > 5) chatBubbles.shift();
 
   const messageElement = document.createElement('div');
@@ -255,8 +248,6 @@ const user = {
   id: userDiv.dataset.id,
   nickname: userDiv.dataset.nickname
 };
-
-
 
 startRecordingBtn.onclick = () => {
   const broadcastId = Number(user.id) // 방송 아이디 입력
