@@ -53,13 +53,11 @@
           </div>
         </div>
         <div class="media-controls">
-          <audio id="audio"  controls style="position: relative; z-index: 10;"></audio>
+          <audio id="audio"  controls style="position: relative; z-index: 10; width: 400px;"></audio>
           <div class="playback-controls">
-            <button id="prevBtn">⏮</button>
-            <button id="rewindBtn">⏪</button>
+       
             <button class="play-button">⏸</button>
-            <button id="fastForwardBtn">⏩</button>
-            <button id="nextBtn">⏭</button>
+ 
           </div>
           <div class="volume-control">
             <span>🔊</span>
@@ -72,7 +70,7 @@
         data-nickname="<%= user.properties.nickname %>">
       </div>
       <div class="live-interaction">
-        <div class="chat-section">
+        <div class="chat-section"  style="height: 400px;">
           <div class="chat-header">실시간 채팅</div>
           <div class="chat-messages" id="chat-box"></div>
           <div class="chat-input">
@@ -80,7 +78,7 @@
             <button>전송</button>
           </div>
         </div>
-        <div class="online-users">
+        <div class="online-users" style="height: 280px; overflow-y: auto;">
           <div class="online-header">접속자</div>
           <div class="user-list"></div>
         </div>

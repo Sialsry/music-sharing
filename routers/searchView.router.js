@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   
     const searchQuery = req.query.index || '';
     const page = parseInt(req.query.page) || 1; // 현재 페이지
-    const limit = 10; // 한 페이지당 개수
+    const limit = 7; // 한 페이지당 개수
     const offset = (page - 1) * limit;
   
     // 전체 결과 개수 가져오기

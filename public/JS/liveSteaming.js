@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       
       audio.src = `/public/musics/${music.musicResource}`;
       imageLoaded = false;
-      userImage.src = `/public/images/${music.songImg}`;
+      userImage.src = `/public/images/musicimages/${music.songImg}`;
       titleElement.textContent = music.songName || '제목 없음';
       artistElement.textContent = `아티스트: ${music.artist || '알 수 없음'}`;
       
@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       currentIndex++;
     };
     audio.addEventListener('ended', () => playNext());
+   
     drawHostCanvas();
     playNext();
     console.log("현재 곡이 끝났습니다.");
@@ -75,10 +76,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error("음악 목록 로딩 실패:", error);
   }
 });
+
 function drawHostCanvas() {
-  hostCanvas.width = hostCanvas.offsetWidth;
-  hostCanvas.height = hostCanvas.offsetHeight;
+  
   hostCtx.clearRect(0, 0, hostCanvas.width, hostCanvas.height);
+  hostCtx.imageSmoothingEnabled = false;
   if (imageLoaded) {
     hostCtx.drawImage(userImage, 0, 0, hostCanvas.width, hostCanvas.height);
   } else {
@@ -87,7 +89,6 @@ function drawHostCanvas() {
   }
   for (let i = chatBubbles.length - 1; i >= 0; i--) {
     const bubble = chatBubbles[i];
-
     bubble.y -= bubble.dy;
     bubble.alpha -= 0.001;
 
@@ -95,7 +96,6 @@ function drawHostCanvas() {
       chatBubbles.splice(i, 1);
       continue;
     }
-
     hostCtx.globalAlpha = bubble.alpha;
     hostCtx.fillStyle = "#FFF"; // 완전한 검정
     hostCtx.font = "20px sans-serif";

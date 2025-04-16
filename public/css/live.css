@@ -282,7 +282,7 @@ a {
 
 /* 다른 사람이 보낸 메시지는 왼쪽 */
 .chat-message.other-message {
-    background: #fff;
+    background: #a7f5d7;
     align-self: flex-start;  /* 왼쪽 정렬 */
     text-align: left;
 }

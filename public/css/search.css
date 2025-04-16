@@ -22,7 +22,7 @@ html, body {
   flex-direction: column;
   width: 80%;
   min-height: 600px;
-  padding-bottom: 100px; /* 필요시 유지 */
+  padding-bottom: 150px; 
   margin: 40px auto;
   flex: 1;
 }
@@ -30,7 +30,7 @@ html, body {
   #search_form::after {
     content: "";
     display: block;
-    height: 150px; /* footer나 fixed 플레이어만큼 여백 추가 */
+    height: 150px; 
   }
 
   .search-header, .music-item {
@@ -73,8 +73,7 @@ html, body {
     color: #555;
   }
 
-  
-/* 🎛️ 커스텀 오디오 플레이어 전체 */
+
 #custom-player {
   position: fixed;
   bottom: 0;
@@ -92,7 +91,7 @@ html, body {
   transition: all 0.3s ease;
 }
 
-/* 🎶 커스텀 플레이어 왼쪽 (커버 + 노래정보) */
+
 .player-left {
   flex: 0 0 300px;
   display: flex;
@@ -125,7 +124,7 @@ html, body {
   color: #aaa;
 }
 
-/* ▶️ 커스텀 플레이어 중앙 (재생버튼 + 바) */
+
 .player-center {
   display: flex;
   align-items: center;
@@ -164,7 +163,6 @@ html, body {
   margin-top: -5px;
 }
 
-/* 🎛️ 커스텀 플레이어 오른쪽 (메뉴버튼, 시간, 좋아요) */
 #menu-button {
   background: none;
   border: none;
@@ -199,7 +197,7 @@ html, body {
 
 .pagination {
   position: absolute;
-  bottom: 100px; /* 커스텀 플레이어 위 여백 */
+  bottom: 100px; 
   left: 0;
   right: 0;
   text-align: center;
