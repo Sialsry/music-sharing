@@ -11,9 +11,17 @@ router.get('/',async (req,res)=> {
     const {user} = req
     console.log("메인페이지 유저:", user); 
     const {musicList} = await musicController.musicSelectAll()
+    const chatList = await musicController.getPopularMusics()
+    const plainChatList = chatList.map(music => music.toJSON());
     const livePlaylists = await liveController.getLiveStatus();
     console.log('라이브 상태:', livePlaylists);
-    res.render('main',{user,musicList, livePlaylists, liveIds});
+    const arr = []
+    for (let i = 0; i < 12; i++) {
+        const music = Math.floor(Math.random() * musicList.length)
+        arr.push(musicList[music]);
+        musicList.splice(music, 1)
+    }
+    res.render('main',{user,musicList: arr, livePlaylists, liveIds ,plainChatList});
 });
 // 로그인
 router.get("/login", (req,res) => {
