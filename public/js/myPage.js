@@ -13,8 +13,6 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
     document.querySelector('.start-streaming-btn').setAttribute('data-playlist-id', playlistName);
     let playlistAndSongs = await axios.get(`/mypage/getPlaylistByName?index=${playlistName}`)
     playlistAndSongs = playlistAndSongs.data.playlist;
-    // console.log(playlistAndSongs, 'playlistAndSongssssssssssssssss');
-
     for(let i = 0; i < playlistAndSongs.length; i++) {
             const playlistCreatedDate = playlistAndSongs[0].createdAt.split('T')[0].replace(/-/g, '.')
             document.getElementById('popup-title').textContent = playlistAndSongs[i].playlistName;
@@ -26,12 +24,11 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
             songsContainer.innerHTML = '';
             playlistAndSongs.forEach(song => {
                 const songElement = document.createElement('li');
-                songElement.className = 'song-item';
+                songElement.className = 'search-song-item';
                 songElement.innerHTML = `
-                <div class="song-info" data-music-id="${song.Music.id}">
-                <div class="song-title">${song.Music.songName}</div>
-                <div class="song-artist">${song.Music.artist}</div>
-                </div>
+                <img class='search-song-img' src="/public/images/musicimages/${song.Music.songImg}" alt="${song.Music.songName}">
+                <div class="search-song-name">${song.Music.songName}</div>
+                <div class="search-song-artist">${song.Music.artist}</div>
                 <div class="song-actions">
                 <button class="song-action-btn delete-song-btn" title="곡 삭제">✕</button>
                 </div>
@@ -75,27 +72,26 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
                 })
                 .catch(error => {
                     console.error('곡 삭제 실패:', error);
-                    // alert('곡 삭제 중 오류가 발생했습니다.');
                 });
             }
         });
     });
 
     // 플레이리스트 음악 재생 버튼 클릭 이벤트
-    document.querySelectorAll('.song-info').forEach(songInfo => {
-        songInfo.addEventListener('click', async function() {
-            const musicId = songInfo.getAttribute('data-music-id');
-            const response = await axios.get(`/music/${musicId}`);
-            const { music, liked, musicList: serverMusicList } = response.data;
-            // console.log(response.data, 'response.data');
-            updateMusic(music);
-            audio.addEventListener('ended', function() {
-                document.getElementById('custom-player').style.visibility = 'hidden';
-                audio.currentTime = 0; // 음악이 끝나면 처음으로 돌아감
-                audio.pause();
-            })
-        });
-    });
+    // document.querySelectorAll('.song-info').forEach(songInfo => {
+    //     songInfo.addEventListener('click', async function() {
+    //         const musicId = songInfo.getAttribute('data-music-id');
+    //         const response = await axios.get(`/music/${musicId}`);
+    //         const { music, liked, musicList: serverMusicList } = response.data;
+    //         // console.log(response.data, 'response.data');
+    //         updateMusic(music);
+    //         audio.addEventListener('ended', function() {
+    //             document.getElementById('custom-player').style.visibility = 'hidden';
+    //             audio.currentTime = 0; // 음악이 끝나면 처음으로 돌아감
+    //             audio.pause();
+    //         })
+    //     });
+    // });
 
     // 플레이리스트 전체음악 재생 버튼 클릭 이벤트
     document.querySelector('#play_playlist_btn').addEventListener('click', async function () {
@@ -115,7 +111,7 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
                 if (currentIndex < musicResources.length) {
                     document.getElementById('player-title').innerText = playlistAndSongs[currentIndex].Music.songName;
                     document.getElementById('player-artist').innerText = playlistAndSongs[currentIndex].Music.artist;
-                    document.getElementById('player-img').src = `/public/images/${playlistAndSongs[currentIndex].Music.songImg}`;
+                    document.getElementById('player-img').src = `/public/images/musicimages/${playlistAndSongs[currentIndex].Music.songImg}`;
                     audio.src = `/public/musics/${musicResources[currentIndex]}`;
                     audio.play();
                     currentIndex++;
@@ -148,32 +144,13 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
             alert('플레이리스트 재생 중 오류가 발생했습니다.');
         });
     })
-        
-        
-        
-        
-        
-    //     let musicResources = await axios.get(`/mypage/playPlaylist?playlistName=${playlistName}`);
-    //     musicResources = musicResources.data.musicResources
-    //     const playerBar = document.getElementById('custom-player');
-    //     playerBar.style.visibility = 'visible';
-    //     playerBar.style.opacity = '1';
-    //     play_pause_btn.innerText = '⏸️'; // 재생 중 표시
-    //     for(let i = 0; i < musicResources.length; i++) {
-    //         audio.src = `/public/musics/${musicResources[i]}`;
-    //         await audio.play(); // 각 곡을 순차적으로 재생
-
-    //     }
-        
-    // })
-
 }
 
 
 function updateMusic(music) {
     document.getElementById('player-title').innerText = music.songName;
     document.getElementById('player-artist').innerText = music.artist;
-    document.getElementById('player-img').src = `/public/images/${music.songImg}`;
+    document.getElementById('player-img').src = `/public/images/musicimages/${music.songImg}`;
 
     audio.src = `/public/musics/${music.musicResource}`;
     audio.play();
@@ -472,7 +449,7 @@ document.getElementById("search-bar").addEventListener("keypress", function(even
                 results.forEach(music => { 
                     const songImg = document.createElement("img");
                     songImg.className = "search-song-img";
-                    songImg.src = music.songImg;
+                    songImg.src = `/public/images/musicimages/`+music.songImg;
                     const songName = document.createElement("div");
                     songName.className = "search-song-name";
                     songName.innerHTML = music.songName;
@@ -536,13 +513,13 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
         .then(response => {
             const results = response.data.results;
             const songsContainer = document.getElementById("playlist-songs");
-            songsContainer.innerHTML = ''; // 기존 결과 초기화
-
+            const searchContainer = document.getElementById("add-song-form");
+            console.log(results, 'results');
             if (results.length > 0) { 
                 results.forEach(music => { 
                     const songImg = document.createElement("img");
                     songImg.className = "search-song-img";
-                    songImg.src = music.songImg;
+                    songImg.src = `/public/images/musicimages/`+music.songImg;
                     const songName = document.createElement("div");
                     songName.className = "search-song-name";
                     songName.innerHTML = music.songName;
@@ -555,7 +532,7 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
                     const songItem = document.createElement("li");
                     songItem.className = "search-song-item";
                     songItem.append(songImg, songName, artist, addButton);
-                    songsContainer.appendChild(songItem);
+                    searchContainer.appendChild(songItem);
 
                     addButton.onclick = async () => {
                         await axios.post('/mypage/addSongToPlaylist', {
@@ -654,14 +631,4 @@ document.getElementById('edit-profile-overlay').addEventListener('click', functi
         closeEditProfilePopup();
     }
 });
-
-
-
-
-
-
-
-// ---------------------------------------------------------플레이리스트 음악 재생 기능
-
-// 플레이리스트 음악 재생 버튼 클릭 이벤트
 
