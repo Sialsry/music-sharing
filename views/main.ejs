@@ -9,9 +9,19 @@
 <body>
     <%- include("common/header") %>
    <div class="content-form">
-
-       <div class="Streaming">
-           
+     <div class="Streaming">
+      <% for(let i = 0; i < livePlaylists.length; i++) { %>
+        <% const playlist = livePlaylists[i]; %>
+        <% const broadcastId = liveIds[i]; %>
+          <div class="live-playlist">
+            <img src="/public/images/logo_seaweed.png" alt="Live Logo" class="live-logo">
+            <h3><%= playlist.playlistName %></h3>
+            <p>현재 방송 중</p>
+            <a href="/live/viewers?playlistName=<%= encodeURIComponent(playlist.playlistName) %>&broadcastId=<%= broadcastId %>">
+              <button>시청하기</button>
+            </a>
+          </div>
+        <% } %>
     </div>
     <div class="music">
       <div class="music-move">

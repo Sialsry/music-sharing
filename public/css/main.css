@@ -12,8 +12,7 @@
 .Streaming {
   width: 300px;
   height: 88vh;
-  background-color: aquamarine;
-  margin: 30px 0 0 30px;
+  margin: 45px 0 0 30px;
 }
 
 .music {
@@ -289,4 +288,63 @@ a .kakao-img {
 
 .player-like button:hover {
   color: #1db954;
+}
+
+/* --------------------------------- */
+.Streaming {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 30px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.live-playlist {
+  background-color: #f0f8ff;
+  border: 1px solid #a1c4fd;
+  border-radius: 16px;
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.live-playlist:hover {
+  transform: scale(1.05);
+}
+
+.live-playlist h3 {
+  margin: 10px 0 5px;
+  font-size: 1.2rem;
+}
+
+.live-playlist p {
+  color: #ff4500;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.live-playlist button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.live-playlist button:hover {
+  background-color: #45a049;
+}
+
+.live-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }

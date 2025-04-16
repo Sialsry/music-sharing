@@ -238,7 +238,7 @@ document.getElementById('add-songs-toggle').addEventListener('click', function()
 // 라이브 스트리밍 시작 버튼 이벤트
 document.querySelector('.start-streaming-btn').addEventListener('click', function() {
     const PlaylistId = document.querySelector('.start-streaming-btn').getAttribute('data-playlist-id');
-    window.location.href = `/live?playlistName=${PlaylistId}`;
+        window.location.href = `/live?playlistName=${PlaylistId}`;
 });
 
 // 플레이리스트 팝업 닫기 함수
