@@ -1,15 +1,20 @@
 const router = require('express').Router();
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const {userController,musicController} = require('../controllers')
-
+const {userController,musicController, liveController} = require('../controllers')
 
 
 router.get('/',async (req,res)=> {
+    const broadcasters = req.app.locals.broadcasters || {};
+    const liveIds = Object.keys(broadcasters); 
+
     const {user} = req
+    console.log("메인페이지 유저:", user); 
     const {musicList} = await musicController.musicSelectAll()
-    res.render('main',{user,musicList});
-})
+    const livePlaylists = await liveController.getLiveStatus();
+    console.log('라이브 상태:', livePlaylists);
+    res.render('main',{user,musicList, livePlaylists, liveIds});
+});
 // 로그인
 router.get("/login", (req,res) => {
     const kakaoAuth = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URL}`
@@ -60,5 +65,6 @@ router.get('/kakao/callback', async (req,res)=> {
     res.redirect('/');
 })
 
+router.post("/updateLiveStatus", liveController.updateLiveStatus);
 
 module.exports = router

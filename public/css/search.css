@@ -1,6 +1,36 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 #search_form {
-    width: 80%;
-    margin: 40px auto;
+  position: relative;
+  flex: 1;
+}
+#search_container {
+  display: flex;
+  flex-direction: column;
+  min-height: 650px;
+}
+
+
+#search_form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  min-height: 600px;
+  padding-bottom: 100px; /* 필요시 유지 */
+  margin: 40px auto;
+  flex: 1;
+}
+
+  #search_form::after {
+    content: "";
+    display: block;
+    height: 150px; /* footer나 fixed 플레이어만큼 여백 추가 */
   }
 
   .search-header, .music-item {
@@ -22,7 +52,7 @@
   }
 
   .header-img, .header-title, .header-artist,
-  .music-img, .music-info, .music-artist {
+  .music-img, .music-form, .music-artist {
     width: 33.33%;
     box-sizing: border-box;
   }
@@ -33,7 +63,7 @@
     object-fit: cover;
   }
 
-  .music-info a {
+  .music-form a {
     text-decoration: none;
     color: #333;
     font-weight: 500;
@@ -42,3 +72,151 @@
   .music-artist {
     color: #555;
   }
+
+  
+/* 🎛️ 커스텀 오디오 플레이어 전체 */
+#custom-player {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  background: #202020;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.6);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* 🎶 커스텀 플레이어 왼쪽 (커버 + 노래정보) */
+.player-left {
+  flex: 0 0 300px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.player-left img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#player-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#player-artist {
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ▶️ 커스텀 플레이어 중앙 (재생버튼 + 바) */
+.player-center {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 220px;
+}
+
+#play-pause-btn {
+  font-size: 30px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#play-pause-btn:hover {
+  transform: scale(1.2);
+}
+
+#seek-bar {
+  width: 250px;
+  height: 5px;
+  border-radius: 5px;
+  background: #444;
+  outline: none;
+}
+
+#seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #1db954;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+/* 🎛️ 커스텀 플레이어 오른쪽 (메뉴버튼, 시간, 좋아요) */
+#menu-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+#menu-button:hover {
+  color: #1db954;
+}
+
+#current-time, #duration {
+  font-size: 12px;
+}
+
+.player-like button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-right: 50px;
+}
+
+.player-like button:hover {
+  color: #1db954;
+}
+
+.pagination {
+  position: absolute;
+  bottom: 100px; /* 커스텀 플레이어 위 여백 */
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.pagination a,
+.pagination span.current {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+.pagination span.current {
+  background-color: #333;
+  color: #fff;
+}
