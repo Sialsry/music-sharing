@@ -193,8 +193,6 @@ audio.ontimeupdate = () => {
     duration.innerText = formatTime(audio.duration);
 };
 
-
-
 // 플레이리스트 삭제
 document.querySelectorAll('.delete-playlist-btn').forEach(button => {
     button.addEventListener('click', async function(e) {
@@ -570,9 +568,10 @@ document.getElementById("search-bar2").addEventListener("keypress", function(eve
 });
 
 
+
 // ---------------------------------------------------------프로필 수정 관련 기능    
-    
-    
+
+  
 // 프로필 수정 팝업 열기
 document.querySelector('.edit-profile').addEventListener('click', function(e) {
     e.preventDefault();
