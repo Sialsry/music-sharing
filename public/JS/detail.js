@@ -39,8 +39,8 @@ volumeBar.oninput = () => {
 
 // 🎵 음악 업데이트
 function updateMusic(music) {
-    document.getElementById('player-title').innerText = music.songName;
-    document.getElementById('player-artist').innerText = music.artist;
+    document.getElementById('player-title').innerText = music.artist;
+    document.getElementById('player-artist').innerText = music.songName;
     document.getElementById('player-img').src = `public/images/musicimages/${music.songImg}`;
     audio.src = `/public/musics/${music.musicResource}`;
     audio.play();
@@ -90,14 +90,15 @@ likeButton.onclick = async () => {
         if (result.state === 200) {
             if (result.message === "좋아요 완료") {
                 likeButton.innerText = '❤️';
+                showSuccessAlert("좋아요 완료")
             } else if (result.message === "좋아요 삭제") {
                 likeButton.innerText = '🤍';
+                showSuccessAlert("좋아요 삭제")
             }
-        } else {
-            alert('좋아요 처리 실패');
         }
     } catch (error) {
         console.error('좋아요 실패:', error);
+        window.location.href = '/login'
     }
 };
 
@@ -160,7 +161,7 @@ prevButton.onclick = async () => {
         }
 
     } else {
-        console.log('처음 곡입니다. 더 이상 이전 곡이 없습니다.');
+        showErrorAlert('처음 곡입니다. 더 이상 이전 곡이 없습니다.');
     }
 };
 
@@ -200,7 +201,6 @@ async function playRandomNext() {
 }
 // 🎯 + 버튼 누를 때 (모달 열기)
 plusBtn.onclick = async () => {
-    console.log('🎯 currentMusicId:', currentMusicId);
     try {
         const response = await axios.get('/music/playlist/list', {
             withCredentials: true
@@ -228,7 +228,7 @@ plusBtn.onclick = async () => {
         header.classList.add('modal-header');
 
         const title = document.createElement('h2');
-        title.innerText = '플레이리스트 선택';
+        title.innerText = '플레이 리스트 선택';
         title.classList.add('modal-title');
         header.appendChild(title);
 
@@ -247,13 +247,13 @@ plusBtn.onclick = async () => {
             item.innerText = playlist.playlistName;
             item.classList.add('playlist-item');
 
-            // 플레이리스트 클릭 시 현재 노래 추가
+            // 플레이 리스트 클릭 시 현재 노래 추가
             item.onclick = async () => {
                 try {
                   const musicIds = window.selectedMusicIds || (currentMusicId ? [currentMusicId] : []);
               
                   if (musicIds.length === 0) {
-                    alert('플레이리스트에 담을 곡이 없습니다!');
+                    showErrorAlert('플레이리스트에 담을 곡이 없습니다!');
                     return;
                   }
               
@@ -270,7 +270,7 @@ plusBtn.onclick = async () => {
                   const filtered = musicIds.filter(id => !alreadyInPlaylist.includes(Number(id)));
               
                   if (filtered.length === 0) {
-                    alert('이미 해당 재생목록에 추가된 곡입니다!');
+                    showErrorAlert('이미 해당 재생목록에 추가된 곡입니다!');
                     return;
                   }
               
@@ -283,21 +283,21 @@ plusBtn.onclick = async () => {
                     withCredentials: true
                   });
               
-                  alert('선택한 곡들이 플레이리스트에 담겼습니다!');
+                  showSuccessAlert('선택한 곡들이 플레이리스트에 담겼습니다!');
+                  
                   playlistModal.style.display = 'none';
                   document.querySelectorAll('.music-checkbox:checked').forEach(cb => cb.checked = false);
                 } catch (error) {
-                  console.error('플레이리스트 담기 실패:', error);
-                  alert('추가 실패!');
+                  console.error('플레이 리스트 담기 실패:', error);
                 }
               };                
 
             modalContent.appendChild(item);
         });
 
-        // 새 재생목록 추가 버튼
+        // 새 플레이 리스트 추가 버튼
         const createNewPlaylistBtn = document.createElement('div');
-        createNewPlaylistBtn.innerText = '+ 새 재생목록 추가';
+        createNewPlaylistBtn.innerText = '+ 새 플레이 리스트 추가';
         createNewPlaylistBtn.classList.add('create-playlist-button');
         createNewPlaylistBtn.onclick = () => {
             document.getElementById('playlist-modal').style.display = 'none';
@@ -306,16 +306,19 @@ plusBtn.onclick = async () => {
         modalContent.appendChild(createNewPlaylistBtn);
 
     } catch (error) {
-        console.error('플레이리스트 가져오기 실패:', error);
+        console.error('플레이 리스트 가져오기 실패:', error);
+        window.location.href = "/login"
     }
 };
 
-// 🎯 새 재생목록 만들기 버튼 (현재 음악을 바로 담기)
+// 🎯 새 플레이 리스트 만들기 버튼 (현재 음악을 바로 담기)
 createPlaylistBtn.onclick = async () => {
     const playlistName = document.getElementById('new-playlist-name').value.trim();
-  
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    if(!regex.test(playlistName)) return showErrorAlert('특수문자를 제외해주세요.')
+    document.getElementById('new-playlist-name').value = ""
     if (!playlistName) {
-      alert('재생목록 이름을 입력하세요.');
+      showErrorAlert('플레이 리스트 이름을 입력하세요.');
       return;
     }
   
@@ -330,7 +333,7 @@ createPlaylistBtn.onclick = async () => {
       : (currentMusicId ? [currentMusicId] : []);
   
     if (validIds.length === 0) {
-      alert('플레이리스트에 담을 곡이 없습니다!');
+      showErrorAlert('플레이리스트에 담을 곡이 없습니다!');
       return;
     }
   
@@ -347,28 +350,29 @@ createPlaylistBtn.onclick = async () => {
         withCredentials: true
             });
   
-      alert('재생목록이 생성되었습니다.');
+      showSuccessAlert('재생목록이 생성되었습니다.');
       document.getElementById('new-playlist-modal').style.display = 'none';
       playlistModal.style.display = 'none';
       document.querySelectorAll('.music-checkbox:checked').forEach(cb => cb.checked = false);
       selectAllCheckbox.checked = false;
     } catch (error) {
       console.error('생성 실패:', error);
-      alert('생성 실패!');
+      showErrorAlert('플레이 리스트 이름이 너무 깁니다.');
     }
 };
   
-// 🎯 새 재생목록 모달 취소 버튼
+// 🎯 새 플레이 리스트 모달 취소 버튼
 cancelCreateBtn.onclick = () => {
-    document.getElementById('new-playlist-modal').style.display = 'none';
+  document.getElementById('new-playlist-name').value = ""
+  document.getElementById('new-playlist-modal').style.display = 'none';
 };
-
+// + 담기 버튼 클릭이벤트
 addToPlayListBtn.onclick = async () => {
     const checked = document.querySelectorAll('.music-checkbox:checked');
     const selectedIds = Array.from(checked).map(cb => cb.dataset.musicId);
   
     if (selectedIds.length === 0) {
-      alert('플레이리스트에 담을 곡을 선택해주세요!');
+      showErrorAlert('플레이리스트에 담을 곡을 선택해주세요!');
       return;
     }
   
@@ -398,7 +402,7 @@ addToPlayListBtn.onclick = async () => {
       const header = document.createElement('div');
       header.classList.add('modal-header');
       header.innerHTML = `
-        <h2 class="modal-title">플레이리스트 선택</h2>
+        <h2 class="modal-title">플레이 리스트 선택</h2>
         <button class="close-button">✖</button>
       `;
       header.querySelector('.close-button').onclick = () => {
@@ -420,19 +424,19 @@ addToPlayListBtn.onclick = async () => {
               withCredentials: true
             });
   
-            alert('선택한 곡들이 플레이리스트에 담겼습니다!');
+            showSuccessAlert('선택한 곡들이 플레이리스트에 담겼습니다!');
             playlistModal.style.display = 'none';
             document.querySelectorAll('.music-checkbox:checked').forEach(cb => cb.checked = false);
           } catch (err) {
             console.error('추가 실패!', err);
-            alert('추가 실패!');
+            showErrorAlert('플레이 리스트에 중복노래가 존재합니다.')
           }
         };
         modalContent.appendChild(item);
       });
   
     const createNewPlaylistBtn = document.createElement('div');
-    createNewPlaylistBtn.innerText = '+ 새 재생목록 추가';
+    createNewPlaylistBtn.innerText = '+ 새 플레이 리스트 추가';
     createNewPlaylistBtn.classList.add('create-playlist-button');
     createNewPlaylistBtn.onclick = () => {
         playlistModal.style.display = 'none';
@@ -440,7 +444,7 @@ addToPlayListBtn.onclick = async () => {
       };
     modalContent.appendChild(createNewPlaylistBtn);
     } catch (error) {
-      console.error('플레이리스트 가져오기 실패:', error);
+      console.error('플레이 리스트 가져오기 실패:', error);
     }
 };
 
@@ -459,3 +463,42 @@ musicCheckboxes.forEach(cb => {
     selectAllCheckbox.checked = allChecked;
   });
 });
+// 실패 알림
+function showErrorAlert(message) {
+  const alertElement = document.createElement('div');
+  alertElement.className = 'error-alert';
+  alertElement.textContent = message;
+  
+  document.body.appendChild(alertElement);
+  
+  setTimeout(() => {
+      alertElement.classList.add('show');
+  }, 10);
+
+  setTimeout(() => {
+      alertElement.classList.remove('show');
+      setTimeout(() => {
+          alertElement.remove();
+      }, 300);
+  }, 3000);
+}
+
+// 성공 알림 표시
+function showSuccessAlert(message) {
+  const alertElement = document.createElement('div');
+  alertElement.className = 'error-alert';
+  alertElement.style.backgroundColor = '#4CAF50';
+  alertElement.textContent = message;
+  document.body.appendChild(alertElement);
+  
+  setTimeout(() => {
+      alertElement.classList.add('show');
+  }, 10);
+  
+  setTimeout(() => {
+      alertElement.classList.remove('show');
+      setTimeout(() => {
+          alertElement.remove();
+      }, 300);
+  }, 3000);
+}

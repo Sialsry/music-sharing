@@ -1,4 +1,6 @@
-/* 🧹 기본 초기화 */
+@import url('errorAlert.css');
+@import url('playbar.css');
+
 * {
   padding: 0;
   margin: 0;

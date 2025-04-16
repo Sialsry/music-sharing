@@ -64,13 +64,16 @@ router.get('/:id/likecheck', async (req, res) => {
   }
 });
 router.get('/playlist/list', async (req,res)=> {
+    if(!req.user) {
+        return res.json("로그인 필요");
+    }
     const {user} = req
     try {
         const result = await playlistController.getAllPlaylists(user.id)
         console.log(result);
         return res.json(result)
     } catch (error) {
-        
+        return console.log(error)
     }
 })
 
