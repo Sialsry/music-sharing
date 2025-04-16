@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Search Result</title>
-  <link rel="stylesheet" href="../public//css/search.css" />
+  <link rel="stylesheet" href="/public/css/search.css" />
 </head>
 <body>
   <%- include('common/header') %>
+  <div id="search_container">
   <div id="search_form">
     <% if (results.length > 0) { %>
       <div class="search-header">
@@ -15,24 +16,94 @@
         <div class="header-title">노래 제목</div>
         <div class="header-artist">아티스트</div>
       </div>
-      <% results.forEach(music => { %>
+      <% for (let i = 0; i < results.length; i++) { %>
         <div class="music-item">
           <div class="music-img">
-            <img src="/public/images/<%= music.songImg %>" alt="Album Cover" />
+            <img src="/public/images/musicimages/<%= results[i].songImg %>" alt="Album Cover" />
           </div>
-          <div class="music-info">
-            <a href="#"><%= music.songName %></a>
+          <div class="music-form" data-id="<%= results[i].id %>">
+            <div><%= results[i].songName %></div>
           </div>
           <div class="music-artist">
-            <%= music.artist %>
+            <%= results[i].artist %>
           </div>
         </div>
-      <% }) %>
-    <% } else { %>
-      <p style="text-align: center; padding: 20px;">검색 결과가 없습니다.</p>
-    <% } %>
+      <% } %>
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+          <a href="?index=<%= searchQuery %>&page=<%= currentPage - 1 %>">이전</a>
+        <% } %>
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <% if (i === currentPage) { %>
+            <span class="current"><%= i %></span>
+          <% } else { %>
+            <a href="?index=<%= searchQuery %>&page=<%= i %>"><%= i %></a>
+          <% } %>
+        <% } %>
+        <% if (currentPage < totalPages) { %>
+          <a href="?index=<%= searchQuery %>&page=<%= currentPage + 1 %>">다음</a>
+        <% } %>
+      </div>
+      <% } else { %>
+        <p style="text-align: center; padding: 20px;">검색 결과가 없습니다.</p>
+        <% } %>
+      </div>
+    </div>
+
+  <!-- 숨긴 오디오 -->
+<audio id="audio" src="" style="display: none;"></audio>
+
+<!-- 커스텀 플레이어 -->
+<div id="custom-player">
+  <!-- 왼쪽: 앨범 커버 + 노래 정보 -->
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title"></div>
+      <div id="player-artist"></div>
+    </div>
   </div>
-</body>
-<script>
-</script>
+
+  <!-- 중앙: 재생버튼 + 진행바 + 현재시간/총시간 -->
+  <div class="player-center">
+    <div class="player-buttons">
+      <button id="prev-btn">⏮️</button>
+      <button id="play-pause-btn">▶️</button>
+      <button id="next-btn">⏭️</button>
+    </div>
+    <div class="player-bar">
+      <input type="range" id="seek-bar" value="0" min="0" max="100">
+      <div class="time-info">
+        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오른쪽: 좋아요 버튼 + 볼륨 + 메뉴 버튼 -->
+  <div class="player-right">
+    <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
+    <button id="like-button">🤍</button>
+    <button id="plus-button">+</button>
+  </div>
+</div>
+<!-- 모달창 기본 구조 추가 -->
+<div id="playlist-modal">
+  <div id="modal-content">
+    
+  </div>
+</div>
+<!-- 새 플레이 리스트 추가 모달 (숨김 기본) -->
+<div id="new-playlist-modal" class="playlist-modal" style="display: none;">
+  <div id="new-playlist-content" class="playlist-modal-content">
+    <h2>새 플레이 리스트 만들기</h2>
+    <input type="text" id="new-playlist-name" placeholder="플레이 리스트 이름 입력" class="playlist-input" />
+    <div class="modal-buttons">
+      <button id="create-playlist-btn" class="confirm-button">만들기</button>
+      <button id="cancel-create-btn" class="cancel-button">취소</button>
+    </div>
+  </div>
+</div>
+s</body>
+<%- include('common/footer')%>
+<script src="../public/JS/main.js"></script>
 </html>
