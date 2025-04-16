@@ -1,0 +1,70 @@
+@import url('errorAlert.css');
+@import url('playbar.css');
+.btns {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 60px;
+    gap: 10px;
+
+}
+.btns button {
+    border: 1px #555;
+    border-radius: 15px;
+}
+
+.music-header {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    border-bottom: 2px solid #ccc;
+    padding: 10px 60px;
+}
+
+.music-header span {
+    margin-left: 20px;
+}
+
+.all-music-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+}
+
+.music-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.music-item input {
+    margin-right: 10px;
+}
+
+.music-rank {
+    width: 30px;
+    text-align: center;
+}
+
+.music-cover {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin: 0 15px;
+}
+
+.music-info {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+  
+.music-artist {
+    font-size: 14px;
+    color: #555;
+}
+  
+.music-title {
+    font-size: 16px;
+    font-weight: bold;
+}
