@@ -1,3 +1,5 @@
+@import url('errorAlert.css');
+@import url('playbar.css');
 .btns {
     display: flex;
     justify-content: flex-start;

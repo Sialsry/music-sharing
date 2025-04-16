@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>구이김&뮤직스</title>
     <link rel="stylesheet" href="/public/css/main.css">
-    <link rel="stylesheet" href="/public/css/playbar.css">
+
 </head>
 <body>
     <%- include("common/header") %>
@@ -22,8 +22,8 @@
         <% for(let i =0; i < musicList.length; i++){ %>
             <div class="music-form" data-id="<%= musicList[i].id %>">
                 <img src="/public/images/musicimages/<%= musicList[i].songImg %>" alt="">
-                <div>가수 : <%= musicList[i].artist %></div>
-                <div>제목 : <%= musicList[i].songName %></div>
+                <div><%= musicList[i].artist %></div>
+                <div><%= musicList[i].songName %></div>
             </div>
         <% } %>
     </div>
@@ -99,11 +99,11 @@
     
   </div>
 </div>
-<!-- 새 재생목록 추가 모달 (숨김 기본) -->
+<!-- 새 플레이 리스트 추가 모달 (숨김 기본) -->
 <div id="new-playlist-modal" class="playlist-modal" style="display: none;">
   <div id="new-playlist-content" class="playlist-modal-content">
-    <h2>새 재생목록 만들기</h2>
-    <input type="text" id="new-playlist-name" placeholder="재생목록 이름 입력" class="playlist-input" />
+    <h2>새 플레이 리스트 만들기</h2>
+    <input type="text" id="new-playlist-name" placeholder="플레이 리스트 이름 입력" class="playlist-input" />
     <div class="modal-buttons">
       <button id="create-playlist-btn" class="confirm-button">만들기</button>
       <button id="cancel-create-btn" class="cancel-button">취소</button>
