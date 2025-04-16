@@ -4,76 +4,120 @@ html, body {
   padding: 0;
   display: flex;
   flex-direction: column;
+  font-family: 'Helvetica Neue', sans-serif;
+  background: #f4f7fb;
 }
 
-#search_form {
-  position: relative;
-  flex: 1;
-}
 #search_container {
   display: flex;
   flex-direction: column;
   min-height: 650px;
 }
 
-
+/* 검색 폼 스타일 */
 #search_form {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 80%;
-  min-height: 600px;
-  padding-bottom: 150px; 
-  margin: 40px auto;
+  min-height: 510px;
+  padding: 40px 30px 150px;
+  margin:  auto;
   flex: 1;
+  background: linear-gradient(to bottom right, #ffffff, #f9fbff);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-  #search_form::after {
-    content: "";
-    display: block;
-    height: 150px; 
-  }
+#search_form::after {
+  content: "";
+  display: block;
+  height: 150px;
+}
 
-  .search-header, .music-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px 0;
-  }
+/* 리스트 헤더 */
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #e3f2fd;
+  border-bottom: 2px solid #90caf9;
+  color: #0d47a1;
+}
 
-  .search-header {
-    font-weight: bold;
-    border-bottom: 2px solid #000;
-    background-color: #f1f1f1;
-  }
+/* 리스트 아이템 */
+.music-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s;
+}
 
-  .music-item {
-    border-bottom: 1px solid #ddd;
-  }
+.music-item:hover {
+  background-color: #f5faff;
+}
 
-  .header-img, .header-title, .header-artist,
-  .music-img, .music-form, .music-artist {
-    width: 33.33%;
-    box-sizing: border-box;
-  }
+/* 열 레이아웃 */
+.header-img, .header-title, .header-artist,
+.music-img, .music-form, .music-artist {
+  width: 33.33%;
+  box-sizing: border-box;
+}
 
-  .music-img img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-  }
+/* 이미지 */
+.music-img img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
 
-  .music-form a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-  }
+/* 곡명 링크 */
+.music-form {
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+}
+.music-form:hover {
+  background-color: #f0f8ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+.music-form:active {
+  transform: scale(0.96);
+  background-color: #d6ecff;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.music-form a {
+  text-decoration: none;
+  color: #1a237e;
+  font-weight: bold;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+.music-form a:hover {
+  color: #3949ab;
+  text-decoration: underline;
+}
 
-  .music-artist {
-    color: #555;
-  }
+/* 아티스트 */
+.music-artist {
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
+}
 
 
+/* 커스텀 플레이어 */
 #custom-player {
   position: fixed;
   bottom: 0;
@@ -91,7 +135,6 @@ html, body {
   transition: all 0.3s ease;
 }
 
-
 .player-left {
   flex: 0 0 300px;
   display: flex;
@@ -99,7 +142,6 @@ html, body {
   gap: 10px;
   overflow: hidden;
 }
-
 .player-left img {
   width: 60px;
   height: 60px;
@@ -107,23 +149,19 @@ html, body {
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
-
 .player-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-
 #player-title {
   font-size: 16px;
   font-weight: bold;
 }
-
 #player-artist {
   font-size: 14px;
   color: #aaa;
 }
-
 
 .player-center {
   display: flex;
@@ -131,7 +169,6 @@ html, body {
   gap: 15px;
   margin-right: 220px;
 }
-
 #play-pause-btn {
   font-size: 30px;
   background: none;
@@ -140,11 +177,9 @@ html, body {
   cursor: pointer;
   transition: transform 0.2s;
 }
-
 #play-pause-btn:hover {
   transform: scale(1.2);
 }
-
 #seek-bar {
   width: 250px;
   height: 5px;
@@ -152,7 +187,6 @@ html, body {
   background: #444;
   outline: none;
 }
-
 #seek-bar::-webkit-slider-thumb {
   appearance: none;
   width: 14px;
@@ -172,7 +206,6 @@ html, body {
   padding: 5px;
   transition: color 0.2s;
 }
-
 #menu-button:hover {
   color: #1db954;
 }
@@ -190,14 +223,14 @@ html, body {
   transition: color 0.2s;
   margin-right: 50px;
 }
-
 .player-like button:hover {
   color: #1db954;
 }
 
+/* 페이지네이션 */
 .pagination {
   position: absolute;
-  bottom: 100px; 
+  bottom: 15px; 
   left: 0;
   right: 0;
   text-align: center;
@@ -213,7 +246,6 @@ html, body {
   color: #333;
   font-weight: bold;
 }
-
 .pagination span.current {
   background-color: #333;
   color: #fff;

@@ -27,7 +27,7 @@ function formatTime(seconds) {
 function updateMusic(music) {
     document.getElementById('player-title').innerText = music.songName;
     document.getElementById('player-artist').innerText = music.artist;
-    document.getElementById('player-img').src = `/public/images/musicimages${music.songImg}`;
+    document.getElementById('player-img').src = `/public/images/musicimages/${music.songImg}`;
     audio.src = `/public/musics/${music.musicResource}`;
     audio.play();
 
@@ -181,3 +181,12 @@ function playRandomNext() {
     history.push(nextIndex);
     currentHistoryIndex = history.length - 1;
 }
+
+document.querySelectorAll('.music-form').forEach(form => {
+    form.addEventListener('click', () => {
+      form.style.backgroundColor = '#dff0d8';
+      setTimeout(() => {
+        form.style.backgroundColor = '';
+      }, 200); // 0.2초 뒤 원래 색으로 돌아감
+    });
+  });

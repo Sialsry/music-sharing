@@ -22,7 +22,6 @@ app.use("/music", express.static(path.join(__dirname, "public/musics")));
 app.use(cookieParser());
 app.use(loginCheck);
 
-
 app.use('/', mainRouter);
 app.use('/detail', detailRouter);
 app.use('/music', musicRouter);
