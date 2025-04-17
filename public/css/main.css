@@ -147,7 +147,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: url('/public/images/profile_background.png') no-repeat center center;
+  background: url('/public/images/profile_background1.png') no-repeat center center;
   background-size: cover;
   filter: blur(0.5px);
   opacity: 0.6;
