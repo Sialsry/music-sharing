@@ -65,7 +65,7 @@ a {
 
 /* My Page Styling */
 main {
-    max-width: 1300px;
+    max-width: 1650px;
     margin: 0 10vw;
     padding: 30px 20px;
     height: 75.55vh;
@@ -175,17 +175,20 @@ main {
 
 .tab-content.active {
     display: block;
-    height: 45vh;
+    height: 40vh;
     overflow-y: scroll;
+    padding-right: 20px;
 }
 
 .tab-content::-webkit-scrollbar-thumb {
     background-color: #4e54c8;
     border-radius: 10px;
+    border: 2px solid #f5f5f7;
 }
 .tab-content::-webkit-scrollbar {
     width: 8px;
-    background-color: #f5f5f7;
+    background-color: #f5f5f7; 
+
 }
 
 /* .tab-content.active::-webkit-scrollbar{
@@ -195,7 +198,7 @@ main {
 .playlist-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
+    gap: 35px;
     margin-bottom: 40px;
 }
 
@@ -1272,9 +1275,29 @@ footer {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 2000;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 490px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 7px;
 }
+
+.confirm-btn-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.confirmMessage {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
 
 .confirm-yes-btn {
     background-color: #4CAF50;
@@ -1296,7 +1319,14 @@ footer {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-left: 10px;
 }
 .confirm-no-btn:hover {
     background-color: #e53935;
 }
+
+.confirm-alert.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+

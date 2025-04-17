@@ -43,16 +43,16 @@ async function openPlaylistPopup(card) { // 플레이리스트 팝업 열기
     // 플레이리스트 내부 곡 삭제 이벤트
     document.querySelectorAll('.delete-song-btn').forEach(button => {
         button.addEventListener('click', async function(e) {
-            e.stopPropagation(); // 이벤트 전파 방지
+            //e.stopPropagation(); // 이벤트 전파 방지
             const songElement = button.closest('.song-item');
             const music_id = songElement.querySelector('.song-info').getAttribute('data-music-id');
             const playlistName = document.querySelector('.playlist-popup').getAttribute('data-playlist-id');
-            const confirmDelete = confirm('정말로 이 곡을 삭제하시겠습니까?');
+            const confirmDelete = await showConfirmAlert('       정말로 이 곡을 삭제하시겠습니까?    ');
             // 플레이리스트에 곡이 하나만 남은 경우 플레이리스트 자체가 삭제됨을 알림
             
             if (confirmDelete) {
                 if (playlistAndSongs.length === 1) {
-                    const deleteLastSong = confirm('남은 한 곡을 삭제할 경우 플레이리스트가 제거됩니다. 진행하시겠습니까?');
+                    const deleteLastSong = await showConfirmAlert('남은 한 곡을 삭제할 경우 플레이리스트가 제거됩니다. 진행하시겠습니까?');
                     if (deleteLastSong) {
                         await axios.post('/mypage/deletePlaylist', { playlistId: playlistName })
                         .then(response => {
@@ -424,11 +424,13 @@ function showSuccessAlert(message) {
     }, 3000);
 }
 
-// confirm 표시
 function showConfirmAlert(message) {
     const confirmElement = document.createElement('div');
     confirmElement.className = 'confirm-alert';
-    confirmElement.textContent = message;
+    
+    const confirmMessage = document.createElement('div');
+    confirmMessage.className = 'confirm-message';
+    confirmMessage.textContent = message;
     
     const yesButton = document.createElement('button');
     yesButton.textContent = '예';
@@ -437,11 +439,31 @@ function showConfirmAlert(message) {
     const noButton = document.createElement('button');
     noButton.textContent = '아니요';
     noButton.className = 'confirm-no-btn';
+
+    const btnBox = document.createElement('div');
+    btnBox.className = 'confirm-btn-box';
+
+
     
-    confirmElement.appendChild(yesButton);
-    confirmElement.appendChild(noButton);
+    confirmElement.appendChild(confirmMessage);
+    confirmElement.appendChild(btnBox);
+    btnBox.appendChild(yesButton);
+    btnBox.appendChild(noButton);
     
-    document.body.appendChild(confirmElement);
+    document.querySelector(".popup-header-info").append(confirmElement);
+   
+
+    setTimeout(() => {
+        document.querySelector('body').addEventListener('click', function(e) {
+            if (e.target !== confirmElement && e.target !== yesButton && e.target !== noButton) {
+                confirmElement.classList.remove('show');
+                confirmElement.remove();
+            }
+        });
+        confirmElement.classList.add('show');
+    }, 10);
+
+
     
     return new Promise((resolve) => {
         yesButton.addEventListener('click', () => {
