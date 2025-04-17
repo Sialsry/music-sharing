@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const {userController,musicController, liveController} = require('../controllers')
+const {userController,musicController, liveController, playlistController} = require('../controllers')
 
 
 router.get('/',async (req,res)=> {
@@ -10,11 +10,30 @@ router.get('/',async (req,res)=> {
         
     const {user} = req
     console.log("메인페이지 유저:", user); 
+    if(user){
+        user.likeCount = await playlistController.getUserLikeCount(user.id);
+        const playlistsData = await playlistController.getAllPlaylists(user.id);
+        const playlistNames = playlistsData.map((playlist) => playlist.playlistName);
+        const uniquePlaylistNames = [...new Set(playlistNames)];
+        songsByPlaylist = uniquePlaylistNames.map((playlistName) => {
+            return playlistsData.map((playlist) => {
+                if (playlist.playlistName === playlistName) {
+                    return playlist.Music;
+                }
+            }).filter((song) => song !== undefined);
+        });
+        user.playListCount = uniquePlaylistNames.map((playlistName) => {
+            return {
+                name: playlistName,
+                songs: songsByPlaylist.shift()
+            };
+        }).length;
+    }
+    
     const {musicList} = await musicController.musicSelectAll()
     const chatList = await musicController.getPopularMusics()
     const plainChatList = chatList.map(music => music.toJSON());
     const livePlaylists = await liveController.getLiveStatus();
-    console.log('라이브 상태:', livePlaylists);
     const arr = []
     for (let i = 0; i < 12; i++) {
         const music = Math.floor(Math.random() * musicList.length)
@@ -23,12 +42,12 @@ router.get('/',async (req,res)=> {
     }
     res.render('main',{user,musicList: arr, livePlaylists, liveIds ,plainChatList});
 });
-// 로그인
+
 router.get("/login", (req,res) => {
     const kakaoAuth = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URL}`
     res.redirect(kakaoAuth);
 })
-// 로그아웃
+
 router.get('/logout', (req,res)=> {
     res.clearCookie("login_access_token");
     res.redirect('/');
@@ -55,20 +74,16 @@ router.get('/kakao/callback', async (req,res)=> {
 
     const { access_token } = response.data;
 
-    // 유저 정보 조회
-
     const {data : userData} = await axios.get('https://kapi.kakao.com/v2/user/me', {
         headers : {
             Authorization: `Bearer ${access_token}`
         }   
     })
-    // 4000589952 고유 식별자
     const {id, properties} = userData;
 
     const userdata = await userController.userInfo(id)
-    // console.log(userdata.data.dataValues, 'userdataaaaaaaaaaaaaaaaa')
+   
     if(userdata.state === 200) {
-        // 이미 가입된 유저
         const token  = { 
                     id : userdata.data.dataValues.uid,
                     properties : { 
