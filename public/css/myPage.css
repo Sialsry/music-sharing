@@ -1038,6 +1038,7 @@ footer {
 #custom-player {
     position: fixed;
     bottom: 0;
+    box-sizing: border-box;
     width: 100%;
     height: 90px;
     background: #202020;
@@ -1091,6 +1092,16 @@ footer {
     align-items: center;
     gap: 15px;
     margin-right: 220px;
+    flex-direction: column;
+  }
+
+  .player-center div:first-child{
+    display: flex;
+    gap: 15px;
+  }
+
+  .player-center input{
+    width: 500px;
   }
   
   #play-pause-btn {

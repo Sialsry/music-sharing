@@ -31,17 +31,7 @@ router.get('/', loginCheck, async (req, res) => {
     res.render('myPage', { playlistAndSongs, user, count })
 });
 
-router.get('/live', async (req, res) => {
-    const playlistName = req.query.playlistName
-    res.render('liveStreaming', { playlistName })
-})
 
-
-
-router.get('/live', async (req, res) => {
-    const playlistName = req.query.playlistName
-    res.render('liveStreaming', { playlistName })
-})
 
 router.get('/getPlaylistByName', async (req, res) => {
     const playlistName = req.query.index || '';
