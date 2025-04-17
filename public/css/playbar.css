@@ -120,6 +120,7 @@
   #volume-bar {
     width: 80px;
   }
+
   #playlist-modal {
     position: fixed;
     display: none;
@@ -130,8 +131,14 @@
     background: rgba(0,0,0,0.6);
     align-items: center;
     justify-content: center;
+    z-index: 9999;
   }
   
+  #modal-content, #new-playlist-content{
+    padding: 50px 60px;
+    background: #fff;
+    border-radius: 20px;
+  }
   
   .modal-header {
     position: relative;
