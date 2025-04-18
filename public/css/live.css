@@ -274,26 +274,25 @@ a {
     margin: 5px 0;
 }
 
-/* 내가 보낸 메시지는 오른쪽 */
 .chat-message.my-message {
-    background: #ede883;
+    background-color: #DCF8C6;
+    color: #000000;
     align-self: flex-end;  /* 오른쪽 정렬 */
     text-align: right;
 }
 
-/* 다른 사람이 보낸 메시지는 왼쪽 */
 .chat-message.other-message {
-    background: #d4ded994;
+    background-color: #E0E0E0;
+    color: #333333;
     align-self: flex-start;  /* 왼쪽 정렬 */
     color: white;
     text-align: left;
 }
 
-/* 보낸 사람의 이름 스타일 */
 .user-name {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #4e54c8;
+    color: #666;
 }
 
 .message-text {
@@ -482,7 +481,8 @@ gap: 20px;
   }
   
   .my-message {
-    background-color: #dcf8c6;
+    background-color: #0b0b0a;
+    color: #000000;
     border-top-right-radius: 0;
     align-self: flex-end;  /* 오른쪽 정렬 */
     text-align: right;
@@ -490,7 +490,8 @@ gap: 20px;
   
   
   .other-message {
-    background-color: #fff;
+    background-color: #E0E0E0;
+    color: #333333;
     border-top-left-radius: 0;
     align-self: flex-start;  /* 왼쪽 정렬 */
     text-align: left;

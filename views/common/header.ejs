@@ -86,7 +86,7 @@
 
         <div class="nav-buttons">
             <% if(user){ %>
-                <img src="<%= user.properties.profile_image %>" alt="">
+                <img src="/<%= user.properties.profile_image %>" alt="">
                 <%- `${user.properties.nickname}님 환영합니다` %>
                 <a href="/mypage">My Page</a>
                 <a href="/logout">Log out</a>

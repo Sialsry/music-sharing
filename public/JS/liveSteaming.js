@@ -78,8 +78,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+
+
 function drawHostCanvas() {
-  
+  hostCanvas.width = hostCanvas.offsetWidth;
+  hostCanvas.height = hostCanvas.offsetHeight;
   hostCtx.clearRect(0, 0, hostCanvas.width, hostCanvas.height);
   hostCtx.imageSmoothingEnabled = false;
   if (imageLoaded) {
@@ -97,12 +100,18 @@ function drawHostCanvas() {
       chatBubbles.splice(i, 1);
       continue;
     }
-    hostCtx.globalAlpha = bubble.alpha;
-    hostCtx.fillStyle = "#FFF"; // 완전한 검정
-    hostCtx.font = "20px sans-serif";
+
+    hostCtx.strokeStyle = "#000";  // 검정색 테두리
+    hostCtx.lineWidth = 2;         
+    hostCtx.font = "15px sans-serif";
+    hostCtx.strokeText(bubble.text, bubble.x, bubble.y);  // 테두리 그리기
+    hostCtx.fillStyle = "#FFF";   // 텍스트 색상 (흰색)
+    hostCtx.strokeText(bubble.text, bubble.x, bubble.y);
+
+
+    hostCtx.fillStyle = "#FFF";   
     hostCtx.fillText(bubble.text, bubble.x, bubble.y);
-    hostCtx.globalAlpha = 1.0;
-  }
+      }
 
   requestAnimationFrame(drawHostCanvas);
 }
