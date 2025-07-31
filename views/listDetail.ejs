@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/detail.css">
+    <link rel="stylesheet" href="/public/css/playbar.css">
+    <title>구이김&뮤직스 전체곡</title>
+</head>
+<body>
+    <%- include("common/header") %>
+    <div class="btns">
+        <button id="add-to-playlist-btn">+ 담기</button>
+    </div>
+    <div class="music-header">
+        <input type="checkbox">
+        <span>NO</span>
+        <span>곡 정보</span>
+    </div>
+    <div class="all-music-container">
+        <% musicList.forEach((music, index) => { %>
+            <div class="music-item">
+              <input type="checkbox"class="music-checkbox" data-music-id="<%= music.id %>">
+            <div class="music-rank"><%= index + 1 %></div>
+            <img src="/public/images/musicimages/<%= music.songImg %>" alt="앨범 커버" class="music-cover">
+            <div class="music-info" data-id="<%= music.id %>" >
+              <div class="music-artist"><%= music.artist %></div>
+              <div class="music-title"><%= music.songName %></div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+<audio id="audio" src="" style="display: none;"></audio>
+<div id="custom-player">
+  <div class="player-left">
+    <img id="player-img" src="" alt="앨범 커버">
+    <div class="player-info">
+      <div id="player-title"></div>
+      <div id="player-artist"></div>
+    </div>
+  </div>
+  <div class="player-center">
+    <div class="player-buttons">
+      <button id="prev-btn">⏮️</button>
+      <button id="play-pause-btn">▶️</button>
+      <button id="next-btn">⏭️</button>
+    </div>
+    <div class="player-bar">
+      <input type="range" id="seek-bar" value="0" min="0" max="100">
+      <div class="time-info">
+        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+      </div>
+    </div>
+  </div>
+  <div class="player-right">
+    <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
+    <button id="like-button">🤍</button>
+    <button id="plus-button">+</button>
+  </div>
+</div>
+<div id="playlist-modal">
+  <div id="modal-content">
+    
+  </div>
+</div>
+<div id="new-playlist-modal" class="playlist-modal" style="display: none;">
+  <div id="new-playlist-content" class="playlist-modal-content">
+    <h2>새 플레이리스트 만들기</h2>
+    <input type="text" id="new-playlist-name" placeholder="재생목록 이름 입력" class="playlist-input" />
+    <div class="modal-buttons">
+      <button id="create-playlist-btn" class="confirm-button">만들기</button>
+      <button id="cancel-create-btn" class="cancel-button">취소</button>
+    </div>
+  </div>
+</div>
+
+</body>
+<script src="/public/JS/detail.js"></script>
+</html>

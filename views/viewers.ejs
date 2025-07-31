@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>구이김&뮤직스 - 실시간 스트리밍</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/public/css/live.css" />
+  </head>
+  <body>
+    <%- include('common/header') %>
+    <div class="container">
+      <h1 class="page-title">실시간 스트리밍</h1>
+      <div  style="display: flex; margin-left: 80px">
+        <div>
+          <div class="featured-stream">
+            <div class="featured-stream-content">
+              <div class="featured-video">
+                <video id="main-stream" autoplay controls playsinline></video>
+                <div
+                  style="
+                    position: absolute;
+                    bottom: 10px;
+                    left: 10px;
+                    background: rgba(0, 0, 0, 0.5);
+                    padding: 6px;
+                    border-radius: 8px;
+                  "
+                >
+                </div>
+              </div>
+              <div class="stream-info">
+                <span class="live-indicator">LIVE</span>
+                <h2 class="stream-title" id="stream-title">라이브 방송</h2>
+                <p class="stream-artist" id="stream-artist">방송 중입니다...</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="live-interaction">
+          <div class="chat-section">
+            <div class="chat-header">실시간 채팅</div>
+            <div class="chat-messages" id="chat-box"></div>
+            <div class="chat-input">
+              <input type="text" placeholder="메시지를 입력하세요..." />
+              <button>전송</button>
+            </div>
+          </div>
+          <div class="online-users">
+            <div class="online-header">접속자</div>
+            <div class="user-list"></div>
+          </div>
+        </div>
+    </div>
+    <% if (recordedVideos.length > 0) { %>
+      <div class="video-list-wrapper">
+        <ul style="list-style: none; padding: 0;">
+          <% recordedVideos.forEach(function(video) { %>
+            <li class="video-item">
+              <img src="../public/images/logo_seaweed.png" alt="썸네일">
+              <div>
+                <h3><%= video.title %></h3>
+                <p><%= video.formattedDate %> 다시보기</p>
+                <a href="/live/replay/<%= video.id %>">▶ 다시보기</a>
+              </div>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } else { %>
+      <p>현재 녹화된 비디오가 없습니다.</p>
+    <% } %>
+  </div>
+  <% if (user) { %>
+    <div id="user-info"
+         data-id="<%= user.id %>"
+         data-nickname="<%= user.properties.nickname %>">
+    </div>
+  <% } else { %>
+    <div id="user-info"
+         data-id=""
+         data-nickname="비회원">
+    </div>
+  <% } %>
+  </body>
+  <%- include('common/footer')%>
+  <script src="/public/JS/viewers.js"></script>
+</html>

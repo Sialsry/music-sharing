@@ -1,11 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이페이지</title>
+    <title>구이김&뮤직스 - My Page</title>
+    <link rel="stylesheet" href="../public/css/myPage.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
+
 <body>
-    
+    <%- include('./common/header') %>
+        <main>
+            <section class="profile-section">
+                <img src="<%= user.properties.profile_image %>" alt="Profile Picture" class="profile-image">
+                <div class="profile-info">
+                    <h1>
+                        <%= user.properties.nickname %>
+                    </h1>
+                    <p>Premium Member since 2023</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <div class="stat-value">
+                                <%= playlistAndSongs.length %>
+                            </div>
+                            <div class="stat-label">Playlists</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">
+                                <%= count %>
+                            </div>
+                            <div class="stat-label">Liked Songs</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 1vw; margin-left: auto;">
+                    <a href="#" class="edit-profile">내 정보 수정</a>
+                    <a class="createPlaylistBtn edit-profile">새 플레이리스트 생성</a>
+                </div>
+            </section>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="playlists">My Playlists</div>
+            </div>
+            <div class="tab-content active" id="playlists">
+
+                <div class="playlist-grid">
+                    <% for(let i=0; i < playlistAndSongs.length; i++) { %>
+                        <div class="playlist-card" data-playlist-id="<%= playlistAndSongs[i].name %>">
+                            <img src="../public/images/musicimages/<%= playlistAndSongs[i].songs[0].songImg %>">
+                            <div class="playlist-info">
+                                <h3>
+                                    <%= playlistAndSongs[i].name %>
+                                </h3>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+        </main>
+
+        <!-- 플레이리스트 팝업 -->
+        <div class="popup-overlay" id="playlist-popup-overlay">
+            <div class="playlist-popup">
+                <div class="popup-header">
+                    <img src="../public/images/logo_seaweed.png" alt="Playlist Cover" class="popup-cover"
+                        id="popup-cover">
+                    <div class="popup-header-info">
+                        <div>
+                            <h2 class="playlist-title" id="popup-title">플레이리스트 제목</h2>
+                            <p class="playlist-meta" id="popup-meta">생성일: 2023년 7월 15일 • 15곡 • 59분</p>
+                            <div class="playlist-creator">
+                                <img src="<%= user.properties.profile_image %>" alt="Creator" class="creator-avatar">
+                                <span id="popup-creator">
+                                    <%= user.properties.nickname %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="playlist-action-buttons">
+                            <button class="playlist-action play-btn" id="play_playlist_btn">
+                                <span>▶</span> 재생
+                            </button>
+                            <button class="playlist-action add-songs-btn" id="add-songs-toggle">
+                                <span>+</span> 곡 추가
+                            </button>
+                            <button class="playlist-action start-streaming-btn">
+                                <span>●</span> 스트리밍 시작
+                            </button>
+                            <button class="playlist-action delete-playlist-btn" id="delete_playlist_btn">
+                                <span>🗑️</span> 플레이리스트 삭제
+                            </button>
+                        </div>
+                    </div>
+                    <button class="close-popup" id="close-popup">✕</button>
+                </div>
+
+                <div class="popup-body">
+                    <div class="add-song-form" id="add-song-form">
+                        <h3 class="form-title">새 노래 추가하기</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <form action="/mypage/search" method="get" class="search-bar" id="search-bar2">
+                                    <input type="text" id="new-song-title2" placeholder="제목 혹은 아티스트 이름으로 검색">
+                                </form>
+                            </div>
+                        </div>
+                        <div id="form_content"></div>
+                    </div>
+                    <ul class="playlist-songs" id="playlist-songs">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 새 플레이리스트 생성 팝업 -->
+        <div class="create-playlist-overlay" id="create-playlist-overlay">
+            <div class="create-playlist-popup">
+                <div class="create-playlist-header">
+                    <h2 class="create-playlist-title">새 플레이리스트 생성</h2>
+                    <div class="create-playlist-form">
+                        <input type="text" id="new-playlist-name" class="create-playlist-input"
+                            placeholder="플레이리스트 이름을 입력하세요">
+                    </div>
+                    <button class="close-create-popup" id="close-create-popup">✕</button>
+                </div>
+
+                <div class="create-playlist-body">
+                    <div class="songs-section">
+                        <div class="add-song-form" id="add-song-to-new-form">
+                            <h3 class="form-title">새 노래 추가하기</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <form action="/mypage/search" method="get" class="search-bar" id="search-bar">
+                                        <input type="text" id="new-song-title" placeholder="제목 혹은 아티스트 이름으로 검색">
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="form_content_new"></div>
+                        </div>
+                        <ul class="playlist-songs" id="create-playlist-songs">
+                            <div class="empty-songs-message">아직 추가된 곡이 없습니다. 곡을 추가해주세요.</div>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="create-playlist-actions">
+                    <button class="add-song-to-new-btn" id="add-song-to-new-toggle">
+                        + 곡 추가
+                    </button>
+                    <button class="create-playlist-btn" id="create-playlist-btn" disabled>
+                        플레이리스트 생성
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 내 정보 수정 팝업 -->
+        <div class="edit-profile-overlay" id="edit-profile-overlay">
+            <div class="edit-profile-popup">
+                <div class="edit-profile-header">
+                    <h2 class="edit-profile-title">내 정보 수정</h2>
+                    <button class="close-edit-popup" id="close-edit-popup">✕</button>
+                </div>
+                <div class="edit-profile-body">
+                    <form id="editProf">
+                        <div class="form-group">
+                            <label for="new-nickname">닉네임 수정</label>
+                            <input type="text" name="new_nickname" class="edit-profile-input"
+                                value="<%= user.properties.nickname %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-profile-image">프로필 이미지 변경</label>
+                            <input type="file" id="profile" name="new_profile_image" class="edit-profile-input"
+                                style="display: none;">
+                            <div class="image-preview" id="image-preview">
+                                <label for="profile">
+                                    <img src="<%= user.properties.profile_image %>" alt="Profile Image Preview"
+                                        id="preview_image"
+                                        style="width: 100px; height: 100px; border-radius: 50%; cursor: pointer;">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="edit-profile-actions">
+                            <button class="update-profile-btn" id="update-profile-btn">
+                                적용
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 숨긴 오디오 ------------------------------------------------>
+        <audio id="audio" src="" style="display: none;"></audio>
+
+
+
+
+        <div id="custom-player">
+            <div class="player-left">
+                <img id="player-img" src="" alt="앨범 커버">
+                <div class="player-info">
+                    <div id="player-title"></div>
+                    <div id="player-artist"></div>
+                </div>
+                <div class="player-times">
+                    <span id="current_time"></span> / <span id="duration"></span>
+                </div>
+            </div>
+
+            <div class="player-center">
+                <div>
+                    <button id="prev_btn">⏮️</button>
+                    <button id="play_pause_btn">▶️</button>
+                    <button id="next_btn">⏭️</button>
+                </div>
+                <div>
+                    <input type="range" id="seek_bar" value="0" min="0" max="100">
+                </div>
+            </div>
+
+            <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        </div>
+
+
+
+
+
+        <%- include('common/footer')%>
 </body>
+<script src="../public/js/myPage.js"></script>
+
 </html>

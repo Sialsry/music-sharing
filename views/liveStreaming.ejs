@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구이김&뮤직스 - 실시간 스트리밍</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/public/css/live.css">
+  <style>
+    video::-webkit-media-controls-play-button,
+    video::-webkit-media-controls-pause-button {
+      display: none;
+    }
+
+    video::-moz-media-controls {
+      display: none;
+    }
+
+    .featured-video {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    #hostCanvas, #main-stream {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <%- include('common/header') %>
+  <div class="container">
+    <h1 class="page-title">실시간 스트리밍</h1>
+    <div style="display: flex; margin-left: 80px;">
+      <div>
+        <div class="featured-stream">
+          <div class="featured-stream-content">
+            <div class="featured-video">
+              <canvas id="hostCanvas"></canvas>
+              <video id="main-stream" controls style="width:100%; display: none; height:100%; object-fit:cover;"></video>
+            </div>
+            <div class="stream-info">
+              <span class="live-indicator">LIVE</span>
+              <div id="stream-nick">호스트 : <%= user.properties.nickname %></div>
+              <h2 class="stream-title" id="stream-title">곡 제목 로딩 중...</h2>
+              <p class="stream-artist" id="stream-artist">아티스트 정보</p>
+                <button id="startRecording" class="record-btn" >녹화 시작</button>
+                <button id="stopRecording" class="record-btn" style="display: none">녹화 중지</button>
+            </div>
+          </div>
+        </div>
+        <div class="media-controls">
+          <audio id="audio"  controls style="position: relative; z-index: 10; width: 400px;"></audio>
+          <div class="playback-controls">
+       
+            <button class="play-button">⏸</button>
+ 
+          </div>
+          <div class="volume-control">
+            <span>🔊</span>
+            <input type="range" min="0" max="100" value="50" class="volume-slider">
+          </div>
+        </div>
+      </div>
+      <div id="user-info"
+        data-id="<%= user.id %>"
+        data-nickname="<%= user.properties.nickname %>">
+      </div>
+      <div class="live-interaction">
+        <div class="chat-section"  style="height: 400px;">
+          <div class="chat-header">실시간 채팅</div>
+          <div class="chat-messages" id="chat-box"></div>
+          <div class="chat-input">
+            <input type="text" placeholder="메시지를 입력하세요...">
+            <button>전송</button>
+          </div>
+        </div>
+        <div class="online-users" style="height: 280px; overflow-y: auto;">
+          <div class="online-header">접속자</div>
+          <div class="user-list"></div>
+        </div>
+      </div>
+  </div>
+  <% if (recordedVideos.length > 0) { %>
+    <div class="video-list-wrapper">
+      <ul style="list-style: none; padding: 0;">
+        <% recordedVideos.forEach(function(video) { %>
+          <li class="video-item">
+            <img src="../public/images/logo_seaweed.png" alt="썸네일">
+            <div>
+              <h3><%= video.title %></h3>
+              <p><%= video.formattedDate %>  b 다시보기</p>
+              <a href="/live/replay/<%= video.id %>">▶ 다시보기</a>
+            </div>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } else { %>
+    <p>현재 녹화된 비디오가 없습니다.</p>
+  <% } %>
+</div>
+ 
+</body>
+<%- include('common/footer')%>
+<script src="/public/JS/liveSteaming.js"></script>
+</html>
