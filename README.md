@@ -5,12 +5,12 @@
 | 번호 | 항목 이름 |
 |------|-----------|
 | [1](#1-역할-및-담당-기능) | 역할 및 담당 기능 |
-| [3](#2- api 문서) | api 문서 |
-| [2](#3-구현한-기능-상세) | 구현한 기능 상세 |
-| [3](#4-기술적으로-새로-배운-점) | 기술적으로 새로 배운 점 |
-| [4](#5-어려웠던-점과-해결-과정) | 어려웠던 점과 해결 과정 |
-| [5](#6-협업-과정에서-느낀-점) | 협업 과정에서 느낀 점 |
-| [6](#7-전체-회고-및-느낀-점) | 전체 회고 및 느낀 점 |
+| [2](#2-api-문서) | api 문서 |
+| [3](#3-구현한-기능-상세) | 구현한 기능 상세 |
+| [4](#4-기술적으로-새로-배운-점) | 기술적으로 새로 배운 점 |
+| [5](#5-어려웠던-점과-해결-과정) | 어려웠던 점과 해결 과정 |
+| [6](#6-협업-과정에서-느낀-점) | 협업 과정에서 느낀 점 |
+| [7](#7-전체-회고-및-느낀-점) | 전체 회고 및 느낀 점 |
 
 ---
 
@@ -19,45 +19,63 @@
 
 ---
 ## 2. API 문서
-주요 기능들의 API 엔드포인트와 역할을 정리한 문서입니다.
 
- 음악 관련
-Method	URL	설명
-GET	/	전체 음악 리스트 랜덤 12곡 조회 및 메인 페이지 렌더링
-GET	/music/:id	특정 음악 상세 정보 및 좋아요 여부 조회
-POST	/music/:id/like	특정 음악 좋아요 토글 처리
-GET	/music/:id/likecheck	유저가 특정 음악에 좋아요 했는지 여부 확인
-GET	/music/playlist/list	로그인된 유저의 모든 플레이리스트 조회
+### 음악 관련
 
- 유저 관련
-Method	URL	설명
-GET	/login	카카오 로그인 페이지로 리다이렉트
-GET	/logout	쿠키 제거 후 로그아웃 처리
-GET	/kakao/callback	카카오 로그인 콜백 처리 후 JWT 발급
-POST	/updateProfile	프로필 이미지 및 닉네임 수정
-
- 플레이리스트 관련
-Method	URL	설명
-GET	/mypage	마이페이지 렌더링 및 유저별 플레이리스트 조회
-GET	/mypage/getPlaylistByName	특정 이름의 플레이리스트 조회
-POST	/createPlaylist	새로운 플레이리스트 생성 (곡 포함)
-POST	/addSongToPlaylist	기존 플레이리스트에 곡 추가
-POST	/deletePlaylist	플레이리스트 전체 삭제
-POST	/deleteSongFromPlaylist	플레이리스트에서 특정 곡 삭제
-
- 실시간 스트리밍 관련
-Method	URL	설명
-GET	/live?playlistName=...	라이브 스트리밍 페이지 렌더링 및 녹화 영상 리스트 포함
-GET	/live/viewers?playlistName=...	시청자용 라이브 접속 페이지 렌더링
-GET	/live/replay/:videoId	특정 녹화 영상 다시보기 페이지 렌더링
-GET	/live/api/musiclist/:playlistName	플레이리스트에 포함된 음악 리스트 조회
-POST	/live/update	스트리밍 상태 변경 처리 (시작/종료)
-
- 검색 기능
-Method	URL	설명
-GET	/search?index=검색어	음악/게시글 등 검색 결과 조회 (페이지네이션 포함)
+| Method | URL | 설명 |
+|--------|-----|------|
+| `GET` | `/` | 전체 음악 리스트 랜덤 12곡 조회 및 메인 페이지 렌더링 |
+| `GET` | `/music/:id` | 특정 음악 상세 정보 및 좋아요 여부 조회 |
+| `POST` | `/music/:id/like` | 특정 음악 좋아요 토글 처리 |
+| `GET` | `/music/:id/likecheck` | 유저가 특정 음악에 좋아요 했는지 여부 확인 |
+| `GET` | `/music/playlist/list` | 로그인된 유저의 모든 플레이리스트 조회 |
 
 ---
+
+### 유저 관련
+
+| Method | URL | 설명 |
+|--------|-----|------|
+| `GET` | `/login` | 카카오 로그인 페이지로 리다이렉트 |
+| `GET` | `/logout` | 쿠키 제거 후 로그아웃 처리 |
+| `GET` | `/kakao/callback` | 카카오 로그인 콜백 처리 후 JWT 발급 |
+| `POST` | `/updateProfile` | 프로필 이미지 및 닉네임 수정 |
+
+---
+
+### 플레이리스트 관련
+
+| Method | URL | 설명 |
+|--------|-----|------|
+| `GET` | `/mypage` | 마이페이지 렌더링 및 유저별 플레이리스트 조회 |
+| `GET` | `/mypage/getPlaylistByName` | 특정 이름의 플레이리스트 조회 |
+| `POST` | `/createPlaylist` | 새로운 플레이리스트 생성 (곡 포함) |
+| `POST` | `/addSongToPlaylist` | 기존 플레이리스트에 곡 추가 |
+| `POST` | `/deletePlaylist` | 플레이리스트 전체 삭제 |
+| `POST` | `/deleteSongFromPlaylist` | 플레이리스트에서 특정 곡 삭제 |
+
+---
+
+### 실시간 스트리밍 관련
+
+| Method | URL | 설명 |
+|--------|-----|------|
+| `GET` | `/live?playlistName=...` | 라이브 스트리밍 페이지 렌더링 및 녹화 영상 리스트 포함 |
+| `GET` | `/live/viewers?playlistName=...` | 시청자용 라이브 접속 페이지 렌더링 |
+| `GET` | `/live/replay/:videoId` | 특정 녹화 영상 다시보기 페이지 렌더링 |
+| `GET` | `/live/api/musiclist/:playlistName` | 플레이리스트에 포함된 음악 리스트 조회 |
+| `POST` | `/live/update` | 스트리밍 상태 변경 처리 (시작/종료) |
+
+---
+
+### 🔍 검색 기능
+
+| Method | URL | 설명 |
+|--------|-----|------|
+| `GET` | `/search?index=검색어` | 음악/게시글 등 검색 결과 조회 (페이지네이션 포함) |
+
+---
+
 ## 3. 구현한 기능 상세  
 
 ### 1. 검색 페이지
@@ -156,3 +174,4 @@ GitHub의 사용 방식에 익숙해질 수 있었고,
 - 실시간 채팅, 스트리밍, 녹화라는 복잡한 기능을 직접 구현해보며 다양한 웹 기술을 경험할 수 있었습니다.  
 - 사용자 입장에서 기능이 어떻게 작동해야 하는지를 고민하며 개발했던 것이 인상 깊었습니다.  
 - 기술적인 성장뿐 아니라 팀원과 함께 문제를 해결해나가는 협업 방식 자체가 가장 큰 배움이었습니다.
+
