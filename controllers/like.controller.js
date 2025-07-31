@@ -1,7 +1,7 @@
 const {Like} = require('../models/config');
 
 const likeController = {
-    async likeClick(music_id,user_id){
+    async likeClick(music_id,user_id) {
         try {
           const userIdFind = await Like.findOne({where:{music_id,user_id}})
           if(userIdFind){

@@ -113,3 +113,14 @@ express ejs axios multer jsonwebtoken mysql2 bcrypt dotenv socket.io cookieParse
 
 > 상암: 연속재생(플리), 실시간채팅, 녹화기능
 남은 것: 호스트/시청자 페이지 구분, 실시간 채팅이 캔버스에 떠오르게 하는 기능, 다시보기페이지
+
+# DB 모델 설명
+### `models/user.js`
+- **파일 설명**: `User` 데이터베이스 모델을 정의하는 파일입니다. Sequelize를 사용하여 `users` 테이블의 스키마와 다른 테이블과의 관계를 설정합니다.
+- **스키마 (Schema)**:
+    - `uid`: 사용자의 고유 식별자(Primary Key). 문자열 타입.
+    - `nickname`: 사용자의 닉네임. 문자열 타입이며, 중복될 수 없습니다.
+    - `profileImg`: 사용자의 프로필 이미지 경로. 문자열 타입이며, 비어있을 수 있습니다.
+- **관계 (Associations)**:
+    - `User`는 여러 개의 `Like`, `Playlist`, `Live`를 가질 수 있습니다 (1:N 관계).
+    - 사용자가 삭제될 경우, 해당 사용자와 관련된 `Like`, `Playlist`, `Live` 데이터도 함께 삭제됩니다 (`onDelete: 'CASCADE'`).
